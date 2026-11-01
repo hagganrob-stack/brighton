@@ -39,28 +39,28 @@ function FeatureRow({ k, pub }: { k: FeatureKey; pub: NonNullable<ReturnType<typ
   const label = FEATURE_LABELS[k];
   const status =
     f.value === 'yes' ? (
-      <span className="font-semibold text-brand">✓ Yes</span>
+      <span className="font-semibold text-brand-ink">✓ Yes</span>
     ) : f.value === 'no' ? (
       <span className="font-semibold text-negative">✗ No</span>
     ) : (
-      <span className="text-ink/75">Not stated</span>
+      <span className="text-ink/85">Not stated</span>
     );
   return (
     <div className="flex items-baseline justify-between gap-3 border-b border-brand/10 py-2 last:border-0">
       <dt>
         {f.value === 'yes' && roundup ? (
-          <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="underline decoration-accent/60 underline-offset-2 hover:text-brand">
+          <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="underline decoration-accent/60 underline-offset-2 hover:text-brand-ink">
             {label}
           </Link>
         ) : (
           label
         )}
-        {k === 'pubQuiz' && f.value === 'yes' && f.days?.length ? <span className="text-sm text-ink/70"> ({f.days.join(', ')})</span> : null}
+        {k === 'pubQuiz' && f.value === 'yes' && f.days?.length ? <span className="text-sm text-ink/85"> ({f.days.join(', ')})</span> : null}
       </dt>
       <dd className="flex items-baseline gap-2 text-right text-sm">
         {status}
         {f.value !== 'unknown' && f.evidence?.url && (
-          <a href={f.evidence.url} rel="nofollow noopener" className="text-xs text-ink/75 underline" aria-label={`Source for ${label.toLowerCase()}`}>
+          <a href={f.evidence.url} rel="nofollow noopener" className="text-xs text-ink/85 underline" aria-label={`Source for ${label.toLowerCase()}`}>
             source
           </a>
         )}
@@ -96,7 +96,7 @@ export default async function PubPage({ params }: Props) {
           {pub.googleType || 'Pub'} in <Link href={`/areas/${pub.area}`} className="underline underline-offset-2">{area}</Link>
         </p>
         <h1 className="font-serif text-4xl font-black leading-[1.05] text-night sm:text-5xl">{pub.name}</h1>
-        <p className="mt-2 text-ink/80">
+        <p className="mt-2 text-ink/85">
           {street}, {town} {postcode}
         </p>
         {yes.length > 0 && (
@@ -119,7 +119,7 @@ export default async function PubPage({ params }: Props) {
 
           <section aria-labelledby="facilities" className="mt-10 max-w-2xl">
             <h2 id="facilities" className="font-serif text-2xl font-bold text-night">Facilities</h2>
-            <p className="mb-2 text-sm text-ink/70">
+            <p className="mb-2 text-sm text-ink/85">
               From the pub&apos;s own website. &ldquo;Not stated&rdquo; means we couldn&apos;t confirm it either way, so check with the pub.
             </p>
             <dl className="rounded-lg border border-brand/15 bg-paper px-4">
@@ -133,7 +133,7 @@ export default async function PubPage({ params }: Props) {
             <h2 id="map" className="mb-3 font-serif text-2xl font-bold text-night">Map</h2>
             <OsmMap lat={pub.lat} lng={pub.lng} title={`Map showing the location of ${pub.name} on ${street}, ${area}`} />
             <p className="mt-2 text-sm">
-              <a href={pub.googleMapsUrl} rel="noopener" className="font-semibold text-brand underline">
+              <a href={pub.googleMapsUrl} rel="noopener" className="font-semibold text-brand-ink underline">
                 Get directions in Google Maps
               </a>
             </p>
@@ -155,13 +155,13 @@ export default async function PubPage({ params }: Props) {
               {pub.phone && (
                 <div>
                   <dt className="font-semibold">Phone</dt>
-                  <dd><a href={`tel:${pub.phone.replace(/\s/g, '')}`} className="text-brand underline">{pub.phone}</a></dd>
+                  <dd><a href={`tel:${pub.phone.replace(/\s/g, '')}`} className="text-brand-ink underline">{pub.phone}</a></dd>
                 </div>
               )}
               {website && (
                 <div>
                   <dt className="font-semibold">Website</dt>
-                  <dd><a href={website} rel="noopener" className="break-all text-brand underline">{websiteHost}</a></dd>
+                  <dd><a href={website} rel="noopener" className="break-all text-brand-ink underline">{websiteHost}</a></dd>
                 </div>
               )}
               {pub.rating != null && (
@@ -192,10 +192,10 @@ export default async function PubPage({ params }: Props) {
             ) : (
               <p className="text-sm">Opening hours aren&apos;t listed. Contact the pub before visiting.</p>
             )}
-            <p className="mt-3 text-xs text-ink/75">Hours from the pub&apos;s Google listing and can change.</p>
+            <p className="mt-3 text-xs text-ink/85">Hours from the pub&apos;s Google listing and can change.</p>
           </section>
 
-          <p className="rounded-lg bg-brand/5 p-4 text-sm text-ink/80">
+          <p className="rounded-lg bg-brand/5 p-4 text-sm text-ink/85">
             <strong>Details last checked {monthYear(pub.detailsCheckedAt)}.</strong> Spotted something out of date?{' '}
             <Link href="/about" className="underline">How this guide works</Link>.
           </p>
@@ -213,7 +213,7 @@ export default async function PubPage({ params }: Props) {
             ))}
           </ul>
           <p className="mt-4 text-sm">
-            <Link href={`/areas/${pub.area}`} className="font-semibold text-brand underline">
+            <Link href={`/areas/${pub.area}`} className="font-semibold text-brand-ink underline">
               All pubs in {area}
             </Link>
           </p>

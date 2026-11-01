@@ -54,8 +54,8 @@ export default function Home() {
                 href={`/areas/${a.slug}`}
                 className="block h-full rounded-lg border border-brand/20 bg-paper p-4 transition hover:border-accent hover:shadow-sm"
               >
-                <span className="block font-serif text-lg font-bold text-brand">{a.name}</span>
-                <span className="text-sm text-ink/70">{pubsInArea(a.slug).length} pubs</span>
+                <span className="block font-serif text-lg font-bold text-brand-ink">{a.name}</span>
+                <span className="text-sm text-ink/85">{pubsInArea(a.slug).length} pubs</span>
               </Link>
             </li>
           ))}
@@ -64,7 +64,7 @@ export default function Home() {
 
       <section aria-labelledby="top-rated">
         <h2 id="top-rated" className="mb-1 font-serif text-2xl font-bold text-night">Highest-rated pubs</h2>
-        <p className="mb-4 text-sm text-ink/70">
+        <p className="mb-4 text-sm text-ink/85">
           Ranked by Google rating, weighted by number of reviews. <Link href="/pubs" className="underline">See all {pubs.length} pubs A–Z</Link>.
         </p>
         <PubGrid pubs={top} />

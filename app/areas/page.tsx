@@ -23,7 +23,7 @@ export default function AreasIndex() {
             <h2 className="font-serif text-2xl font-bold text-night">
               <Link href={`/areas/${a.slug}`} className="hover:underline">{a.name}</Link>
             </h2>
-            <p className="text-sm text-ink/70">{n.length} pubs</p>
+            <p className="text-sm text-ink/85">{n.length} pubs</p>
             <p className="mt-2 text-sm">Including {n.slice(0, 3).map((p) => p.name).join(', ')}.</p>
           </li>
         ))}

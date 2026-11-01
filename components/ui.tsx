@@ -17,7 +17,7 @@ export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
     <>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       {crumbs.length > 1 && (
-        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-ink/70">
+        <nav aria-label="Breadcrumb" className="mb-4 text-sm text-ink/85">
           <ol className="flex flex-wrap items-center gap-x-1.5">
             {crumbs.map((c, i) => (
               <li key={c.path} className="flex items-center gap-x-1.5">
@@ -27,7 +27,7 @@ export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
                     {c.name}
                   </span>
                 ) : (
-                  <Link href={c.path} className="underline decoration-accent/60 underline-offset-2 hover:text-brand">
+                  <Link href={c.path} className="underline decoration-accent/60 underline-offset-2 hover:text-brand-ink">
                     {c.name}
                   </Link>
                 )}
@@ -54,7 +54,7 @@ const FEATURE_ICON: Record<FeatureKey, string> = {
 
 export function FeatureChip({ k }: { k: FeatureKey }) {
   return (
-    <li className="inline-flex items-center gap-1 rounded-full border border-brand/20 bg-light px-2 py-0.5 text-xs font-medium text-brand">
+    <li className="inline-flex items-center gap-1 rounded-full border border-brand/20 bg-light px-2 py-0.5 text-xs font-medium text-brand-ink">
       <span aria-hidden="true">{FEATURE_ICON[k]}</span>
       {FEATURE_LABELS[k]}
     </li>
@@ -69,7 +69,7 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
     <article className="group relative flex flex-col rounded-lg border border-brand/15 bg-paper p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
       <div className="absolute inset-x-0 top-0 h-1.5 rounded-t-lg bg-brand" aria-hidden="true" />
       <div className="flex items-start justify-between gap-3 pt-1">
-        <H className="font-serif text-xl font-bold leading-tight text-brand">
+        <H className="font-serif text-xl font-bold leading-tight text-brand-ink">
           <Link href={`/pubs/${pub.slug}`} className="after:absolute after:inset-0 focus-visible:outline-none">
             {rank != null && <span className="mr-1 text-accent">{rank}.</span>}
             {pub.name}
@@ -83,7 +83,7 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
           </p>
         )}
       </div>
-      <p className="mt-1 text-sm text-ink/75">
+      <p className="mt-1 text-sm text-ink/85">
         {street} · {areaName(pub.area)}
         {distanceM != null && <> · {formatDistance(distanceM)} away</>}
       </p>
@@ -92,7 +92,7 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
           {feats.slice(0, 4).map((k) => (
             <FeatureChip key={k} k={k} />
           ))}
-          {feats.length > 4 && <li className="text-xs text-ink/75 self-center">+{feats.length - 4} more</li>}
+          {feats.length > 4 && <li className="text-xs text-ink/85 self-center">+{feats.length - 4} more</li>}
         </ul>
       )}
     </article>
@@ -120,7 +120,7 @@ export function LinkPills({ links, label }: { links: { href: string; text: strin
         <li key={l.href}>
           <Link
             href={l.href}
-            className="inline-block rounded-full border-2 border-brand px-3 py-1 text-sm font-semibold text-brand transition hover:bg-brand hover:text-light"
+            className="inline-block rounded-full border-2 border-brand px-3 py-1 text-sm font-semibold text-brand-ink transition hover:bg-brand hover:text-light"
           >
             {l.text}
             {l.count != null && <span className="ml-1 font-normal">({l.count})</span>}
@@ -139,7 +139,7 @@ export function OsmMap({ lat, lng, title, zoomDelta = 0.004 }: { lat: number; ln
       <div className="aspect-[4/3] overflow-hidden rounded-lg border border-brand/20 bg-brand/5 sm:aspect-[16/9]">
         <iframe src={src} title={title} loading="lazy" className="h-full w-full" referrerPolicy="no-referrer" />
       </div>
-      <figcaption className="mt-1 text-xs text-ink/75">
+      <figcaption className="mt-1 text-xs text-ink/85">
         Map ©{' '}
         <a className="underline" href="https://www.openstreetmap.org/copyright">
           OpenStreetMap
@@ -170,7 +170,7 @@ export function AreaMap({ points, title }: { points: { lat: number; lng: number 
       <div className="aspect-[4/3] overflow-hidden rounded-lg border border-brand/20 bg-brand/5 sm:aspect-[16/9]">
         <iframe src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik`} title={title} loading="lazy" className="h-full w-full" referrerPolicy="no-referrer" />
       </div>
-      <figcaption className="mt-1 text-xs text-ink/75">
+      <figcaption className="mt-1 text-xs text-ink/85">
         Map ©{' '}
         <a className="underline" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors
       </figcaption>

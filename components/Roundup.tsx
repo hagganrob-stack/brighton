@@ -58,12 +58,12 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
               return (
                 <div key={d}>
                   <dt className="font-semibold">{d}</dt>
-                  <dd>{on.map((p, i) => (<span key={p.slug}>{i > 0 && ', '}<Link href={`/pubs/${p.slug}`} className="text-brand underline">{p.name}</Link></span>))}</dd>
+                  <dd>{on.map((p, i) => (<span key={p.slug}>{i > 0 && ', '}<Link href={`/pubs/${p.slug}`} className="text-brand-ink underline">{p.name}</Link></span>))}</dd>
                 </div>
               );
             })}
           </dl>
-          <p className="mt-2 text-xs text-ink/75">Only where the pub&apos;s website names the day. Others below don&apos;t say which night.</p>
+          <p className="mt-2 text-xs text-ink/85">Only where the pub&apos;s website names the day. Others below don&apos;t say which night.</p>
         </section>
       )}
 
@@ -84,7 +84,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
       <section aria-labelledby="more">
         <h2 id="more" className="mb-3 font-serif text-xl font-bold text-night">More guides</h2>
         <LinkPills label="Other feature guides" links={otherRoundups} />
-        <p className="mt-4 text-sm text-ink/70">Out of {pubs.length} pubs in this guide.</p>
+        <p className="mt-4 text-sm text-ink/85">Out of {pubs.length} pubs in this guide.</p>
       </section>
     </>
   );

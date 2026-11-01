@@ -18,18 +18,23 @@ export const metadata: Metadata = {
   title: { default: `${SITE_NAME}: Independent Guide to Local Pubs`, template: `%s | ${SITE_NAME}` },
   applicationName: SITE_NAME,
   formatDetection: { telephone: false },
+  icons: { icon: '/icon.svg', apple: '/apple-touch-icon.png' },
 };
 
 export const viewport: Viewport = { themeColor: '#d0106a', width: 'device-width', initialScale: 1 };
 
 function Logo() {
+  // Decorative here: the link text next to it carries the name.
   return (
-    <svg viewBox="0 0 32 32" className="h-8 w-8" aria-hidden="true">
-      <rect x="2" y="2" width="28" height="28" rx="6" fill="#1c1b33" />
-      <path d="M10 9h10v3h2a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3h-2v2a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z" fill="#fff6f0" />
-      <path d="M20 14h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2z" fill="#1c1b33" />
-      <rect x="10" y="9" width="10" height="3" rx="1" fill="#ffd23f" />
-    </svg>
+    <img
+      src="/logo-80.webp"
+      srcSet="/logo-80.webp 1x, /logo-160.webp 2x, /logo-240.webp 3x"
+      width={80}
+      height={80}
+      alt=""
+      fetchPriority="high"
+      className="h-16 w-16 shrink-0 sm:h-20 sm:w-20"
+    />
   );
 }
 
@@ -40,9 +45,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-paper focus:px-3 focus:py-2">
           Skip to content
         </a>
-        <header className="bg-brand text-light">
-          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-            <Link href="/" className="flex items-center gap-2 font-serif text-lg font-extrabold tracking-tight sm:text-xl">
+        <header className="border-b-4 border-brand bg-night text-light">
+          <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-2">
+            <Link href="/" className="flex items-center gap-3 font-serif text-lg font-extrabold tracking-tight sm:text-xl">
               <Logo />
               {SITE_NAME}
             </Link>

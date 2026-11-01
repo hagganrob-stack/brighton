@@ -4,6 +4,7 @@
   /* Palette: change these to re-skin the whole site. Keep text colours at 4.5:1 contrast or better. */
   --color-brand: #d0106a; /* hot pink: header, headings, buttons, card tops */
   --color-brand-dark: #a80d56; /* button hover */
+  --color-brand-ink: #990a4d; /* deeper pink for text: 7.9:1 on the background */
   --color-night: #1c1b33; /* deep navy: footer */
   --color-light: #fff6f0; /* warm off-white: page background, text on pink/navy */
   --color-paper: #ffffff; /* cards and panels */
