@@ -47,23 +47,23 @@ export default async function AreaPage({ params }: Props) {
 
       {featureLinks.length > 0 && (
         <section aria-labelledby="area-features" className="mb-8">
-          <h2 id="area-features" className="mb-3 font-serif text-xl font-bold text-green">Popular in {a.name}</h2>
+          <h2 id="area-features" className="mb-3 font-serif text-xl font-bold text-night">Popular in {a.name}</h2>
           <LinkPills label={`Feature guides for ${a.name}`} links={featureLinks} />
         </section>
       )}
 
       <section aria-labelledby="area-pubs" className="mb-10">
-        <h2 id="area-pubs" className="mb-4 font-serif text-2xl font-bold text-green">All {list.length} pubs in {a.name}</h2>
+        <h2 id="area-pubs" className="mb-4 font-serif text-2xl font-bold text-night">All {list.length} pubs in {a.name}</h2>
         <PubGrid pubs={list} ranked />
       </section>
 
       <section aria-labelledby="area-map" className="mb-10 max-w-3xl">
-        <h2 id="area-map" className="mb-3 font-serif text-2xl font-bold text-green">Map of {a.name}</h2>
+        <h2 id="area-map" className="mb-3 font-serif text-2xl font-bold text-night">Map of {a.name}</h2>
         <AreaMap points={list} title={`Map of the ${a.name} area of Brighton & Hove`} />
       </section>
 
       <section aria-labelledby="other-areas">
-        <h2 id="other-areas" className="mb-3 font-serif text-xl font-bold text-green">Other areas</h2>
+        <h2 id="other-areas" className="mb-3 font-serif text-xl font-bold text-night">Other areas</h2>
         <LinkPills label="Other areas" links={others.map((o) => ({ href: `/areas/${o.slug}`, text: o.name }))} />
       </section>
     </>

@@ -26,17 +26,17 @@ export default function AllPubs() {
       <PageHeader title="All pubs in Brighton & Hove" intro={<p>{pubs.length} pubs and bars, listed A–Z (ignoring &ldquo;The&rdquo;).</p>} />
       <nav aria-label="Jump to letter" className="mb-6 flex flex-wrap gap-1">
         {letters.map((l) => (
-          <a key={l} href={`#letter-${l}`} className="rounded border border-green/30 px-2 py-0.5 font-serif font-bold text-green hover:bg-green hover:text-cream">{l}</a>
+          <a key={l} href={`#letter-${l}`} className="rounded border border-brand/30 px-2 py-0.5 font-serif font-bold text-brand hover:bg-brand hover:text-light">{l}</a>
         ))}
       </nav>
       <div className="columns-1 gap-8 sm:columns-2 lg:columns-3">
         {letters.map((l) => (
           <section key={l} id={`letter-${l}`} aria-labelledby={`h-${l}`} className="mb-6 break-inside-avoid">
-            <h2 id={`h-${l}`} className="mb-1 font-serif text-2xl font-black text-brass">{l}</h2>
+            <h2 id={`h-${l}`} className="mb-1 font-serif text-2xl font-black text-accent">{l}</h2>
             <ul className="space-y-1">
               {byLetter.get(l)!.sort((a, b) => a.name.replace(/^the\s+/i, '').localeCompare(b.name.replace(/^the\s+/i, ''))).map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/pubs/${p.slug}`} className="font-semibold text-green underline-offset-2 hover:underline">{p.name}</Link>{' '}
+                  <Link href={`/pubs/${p.slug}`} className="font-semibold text-brand underline-offset-2 hover:underline">{p.name}</Link>{' '}
                   <span className="text-sm text-ink/75">{areaName(p.area)}</span>
                 </li>
               ))}

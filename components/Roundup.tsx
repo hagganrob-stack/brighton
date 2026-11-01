@@ -50,15 +50,15 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
 
       {quizDays && (
         <section aria-labelledby="quiz-days" className="mb-8 max-w-3xl">
-          <h2 id="quiz-days" className="mb-3 font-serif text-xl font-bold text-green">Quiz nights by day</h2>
-          <dl className="grid gap-x-6 gap-y-2 rounded-lg border border-green/15 bg-paper p-4 text-sm sm:grid-cols-2">
+          <h2 id="quiz-days" className="mb-3 font-serif text-xl font-bold text-night">Quiz nights by day</h2>
+          <dl className="grid gap-x-6 gap-y-2 rounded-lg border border-brand/15 bg-paper p-4 text-sm sm:grid-cols-2">
             {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((d) => {
               const on = list.filter((p) => p.features.pubQuiz.days?.includes(d));
               if (!on.length) return null;
               return (
                 <div key={d}>
                   <dt className="font-semibold">{d}</dt>
-                  <dd>{on.map((p, i) => (<span key={p.slug}>{i > 0 && ', '}<Link href={`/pubs/${p.slug}`} className="text-green underline">{p.name}</Link></span>))}</dd>
+                  <dd>{on.map((p, i) => (<span key={p.slug}>{i > 0 && ', '}<Link href={`/pubs/${p.slug}`} className="text-brand underline">{p.name}</Link></span>))}</dd>
                 </div>
               );
             })}
@@ -68,7 +68,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
       )}
 
       <section aria-labelledby="ranked" className="mb-10">
-        <h2 id="ranked" className="mb-4 font-serif text-2xl font-bold text-green">
+        <h2 id="ranked" className="mb-4 font-serif text-2xl font-bold text-night">
           {area ? `${list.length} pubs in ${area.name}` : `All ${list.length} pubs, ranked`}
         </h2>
         <PubGrid pubs={list} ranked />
@@ -76,13 +76,13 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
 
       {areaLinks.length > 0 && (
         <section aria-labelledby="by-area" className="mb-8">
-          <h2 id="by-area" className="mb-3 font-serif text-xl font-bold text-green">{roundup.label} by area</h2>
+          <h2 id="by-area" className="mb-3 font-serif text-xl font-bold text-night">{roundup.label} by area</h2>
           <LinkPills label={`${roundup.label} by area`} links={areaLinks} />
         </section>
       )}
 
       <section aria-labelledby="more">
-        <h2 id="more" className="mb-3 font-serif text-xl font-bold text-green">More guides</h2>
+        <h2 id="more" className="mb-3 font-serif text-xl font-bold text-night">More guides</h2>
         <LinkPills label="Other feature guides" links={otherRoundups} />
         <p className="mt-4 text-sm text-ink/70">Out of {pubs.length} pubs in this guide.</p>
       </section>

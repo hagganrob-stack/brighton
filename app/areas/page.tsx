@@ -19,8 +19,8 @@ export default function AreasIndex() {
       <PageHeader title="Pubs by area" intro={<p>{areas.length} neighbourhoods across Brighton & Hove, with the number of pubs in each.</p>} />
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {list.map(({ a, n }) => (
-          <li key={a.slug} className="rounded-lg border border-green/15 bg-paper p-5">
-            <h2 className="font-serif text-2xl font-bold text-green">
+          <li key={a.slug} className="rounded-lg border border-brand/15 bg-paper p-5">
+            <h2 className="font-serif text-2xl font-bold text-night">
               <Link href={`/areas/${a.slug}`} className="hover:underline">{a.name}</Link>
             </h2>
             <p className="text-sm text-ink/70">{n.length} pubs</p>

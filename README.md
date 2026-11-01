@@ -26,3 +26,9 @@ npm run data:describe                  # nearby pubs + 150–250 word fact-only 
 
 `npm run build` writes static HTML to `out/`. Routes: `/`, `/pubs`, `/pubs/[slug]`, `/areas`, `/areas/[area]`,
 `/best/[feature]`, `/best/[feature]/[area]` (only where 3+ pubs qualify), `/about`, `/sitemap.xml`, `/robots.txt`.
+
+## Colours
+
+The palette lives in `app/globals.css` (`@theme`): `brand` (hot pink), `brand-dark`, `night` (navy), `light`, `paper`,
+`accent` (teal), `ink`, `negative`. Change those values to re-skin the site. A few hard-coded copies: the header logo in
+`app/layout.tsx`, `themeColor` in the same file, and `app/icon.svg` / `public/favicon.svg`. Keep text at 4.5:1 contrast.

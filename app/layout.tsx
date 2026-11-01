@@ -20,15 +20,15 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false },
 };
 
-export const viewport: Viewport = { themeColor: '#1d3b2a', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#d0106a', width: 'device-width', initialScale: 1 };
 
 function Logo() {
   return (
     <svg viewBox="0 0 32 32" className="h-8 w-8" aria-hidden="true">
-      <rect x="2" y="2" width="28" height="28" rx="6" fill="#a8741a" />
-      <path d="M10 9h10v3h2a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3h-2v2a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z" fill="#f5ecd7" />
-      <path d="M20 14h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2z" fill="#a8741a" />
-      <rect x="10" y="9" width="10" height="3" rx="1" fill="#fffaf0" />
+      <rect x="2" y="2" width="28" height="28" rx="6" fill="#1c1b33" />
+      <path d="M10 9h10v3h2a3 3 0 0 1 3 3v4a3 3 0 0 1-3 3h-2v2a1 1 0 0 1-1 1h-8a1 1 0 0 1-1-1z" fill="#fff6f0" />
+      <path d="M20 14h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2z" fill="#1c1b33" />
+      <rect x="10" y="9" width="10" height="3" rx="1" fill="#ffd23f" />
     </svg>
   );
 }
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-paper focus:px-3 focus:py-2">
           Skip to content
         </a>
-        <header className="bg-green text-cream">
+        <header className="bg-brand text-light">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <Link href="/" className="flex items-center gap-2 font-serif text-lg font-extrabold tracking-tight sm:text-xl">
               <Logo />
@@ -59,14 +59,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
           {children}
         </main>
-        <footer className="mt-12 bg-green-dark text-cream/90">
+        <footer className="mt-12 bg-night text-light/90">
           <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm sm:grid-cols-3">
             <div>
-              <p className="font-serif text-lg font-bold text-cream">{SITE_NAME}</p>
+              <p className="font-serif text-lg font-bold text-light">{SITE_NAME}</p>
               <p className="mt-2">An independent, non-commercial guide. Facilities are only listed when a pub's own website states them.</p>
             </div>
             <div>
-              <p className="font-semibold text-cream">Areas</p>
+              <p className="font-semibold text-light">Areas</p>
               <ul className="mt-2 grid grid-cols-2 gap-1">
                 {areas.map((a) => (
                   <li key={a.slug}><Link href={`/areas/${a.slug}`} className="hover:underline">{a.name}</Link></li>
@@ -74,7 +74,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </ul>
             </div>
             <div>
-              <p className="font-semibold text-cream">Best of</p>
+              <p className="font-semibold text-light">Best of</p>
               <ul className="mt-2 space-y-1">
                 {ROUNDUPS.map((r) => (
                   <li key={r.slug}><Link href={`/best/${r.slug}`} className="hover:underline">{r.label}</Link></li>

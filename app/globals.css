@@ -1,19 +1,21 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-green: #1d3b2a;
-  --color-green-dark: #132a1d;
-  --color-cream: #f5ecd7;
-  --color-paper: #fffaf0;
-  --color-brass: #8a5a10;
-  --color-ink: #23201b;
-  --color-claret: #7a2531;
+  /* Palette: change these to re-skin the whole site. Keep text colours at 4.5:1 contrast or better. */
+  --color-brand: #d0106a; /* hot pink: header, headings, buttons, card tops */
+  --color-brand-dark: #a80d56; /* button hover */
+  --color-night: #1c1b33; /* deep navy: footer */
+  --color-light: #fff6f0; /* warm off-white: page background, text on pink/navy */
+  --color-paper: #ffffff; /* cards and panels */
+  --color-accent: #0b7285; /* seaside teal: small labels, A–Z letters, rank numbers */
+  --color-ink: #1c1b33; /* body text */
+  --color-negative: #5a5870; /* "✗ No" in facilities */
   --font-serif: var(--font-fraunces), 'Georgia', 'Times New Roman', serif;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 html {
-  background: var(--color-cream);
+  background: var(--color-light);
   color: var(--color-ink);
   -webkit-text-size-adjust: 100%;
 }
@@ -25,7 +27,7 @@ body {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--color-brass);
+  outline: 3px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: 4px;
 }

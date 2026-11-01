@@ -39,17 +39,17 @@ function FeatureRow({ k, pub }: { k: FeatureKey; pub: NonNullable<ReturnType<typ
   const label = FEATURE_LABELS[k];
   const status =
     f.value === 'yes' ? (
-      <span className="font-semibold text-green">✓ Yes</span>
+      <span className="font-semibold text-brand">✓ Yes</span>
     ) : f.value === 'no' ? (
-      <span className="font-semibold text-claret">✗ No</span>
+      <span className="font-semibold text-negative">✗ No</span>
     ) : (
       <span className="text-ink/75">Not stated</span>
     );
   return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-green/10 py-2 last:border-0">
+    <div className="flex items-baseline justify-between gap-3 border-b border-brand/10 py-2 last:border-0">
       <dt>
         {f.value === 'yes' && roundup ? (
-          <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="underline decoration-brass/60 underline-offset-2 hover:text-green">
+          <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="underline decoration-accent/60 underline-offset-2 hover:text-brand">
             {label}
           </Link>
         ) : (
@@ -92,17 +92,17 @@ export default async function PubPage({ params }: Props) {
       />
 
       <header className="mb-6">
-        <p className="mb-1 text-sm font-semibold uppercase tracking-widest text-brass">
+        <p className="mb-1 text-sm font-semibold uppercase tracking-widest text-accent">
           {pub.googleType || 'Pub'} in <Link href={`/areas/${pub.area}`} className="underline underline-offset-2">{area}</Link>
         </p>
-        <h1 className="font-serif text-4xl font-black leading-[1.05] text-green sm:text-5xl">{pub.name}</h1>
+        <h1 className="font-serif text-4xl font-black leading-[1.05] text-night sm:text-5xl">{pub.name}</h1>
         <p className="mt-2 text-ink/80">
           {street}, {town} {postcode}
         </p>
         {yes.length > 0 && (
           <ul className="mt-3 flex flex-wrap gap-2" aria-label="Confirmed facilities">
             {yes.map((k) => (
-              <li key={k} className="rounded-full bg-green px-2.5 py-0.5 text-sm font-medium text-cream">{FEATURE_LABELS[k]}</li>
+              <li key={k} className="rounded-full bg-brand px-2.5 py-0.5 text-sm font-medium text-light">{FEATURE_LABELS[k]}</li>
             ))}
           </ul>
         )}
@@ -111,18 +111,18 @@ export default async function PubPage({ params }: Props) {
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
         <div className="min-w-0">
           <section aria-labelledby="about-pub" className="prose-pub max-w-2xl text-[1.05rem]">
-            <h2 id="about-pub" className="mb-3 font-serif text-2xl font-bold text-green">About {pub.name}</h2>
+            <h2 id="about-pub" className="mb-3 font-serif text-2xl font-bold text-night">About {pub.name}</h2>
             {pub.description.split('\n\n').map((para, i) => (
               <p key={i}>{para}</p>
             ))}
           </section>
 
           <section aria-labelledby="facilities" className="mt-10 max-w-2xl">
-            <h2 id="facilities" className="font-serif text-2xl font-bold text-green">Facilities</h2>
+            <h2 id="facilities" className="font-serif text-2xl font-bold text-night">Facilities</h2>
             <p className="mb-2 text-sm text-ink/70">
               From the pub&apos;s own website. &ldquo;Not stated&rdquo; means we couldn&apos;t confirm it either way, so check with the pub.
             </p>
-            <dl className="rounded-lg border border-green/15 bg-paper px-4">
+            <dl className="rounded-lg border border-brand/15 bg-paper px-4">
               {FEATURE_ORDER.map((k) => (
                 <FeatureRow key={k} k={k} pub={pub} />
               ))}
@@ -130,10 +130,10 @@ export default async function PubPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="map" className="mt-10 max-w-2xl">
-            <h2 id="map" className="mb-3 font-serif text-2xl font-bold text-green">Map</h2>
+            <h2 id="map" className="mb-3 font-serif text-2xl font-bold text-night">Map</h2>
             <OsmMap lat={pub.lat} lng={pub.lng} title={`Map showing the location of ${pub.name} on ${street}, ${area}`} />
             <p className="mt-2 text-sm">
-              <a href={pub.googleMapsUrl} rel="noopener" className="font-semibold text-green underline">
+              <a href={pub.googleMapsUrl} rel="noopener" className="font-semibold text-brand underline">
                 Get directions in Google Maps
               </a>
             </p>
@@ -141,8 +141,8 @@ export default async function PubPage({ params }: Props) {
         </div>
 
         <aside className="space-y-6">
-          <section aria-labelledby="details" className="rounded-lg border border-green/15 bg-paper p-5">
-            <h2 id="details" className="mb-3 font-serif text-xl font-bold text-green">Details</h2>
+          <section aria-labelledby="details" className="rounded-lg border border-brand/15 bg-paper p-5">
+            <h2 id="details" className="mb-3 font-serif text-xl font-bold text-night">Details</h2>
             <dl className="space-y-3 text-sm">
               <div>
                 <dt className="font-semibold">Address</dt>
@@ -155,13 +155,13 @@ export default async function PubPage({ params }: Props) {
               {pub.phone && (
                 <div>
                   <dt className="font-semibold">Phone</dt>
-                  <dd><a href={`tel:${pub.phone.replace(/\s/g, '')}`} className="text-green underline">{pub.phone}</a></dd>
+                  <dd><a href={`tel:${pub.phone.replace(/\s/g, '')}`} className="text-brand underline">{pub.phone}</a></dd>
                 </div>
               )}
               {website && (
                 <div>
                   <dt className="font-semibold">Website</dt>
-                  <dd><a href={website} rel="noopener" className="break-all text-green underline">{websiteHost}</a></dd>
+                  <dd><a href={website} rel="noopener" className="break-all text-brand underline">{websiteHost}</a></dd>
                 </div>
               )}
               {pub.rating != null && (
@@ -175,14 +175,14 @@ export default async function PubPage({ params }: Props) {
             </dl>
           </section>
 
-          <section aria-labelledby="hours" className="rounded-lg border border-green/15 bg-paper p-5">
-            <h2 id="hours" className="mb-3 font-serif text-xl font-bold text-green">Opening hours</h2>
+          <section aria-labelledby="hours" className="rounded-lg border border-brand/15 bg-paper p-5">
+            <h2 id="hours" className="mb-3 font-serif text-xl font-bold text-night">Opening hours</h2>
             {pub.openingHours ? (
               <table className="w-full text-sm">
                 <caption className="sr-only">Opening hours for {pub.name}</caption>
                 <tbody>
                   {DAYS.map((d) => (
-                    <tr key={d} className="border-b border-green/10 last:border-0">
+                    <tr key={d} className="border-b border-brand/10 last:border-0">
                       <th scope="row" className="py-1.5 text-left font-medium capitalize">{d}</th>
                       <td className="py-1.5 text-right">{displayHours(pub.openingHours?.[d])}</td>
                     </tr>
@@ -195,7 +195,7 @@ export default async function PubPage({ params }: Props) {
             <p className="mt-3 text-xs text-ink/75">Hours from the pub&apos;s Google listing and can change.</p>
           </section>
 
-          <p className="rounded-lg bg-green/5 p-4 text-sm text-ink/80">
+          <p className="rounded-lg bg-brand/5 p-4 text-sm text-ink/80">
             <strong>Details last checked {monthYear(pub.detailsCheckedAt)}.</strong> Spotted something out of date?{' '}
             <Link href="/about" className="underline">How this guide works</Link>.
           </p>
@@ -204,7 +204,7 @@ export default async function PubPage({ params }: Props) {
 
       {near.length > 0 && (
         <section aria-labelledby="nearby" className="mt-12">
-          <h2 id="nearby" className="mb-4 font-serif text-2xl font-bold text-green">Pubs near {pub.name}</h2>
+          <h2 id="nearby" className="mb-4 font-serif text-2xl font-bold text-night">Pubs near {pub.name}</h2>
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {near.map(({ pub: n, distanceM }) => (
               <li key={n.slug}>
@@ -213,7 +213,7 @@ export default async function PubPage({ params }: Props) {
             ))}
           </ul>
           <p className="mt-4 text-sm">
-            <Link href={`/areas/${pub.area}`} className="font-semibold text-green underline">
+            <Link href={`/areas/${pub.area}`} className="font-semibold text-brand underline">
               All pubs in {area}
             </Link>
           </p>

@@ -29,16 +29,16 @@ export default function Home() {
       />
 
       <section aria-labelledby="by-feature" className="mb-12">
-        <h2 id="by-feature" className="mb-4 font-serif text-2xl font-bold text-green">Find a pub for…</h2>
+        <h2 id="by-feature" className="mb-4 font-serif text-2xl font-bold text-night">Find a pub for…</h2>
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
           {ROUNDUPS.map((r) => (
             <li key={r.slug}>
               <Link
                 href={`/best/${r.slug}`}
-                className="block h-full rounded-lg border-2 border-green bg-green p-4 text-cream transition hover:bg-green-dark"
+                className="block h-full rounded-lg border-2 border-brand bg-brand p-4 text-light transition hover:bg-brand-dark"
               >
                 <span className="block font-serif text-xl font-bold">{r.label}</span>
-                <span className="text-sm text-cream/80">{pubsWith(r.key).length} pubs</span>
+                <span className="text-sm text-light">{pubsWith(r.key).length} pubs</span>
               </Link>
             </li>
           ))}
@@ -46,15 +46,15 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="by-area" className="mb-12">
-        <h2 id="by-area" className="mb-4 font-serif text-2xl font-bold text-green">Browse by area</h2>
+        <h2 id="by-area" className="mb-4 font-serif text-2xl font-bold text-night">Browse by area</h2>
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {areas.map((a) => (
             <li key={a.slug}>
               <Link
                 href={`/areas/${a.slug}`}
-                className="block h-full rounded-lg border border-green/20 bg-paper p-4 transition hover:border-brass hover:shadow-sm"
+                className="block h-full rounded-lg border border-brand/20 bg-paper p-4 transition hover:border-accent hover:shadow-sm"
               >
-                <span className="block font-serif text-lg font-bold text-green">{a.name}</span>
+                <span className="block font-serif text-lg font-bold text-brand">{a.name}</span>
                 <span className="text-sm text-ink/70">{pubsInArea(a.slug).length} pubs</span>
               </Link>
             </li>
@@ -63,7 +63,7 @@ export default function Home() {
       </section>
 
       <section aria-labelledby="top-rated">
-        <h2 id="top-rated" className="mb-1 font-serif text-2xl font-bold text-green">Highest-rated pubs</h2>
+        <h2 id="top-rated" className="mb-1 font-serif text-2xl font-bold text-night">Highest-rated pubs</h2>
         <p className="mb-4 text-sm text-ink/70">
           Ranked by Google rating, weighted by number of reviews. <Link href="/pubs" className="underline">See all {pubs.length} pubs A–Z</Link>.
         </p>
