@@ -5,6 +5,7 @@
 // No free text from websites, Google or reviews is reused.
 import { AREAS, haversineKm } from './lib/areas.mjs';
 import { readJson, writeJson } from './lib/util.mjs';
+import { streetLine } from './lib/address.mjs';
 
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 const cap = (s) => s[0].toUpperCase() + s.slice(1);
@@ -25,10 +26,9 @@ function listJoin(items, conj = 'and') {
   return `${items.slice(0, -1).join(', ')} ${conj} ${items[items.length - 1]}`;
 }
 
-function street(address) {
-  // "74 St James's St, Kemptown, Brighton and Hove, Brighton, BN2 1PA" -> "St James's St"
-  const first = (address || '').split(',')[0].trim();
-  const s = first.replace(/^(unit\s+)?[\d\-–a-z]+\s+(?=[A-Z])/i, (m) => (/\d/.test(m) ? '' : m)).trim();
+function street(pub) {
+  // "74 St James's St" -> "St James's Street" (house number dropped, abbreviation expanded)
+  const s = (pub.street || '').replace(/^\d+[a-z]?(\s*[-–]\s*\d+[a-z]?)?\s+/i, '').trim();
   if (!s || /^\d/.test(s)) return null;
   const ABBR = { St: 'Street', Rd: 'Road', Ave: 'Avenue', Pl: 'Place', Sq: 'Square', Terr: 'Terrace', Ter: 'Terrace', Ln: 'Lane', Dr: 'Drive', Gdns: 'Gardens', Pde: 'Parade', Cres: 'Crescent', Gr: 'Grove' };
   return s.replace(/\b([A-Z][a-z]{1,3})\.?$/, (m, w) => ABBR[w] || m);
@@ -164,7 +164,7 @@ function ratingSentence(pub, stats, pick) {
 function describe(pub, all, stats) {
   const pick = picker(pub.slug);
   const area = areaName(pub.area);
-  const st = street(pub.address);
+  const st = street(pub);
   const type = typePhrase(pub);
   const article = /^[aeiou]/i.test(type) ? 'an' : 'a';
   const areaCount = all.filter((p) => p.area === pub.area).length;
@@ -223,6 +223,7 @@ function describe(pub, all, stats) {
 
 async function main() {
   const pubs = await readJson('data/pubs.json');
+  for (const p of pubs) p.street = streetLine(p.address, p.name);
   // Nearby: 5 closest other pubs within 2 km.
   for (const p of pubs) {
     p.nearby = pubs

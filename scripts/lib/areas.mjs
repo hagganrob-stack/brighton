@@ -1,20 +1,9 @@
 // Areas we search and assign pubs to. Centroids are approximate and used for
 // (a) biasing the Google Maps search and (b) assigning each pub to its nearest area.
-export const AREAS = [
-  { slug: 'kemptown', name: 'Kemptown', lat: 50.8195, lng: -0.127 },
-  { slug: 'the-lanes', name: 'The Lanes', lat: 50.8222, lng: -0.1405 },
-  { slug: 'north-laine', name: 'North Laine', lat: 50.8268, lng: -0.1385 },
-  { slug: 'hanover', name: 'Hanover', lat: 50.8282, lng: -0.1265 },
-  { slug: 'seven-dials', name: 'Seven Dials', lat: 50.8308, lng: -0.1478 },
-  { slug: 'london-road', name: 'London Road', lat: 50.8345, lng: -0.1368 },
-  { slug: 'preston-park', name: 'Preston Park', lat: 50.8435, lng: -0.1485 },
-  { slug: 'fiveways', name: 'Fiveways', lat: 50.8458, lng: -0.1335 },
-  { slug: 'lewes-road', name: 'Lewes Road', lat: 50.8385, lng: -0.1195 },
-  { slug: 'brunswick', name: 'Brunswick', lat: 50.8248, lng: -0.1612 },
-  { slug: 'hove', name: 'Hove', lat: 50.8298, lng: -0.1725 },
-  { slug: 'seafront', name: 'Seafront', lat: 50.8197, lng: -0.1415 },
-  { slug: 'rottingdean', name: 'Rottingdean', lat: 50.8085, lng: -0.0575 },
-];
+import fs from 'node:fs';
+
+// Shared with the site (lib/data.ts). Edit data/areas.json to add or move areas.
+export const AREAS = JSON.parse(fs.readFileSync(new URL('../../data/areas.json', import.meta.url), 'utf8'));
 
 // Seafront is a long strip, so a centroid is a poor fit: assign by street instead.
 const SEAFRONT_STREETS =

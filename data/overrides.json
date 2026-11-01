@@ -1,0 +1,3 @@
+{
+  "_comment": "Optional SEO overrides for non-pub pages, keyed by path, e.g. \"/areas/hove\": { \"title\": \"...\", \"description\": \"...\" }. Pubs use customTitle/customDescription in data/pubs.json."
+}
