@@ -6,7 +6,7 @@ import { Breadcrumbs, JsonLd, PubGrid, PageHeader } from '@/components/ui';
 
 export const metadata = meta(
   '/',
-  `${SITE_NAME}: ${pubs.length} Pubs by Area & Feature`,
+  `${SITE_NAME}: ${pubs.length} Pubs in Brighton & Hove`,
   `An independent guide to ${pubs.length} pubs and bars in Brighton & Hove across ${areas.length} areas. Sunday roasts, quizzes, beer gardens, dog-friendly pubs and more.`,
 );
 

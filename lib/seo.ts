@@ -12,15 +12,14 @@ import {
   lastChecked,
 } from './data';
 
-export const SITE_NAME = 'Brighton & Hove Pub Guide';
-const BRAND_SUFFIX = ' | Brighton Pub Guide';
+export const SITE_NAME = 'The Brighton Beer Guide';
+const BRAND_SUFFIX = ' | Brighton Beer Guide';
 const TITLE_MAX = 60;
 
-// Canonical origin: explicit env var, else Vercel's production domain, else localhost for dev.
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000')
-).replace(/\/$/, '');
+// Canonical origin. Every Vercel build (production and previews) points canonicals at the live domain;
+// local builds use localhost. NEXT_PUBLIC_SITE_URL overrides both.
+const PRODUCTION_URL = 'https://brightonbeerguide.co.uk';
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL ? PRODUCTION_URL : 'http://localhost:3000')).replace(/\/$/, '');
 
 export const abs = (path: string) => `${SITE_URL}${path === '/' ? '' : path}` || SITE_URL;
 

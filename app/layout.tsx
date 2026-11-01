@@ -15,7 +15,7 @@ const fraunces = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: `${SITE_NAME}: Independent Guide to Local Pubs`, template: `%s | ${SITE_NAME}` },
+  title: { default: `${SITE_NAME}: Pubs in Brighton & Hove`, template: `%s | ${SITE_NAME}` },
   applicationName: SITE_NAME,
   formatDetection: { telephone: false },
   icons: { icon: '/icon.svg', apple: '/apple-touch-icon.png' },

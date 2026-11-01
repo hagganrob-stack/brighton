@@ -6,7 +6,7 @@ import { Breadcrumbs, PageHeader } from '@/components/ui';
 export const metadata = meta(
   '/about',
   'About This Guide: How We Check Brighton & Hove Pubs',
-  `How the ${SITE_NAME} is put together: where the data comes from, how facilities are confirmed and how pubs are ranked.`,
+  `How ${SITE_NAME} is put together: where the data comes from, how facilities are confirmed and how pubs are ranked.`,
 );
 
 export default function About() {

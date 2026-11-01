@@ -1,4 +1,7 @@
-# Brighton & Hove Pub Guide
+# The Brighton Beer Guide
+
+https://brightonbeerguide.co.uk
+
 
 An independent, non-commercial, fully static guide to pubs in Brighton & Hove.
 Next.js (App Router, `output: 'export'`) + Tailwind CSS, deployed on Vercel.
@@ -20,7 +23,7 @@ npm run data:describe                  # nearby pubs + 150–250 word fact-only 
 
 - Pubs: add `customTitle` and/or `customDescription` to a pub in `data/pubs.json` (kept across re-runs).
 - Other pages: add `"/areas/hove": { "title": "...", "description": "..." }` to `data/overrides.json`.
-- Canonical URLs use `NEXT_PUBLIC_SITE_URL` if set, otherwise Vercel's production domain.
+- Canonical URLs are `https://brightonbeerguide.co.uk` on Vercel builds (set `NEXT_PUBLIC_SITE_URL` to override).
 
 ## Site
 

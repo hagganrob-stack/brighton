@@ -10,7 +10,7 @@ import { readJson, writeJson } from './lib/util.mjs';
 const REFETCH = process.argv.includes('--refetch');
 const ONLY = (process.argv.find((a) => a.startsWith('--only=')) || '').split('=')[1];
 const SITE_DIR = 'data/raw/sites';
-const UA = 'BrightonHovePubGuide/1.0 (independent pub guide; fact-checking venue details)';
+const UA = 'BrightonBeerGuide/1.0 (+https://brightonbeerguide.co.uk/about; independent pub guide, fact-checking venue details)';
 const MAX_SUBPAGES = 8;
 const CONCURRENCY = 6;
 const SOCIAL = /(facebook|instagram|twitter|x\.com|tiktok|linktr\.ee|untappd|tripadvisor|google\.)/i;
@@ -90,7 +90,7 @@ async function allowedByRobots(url) {
         groupAgents.push(v.toLowerCase());
       } else if (k === 'allow' || k === 'disallow') {
         inRules = true;
-        const applies = groupAgents.some((a) => a === '*' || a.includes('brightonhovepubguide'));
+        const applies = groupAgents.some((a) => a === '*' || a.includes('brightonbeerguide'));
         if (applies && v) rules.push({ allow: k === 'allow', re: robotsPattern(v), len: v.length });
       }
     }
