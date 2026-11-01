@@ -59,7 +59,7 @@ export default async function AreaPage({ params }: Props) {
 
       <section aria-labelledby="area-map" className="mb-10 max-w-3xl">
         <h2 id="area-map" className="mb-3 font-serif text-2xl font-bold text-night">Map of {a.name}</h2>
-        <AreaMap points={list} title={`Map of the ${a.name} area of Brighton & Hove`} />
+        <AreaMap points={list} title={`Map of ${a.name.startsWith("The ") ? a.name : `the ${a.name} area`}, Brighton & Hove`} />
       </section>
 
       <section aria-labelledby="other-areas">
