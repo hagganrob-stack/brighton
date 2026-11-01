@@ -1,0 +1,6 @@
+data/raw/
+node_modules/
+.next/
+out/
+.env*
+.vercel

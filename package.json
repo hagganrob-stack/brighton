@@ -1,0 +1,11 @@
+{
+  "name": "brighton-pubs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "data:collect": "node scripts/collect.mjs",
+    "data:enrich": "node scripts/enrich.mjs",
+    "data:describe": "node scripts/describe.mjs",
+    "data": "npm run data:collect && npm run data:enrich && npm run data:describe"
+  }
+}
