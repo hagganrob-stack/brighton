@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { pubs, areas, ROUNDUPS, pubsInArea, pubsWith, rank, monthYear, lastChecked } from '@/lib/data';
 import { meta, SITE_NAME } from '@/lib/seo';
 import { websiteSchema } from '@/lib/schema';
-import { Breadcrumbs, JsonLd, PubGrid, PageHeader } from '@/components/ui';
+import { Breadcrumbs, Hero, JsonLd, PubGrid } from '@/components/ui';
 
 export const metadata = meta(
   '/',
@@ -16,17 +16,25 @@ export default function Home() {
     <>
       <JsonLd data={websiteSchema()} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }]} />
-      <PageHeader
+      <Hero
         kicker="Independent & non-commercial"
         title="Pubs in Brighton & Hove"
-        intro={
-          <p>
-            {pubs.length} pubs and bars across {areas.length} neighbourhoods, from the Lanes to Rottingdean. We only list a
-            facility, such as a beer garden or a quiz night, when the pub&apos;s own website says so. Details last checked{' '}
-            {monthYear(lastChecked)}.
-          </p>
+        actions={
+          <>
+            <Link href="/best/sunday-roasts" className="rounded-full bg-brand px-5 py-2.5 font-semibold text-light shadow-sm transition hover:bg-brand-dark">
+              Find a Sunday roast
+            </Link>
+            <Link href="/areas" className="rounded-full border-2 border-light px-5 py-2 font-semibold text-light transition hover:bg-light hover:text-night">
+              Browse by area
+            </Link>
+          </>
         }
-      />
+      >
+        <p>
+          {pubs.length} pubs and bars across {areas.length} neighbourhoods, from the Lanes to Rottingdean. We only list a facility, such
+          as a beer garden or a quiz night, when the pub&apos;s own website says so. Details last checked {monthYear(lastChecked)}.
+        </p>
+      </Hero>
 
       <section aria-labelledby="by-feature" className="mb-12">
         <h2 id="by-feature" className="mb-4 font-serif text-2xl font-bold text-night">Find a pub for…</h2>
