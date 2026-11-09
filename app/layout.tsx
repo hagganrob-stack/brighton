@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import Link from 'next/link';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { areas, ROUNDUPS } from '@/lib/data';
 import { SITE_NAME, SITE_URL } from '@/lib/seo';
 import './globals.css';
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
+        <SpeedInsights />
       </body>
     </html>
   );
