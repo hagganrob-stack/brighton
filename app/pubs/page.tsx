@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { pubs, areaName } from '@/lib/data';
 import { meta } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
-import { List } from 'lucide-react';
-import { Breadcrumbs, JsonLd, PageHeader } from '@/components/ui';
+import { Breadcrumbs, Hero, JsonLd } from '@/components/ui';
 
 export const metadata = meta(
   '/pubs',
@@ -24,7 +23,9 @@ export default function AllPubs() {
     <>
       <JsonLd data={itemListSchema('All pubs in Brighton & Hove', '/pubs', sorted.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` })))} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'All pubs', path: '/pubs' }]} />
-      <PageHeader kicker="A–Z" title="All pubs in Brighton & Hove" icon={List} stats={[{ value: pubs.length, label: 'pubs & bars' }, { value: letters.length, label: 'letters' }]} intro={<p>{pubs.length} pubs and bars, listed A–Z (ignoring &ldquo;The&rdquo;).</p>} />
+      <Hero image="pubs" kicker="A–Z" title="All pubs in Brighton & Hove" stats={[{ value: pubs.length, label: 'pubs & bars' }, { value: letters.length, label: 'letters' }]}>
+        <p>{pubs.length} pubs and bars, listed A–Z (ignoring &ldquo;The&rdquo;).</p>
+      </Hero>
       <nav aria-label="Jump to letter" className="sticky top-[5.5rem] z-10 -mx-4 mb-8 flex flex-wrap gap-1 bg-white/95 px-4 py-2 sm:top-24 sm:mx-0 sm:rounded-2xl">
         {letters.map((l) => (
           <a key={l} href={`#letter-${l}`} className="grid h-9 w-9 place-items-center rounded-xl border border-line bg-paper font-display font-bold text-navy transition hover:border-blue hover:text-blue">{l}</a>

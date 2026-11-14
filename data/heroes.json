@@ -19,21 +19,18 @@
   "sunday-roasts": {
     "wide": [
       0,
-      420,
-      1920,
-      1188
+      350,
+      2000,
+      1150
     ],
     "tall": [
-      345,
+      560,
       0,
-      1574,
-      1639
+      1620,
+      1414
     ],
-    "alt": "A roast beef dinner with Yorkshire puddings, roast potatoes, carrots, peas and gravy",
-    "credit": {
-      "text": "Photo: HotBabyHot, public domain, via Wikimedia Commons",
-      "url": "https://commons.wikimedia.org/wiki/File:Roastbeef_with_yorkshire_puddings.jpg"
-    }
+    "alt": "Gravy being poured over a roast beef dinner with a Yorkshire pudding, carrots and greens",
+    "credit": null
   },
   "home": {
     "wide": [
@@ -115,5 +112,70 @@
     "alt": "Dean James, founder of Brighton Beer Guide, raising a pint over a Sunday roast in a Brighton pub",
     "credit": null,
     "position": "50% 12%"
+  },
+  "dog-friendly": {
+    "wide": [
+      0,
+      200,
+      2000,
+      1000
+    ],
+    "tall": [
+      620,
+      0,
+      1680,
+      1414
+    ],
+    "alt": "A hopeful dog peering over a pub table at the food and drinks",
+    "credit": null
+  },
+  "pubs": {
+    "wide": [
+      0,
+      300,
+      2000,
+      1100
+    ],
+    "tall": [
+      380,
+      0,
+      1440,
+      1414
+    ],
+    "alt": "A pint of amber ale on a pub bar beside brass handpumps, with a wood burner behind",
+    "credit": null,
+    "position": "35% 50%"
+  },
+  "pub-quizzes": {
+    "wide": [
+      0,
+      150,
+      2000,
+      950
+    ],
+    "tall": [
+      500,
+      0,
+      1560,
+      1414
+    ],
+    "alt": "A group of friends raising pints together around a pub table",
+    "credit": null
+  },
+  "live-sport": {
+    "wide": [
+      0,
+      300,
+      2000,
+      1100
+    ],
+    "tall": [
+      470,
+      0,
+      1530,
+      1414
+    ],
+    "alt": "Friends clinking pint glasses together over a pub table, seen from above",
+    "credit": null
   }
 }
