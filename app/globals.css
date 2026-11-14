@@ -1,22 +1,29 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Palette: change these to re-skin the whole site. Keep text colours at 4.5:1 contrast or better. */
-  --color-brand: #d0106a; /* hot pink: header, headings, buttons, card tops */
-  --color-brand-dark: #a80d56; /* button hover */
-  --color-brand-ink: #990a4d; /* deeper pink for text: 7.9:1 on the background */
-  --color-night: #1c1b33; /* deep navy: footer */
-  --color-light: #fff6f0; /* warm off-white: page background, text on pink/navy */
-  --color-paper: #ffffff; /* cards and panels */
-  --color-accent: #0b7285; /* seaside teal: small labels, A–Z letters, rank numbers */
-  --color-ink: #1c1b33; /* body text */
-  --color-negative: #5a5870; /* "✗ No" in facilities */
-  --font-serif: var(--font-fraunces), 'Georgia', 'Times New Roman', serif;
+  /* Palette: Brighton blue and white. Text colours are all 4.5:1 or better on their backgrounds. */
+  --color-blue: #0057b8; /* royal blue: primary, 6.9:1 with white */
+  --color-blue-bright: #1270d6; /* brightest gradient stop that still holds white text (4.9:1) */
+  --color-blue-deep: #003f8a; /* hover / pressed */
+  --color-navy: #0a1a3a; /* headings, footer, hero overlays */
+  --color-sky: #38bdf8; /* decoration only (glows, stripes): never behind text */
+  --color-sky-ink: #0369a1; /* small accent text */
+  --color-mist: #f3f7fd; /* page background */
+  --color-wash: #e6effb; /* chips, subtle fills */
+  --color-paper: #ffffff; /* cards */
+  --color-ink: #0b1631; /* body text */
+  --color-muted: #475569; /* secondary text, 7.6:1 */
+  --color-negative: #b42318; /* "✗ No" */
+
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+
+  --shadow-card: 0 1px 2px rgb(10 26 58 / 0.06), 0 4px 16px -4px rgb(10 26 58 / 0.08);
+  --shadow-lift: 0 2px 4px rgb(10 26 58 / 0.06), 0 18px 40px -12px rgb(0 87 184 / 0.35);
 }
 
 html {
-  background: var(--color-light);
+  background: var(--color-mist);
   color: var(--color-ink);
   -webkit-text-size-adjust: 100%;
 }
@@ -24,13 +31,38 @@ html {
 body {
   font-family: var(--font-sans);
   line-height: 1.6;
+  /* A soft blue glow behind the top of every page. */
+  background:
+    radial-gradient(60rem 30rem at 85% -10%, rgb(56 189 248 / 0.14), transparent 70%),
+    radial-gradient(50rem 28rem at -10% 0%, rgb(0 87 184 / 0.1), transparent 70%),
+    var(--color-mist);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--color-accent);
+  outline: 3px solid var(--color-sky);
   outline-offset: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
+}
+
+/* Blue-and-white shirt stripes. */
+@utility stripes {
+  background-image: repeating-linear-gradient(90deg, var(--color-blue) 0 22px, #fff 22px 44px);
+}
+/* Faint stripes for layering over dark gradients. */
+@utility stripes-faint {
+  background-image: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.07) 0 28px, transparent 28px 56px);
+}
+/* Brand gradient for banners and tiles (white text stays above 4.5:1 across it). */
+@utility bg-brand-gradient {
+  background-image: linear-gradient(135deg, var(--color-navy) 0%, var(--color-blue) 55%, var(--color-blue-bright) 100%);
 }
 
 .prose-pub p + p {

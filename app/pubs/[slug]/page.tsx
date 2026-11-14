@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Beer, CalendarCheck, Check, Clock, ExternalLink, Globe, MapPin, Minus, Navigation, Phone, Star, X } from 'lucide-react';
 import {
   pubs,
   getPub,
@@ -12,11 +13,12 @@ import {
   ROUNDUPS,
   hasCombo,
   type FeatureKey,
+  type Pub,
 } from '@/lib/data';
 import { DAYS, displayHours } from '@/lib/hours';
 import { meta, pubTitle, pubDescription } from '@/lib/seo';
 import { pubSchema } from '@/lib/schema';
-import { Breadcrumbs, JsonLd, OsmMap, PubCard } from '@/components/ui';
+import { Breadcrumbs, FEATURE_ICON, JsonLd, OsmMap, PageHeader, PubCard, SectionHeading } from '@/components/ui';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -33,38 +35,68 @@ export async function generateMetadata({ params }: Props) {
 
 const ROUNDUP_BY_KEY = Object.fromEntries(ROUNDUPS.map((r) => [r.key, r])) as Partial<Record<FeatureKey, (typeof ROUNDUPS)[number]>>;
 
-function FeatureRow({ k, pub }: { k: FeatureKey; pub: NonNullable<ReturnType<typeof getPub>> }) {
+function FeatureTile({ k, pub }: { k: FeatureKey; pub: Pub }) {
   const f = pub.features[k];
   const roundup = ROUNDUP_BY_KEY[k];
   const label = FEATURE_LABELS[k];
-  const status =
-    f.value === 'yes' ? (
-      <span className="font-semibold text-brand-ink">✓ Yes</span>
-    ) : f.value === 'no' ? (
-      <span className="font-semibold text-negative">✗ No</span>
-    ) : (
-      <span className="text-ink/85">Not stated</span>
-    );
+  const Icon = FEATURE_ICON[k];
+  const yes = f.value === 'yes';
+  const no = f.value === 'no';
   return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-brand/10 py-2 last:border-0">
-      <dt>
-        {f.value === 'yes' && roundup ? (
-          <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="underline decoration-accent/60 underline-offset-2 hover:text-brand-ink">
-            {label}
-          </Link>
-        ) : (
-          label
-        )}
-        {k === 'pubQuiz' && f.value === 'yes' && f.days?.length ? <span className="text-sm text-ink/85"> ({f.days.join(', ')})</span> : null}
+    <li
+      className={`relative flex items-start gap-3 rounded-2xl p-4 ring-1 transition ${
+        yes ? 'bg-paper shadow-card ring-blue/25' : 'bg-paper/60 ring-navy/10'
+      }`}
+    >
+      <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${yes ? 'bg-brand-gradient text-white' : 'bg-wash text-muted'}`}>
+        <Icon aria-hidden="true" className="h-5 w-5" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className={`font-semibold ${yes ? 'text-navy' : 'text-muted'}`}>
+          {yes && roundup ? (
+            <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="hover:text-blue hover:underline">
+              {label}
+            </Link>
+          ) : (
+            label
+          )}
+        </p>
+        <p className="mt-0.5 flex flex-wrap items-center gap-x-2 text-sm">
+          {yes ? (
+            <span className="inline-flex items-center gap-1 font-semibold text-blue">
+              <Check aria-hidden="true" className="h-4 w-4" strokeWidth={3} /> Yes
+              {k === 'pubQuiz' && f.days?.length ? <span className="font-normal text-muted">· {f.days.join(', ')}</span> : null}
+            </span>
+          ) : no ? (
+            <span className="inline-flex items-center gap-1 font-semibold text-negative">
+              <X aria-hidden="true" className="h-4 w-4" strokeWidth={3} /> No
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 text-muted">
+              <Minus aria-hidden="true" className="h-4 w-4" /> Not stated
+            </span>
+          )}
+          {f.value !== 'unknown' && f.evidence?.url && (
+            <a href={f.evidence.url} rel="nofollow noopener" className="text-xs text-muted underline hover:text-blue" aria-label={`Source for ${label.toLowerCase()}`}>
+              source
+            </a>
+          )}
+        </p>
+      </div>
+    </li>
+  );
+}
+
+function DetailRow({ icon: Icon, label, children }: { icon: typeof Phone; label: string; children: React.ReactNode }) {
+  return (
+    <div className="relative min-h-9 pl-12">
+      <dt className="text-xs font-bold uppercase tracking-wider text-muted">
+        <span className="absolute left-0 top-0 grid h-9 w-9 place-items-center rounded-xl bg-wash text-blue" aria-hidden="true">
+          <Icon className="h-4 w-4" />
+        </span>
+        {label}
       </dt>
-      <dd className="flex items-baseline gap-2 text-right text-sm">
-        {status}
-        {f.value !== 'unknown' && f.evidence?.url && (
-          <a href={f.evidence.url} rel="nofollow noopener" className="text-xs text-ink/85 underline" aria-label={`Source for ${label.toLowerCase()}`}>
-            source
-          </a>
-        )}
-      </dd>
+      <dd className="min-w-0 text-sm text-ink">{children}</dd>
     </div>
   );
 }
@@ -79,6 +111,12 @@ export default async function PubPage({ params }: Props) {
   const website = pub.website ? pub.website.split('?')[0] : null;
   const websiteHost = website ? new URL(website).hostname.replace(/^www\./, '') : null;
 
+  const stats = [
+    ...(pub.rating != null ? [{ value: pub.rating.toFixed(1), label: 'Google rating' }] : []),
+    ...(pub.reviewCount ? [{ value: pub.reviewCount.toLocaleString('en-GB'), label: 'reviews' }] : []),
+    { value: yes.length, label: yes.length === 1 ? 'facility confirmed' : 'facilities confirmed' },
+  ];
+
   return (
     <>
       <JsonLd data={pubSchema(pub)} />
@@ -91,100 +129,100 @@ export default async function PubPage({ params }: Props) {
         ]}
       />
 
-      <header className="mb-6">
-        <p className="mb-1 text-sm font-semibold uppercase tracking-widest text-accent">
-          {pub.googleType || 'Pub'} in <Link href={`/areas/${pub.area}`} className="underline underline-offset-2">{area}</Link>
-        </p>
-        <h1 className="font-serif text-4xl font-black leading-[1.05] text-night sm:text-5xl">{pub.name}</h1>
-        <p className="mt-2 text-ink/85">
-          {street}, {town} {postcode}
-        </p>
-        {yes.length > 0 && (
-          <ul className="mt-3 flex flex-wrap gap-2" aria-label="Confirmed facilities">
-            {yes.map((k) => (
-              <li key={k} className="rounded-full bg-brand px-2.5 py-0.5 text-sm font-medium text-light">{FEATURE_LABELS[k]}</li>
-            ))}
-          </ul>
-        )}
-      </header>
+      <PageHeader
+        kicker={`${pub.googleType || 'Pub'} in ${area}`}
+        title={pub.name}
+        icon={Beer}
+        stats={stats}
+        intro={
+          <p className="flex items-start gap-1.5">
+            <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0" />
+            <span>
+              {street}, {town} {postcode}
+            </span>
+          </p>
+        }
+      />
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
-        <div className="min-w-0">
-          <section aria-labelledby="about-pub" className="prose-pub max-w-2xl text-[1.05rem]">
-            <h2 id="about-pub" className="mb-3 font-serif text-2xl font-bold text-night">About {pub.name}</h2>
-            {pub.description.split('\n\n').map((para, i) => (
-              <p key={i}>{para}</p>
-            ))}
-          </section>
-
-          <section aria-labelledby="facilities" className="mt-10 max-w-2xl">
-            <h2 id="facilities" className="font-serif text-2xl font-bold text-night">Facilities</h2>
-            <p className="mb-2 text-sm text-ink/85">
-              From the pub&apos;s own website. &ldquo;Not stated&rdquo; means we couldn&apos;t confirm it either way, so check with the pub.
-            </p>
-            <dl className="rounded-lg border border-brand/15 bg-paper px-4">
-              {FEATURE_ORDER.map((k) => (
-                <FeatureRow key={k} k={k} pub={pub} />
+        <div className="min-w-0 space-y-12">
+          <section aria-labelledby="about-pub" className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5 sm:p-8">
+            <h2 id="about-pub" className="mb-4 text-2xl font-extrabold text-navy">About {pub.name}</h2>
+            <div className="prose-pub text-[1.05rem] text-ink">
+              {pub.description.split('\n\n').map((para, i) => (
+                <p key={i}>{para}</p>
               ))}
-            </dl>
+            </div>
           </section>
 
-          <section aria-labelledby="map" className="mt-10 max-w-2xl">
-            <h2 id="map" className="mb-3 font-serif text-2xl font-bold text-night">Map</h2>
+          <section aria-labelledby="facilities">
+            <SectionHeading id="facilities" eyebrow="From the pub's own website">
+              Facilities
+            </SectionHeading>
+            <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+              {FEATURE_ORDER.map((k) => (
+                <FeatureTile key={k} k={k} pub={pub} />
+              ))}
+            </ul>
+            <p className="mt-3 text-sm text-muted">&ldquo;Not stated&rdquo; means we couldn&apos;t confirm it either way, so check with the pub.</p>
+          </section>
+
+          <section aria-labelledby="map">
+            <SectionHeading id="map" eyebrow={area}>
+              Map
+            </SectionHeading>
             <OsmMap lat={pub.lat} lng={pub.lng} title={`Map showing the location of ${pub.name} on ${street}, ${area}`} />
-            <p className="mt-2 text-sm">
-              <a href={pub.googleMapsUrl} rel="noopener" className="font-semibold text-brand-ink underline">
-                Get directions in Google Maps
-              </a>
-            </p>
           </section>
         </div>
 
-        <aside className="space-y-6">
-          <section aria-labelledby="details" className="rounded-lg border border-brand/15 bg-paper p-5">
-            <h2 id="details" className="mb-3 font-serif text-xl font-bold text-night">Details</h2>
-            <dl className="space-y-3 text-sm">
-              <div>
-                <dt className="font-semibold">Address</dt>
-                <dd>
-                  {street}
-                  <br />
-                  {town} {postcode}
-                </dd>
-              </div>
+        <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
+          <section aria-labelledby="details" className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5">
+            <h2 id="details" className="mb-4 text-xl font-extrabold text-navy">Details</h2>
+            <dl className="space-y-4">
+              <DetailRow icon={MapPin} label="Address">
+                {street}
+                <br />
+                {town} {postcode}
+              </DetailRow>
               {pub.phone && (
-                <div>
-                  <dt className="font-semibold">Phone</dt>
-                  <dd><a href={`tel:${pub.phone.replace(/\s/g, '')}`} className="text-brand-ink underline">{pub.phone}</a></dd>
-                </div>
+                <DetailRow icon={Phone} label="Phone">
+                  <a href={`tel:${pub.phone.replace(/\s/g, '')}`} className="font-semibold text-blue hover:underline">{pub.phone}</a>
+                </DetailRow>
               )}
               {website && (
-                <div>
-                  <dt className="font-semibold">Website</dt>
-                  <dd><a href={website} rel="noopener" className="break-all text-brand-ink underline">{websiteHost}</a></dd>
-                </div>
+                <DetailRow icon={Globe} label="Website">
+                  <a href={website} rel="noopener" className="inline-flex items-center gap-1 break-all font-semibold text-blue hover:underline">
+                    {websiteHost} <ExternalLink aria-hidden="true" className="h-3 w-3 shrink-0" />
+                  </a>
+                </DetailRow>
               )}
               {pub.rating != null && (
-                <div>
-                  <dt className="font-semibold">Google rating</dt>
-                  <dd>
-                    {pub.rating.toFixed(1)} / 5 from {(pub.reviewCount ?? 0).toLocaleString('en-GB')} reviews
-                  </dd>
-                </div>
+                <DetailRow icon={Star} label="Google rating">
+                  {pub.rating.toFixed(1)} / 5 from {(pub.reviewCount ?? 0).toLocaleString('en-GB')} reviews
+                </DetailRow>
               )}
             </dl>
+            <a
+              href={pub.googleMapsUrl}
+              rel="noopener"
+              className="mt-6 flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-5 py-3 font-semibold text-white shadow-lg shadow-blue/25 transition hover:-translate-y-0.5"
+            >
+              <Navigation aria-hidden="true" className="h-4 w-4" /> Get directions
+            </a>
           </section>
 
-          <section aria-labelledby="hours" className="rounded-lg border border-brand/15 bg-paper p-5">
-            <h2 id="hours" className="mb-3 font-serif text-xl font-bold text-night">Opening hours</h2>
+          <section aria-labelledby="hours" className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5">
+            <h2 id="hours" className="mb-4 flex items-center gap-2 text-xl font-extrabold text-navy">
+              <Clock aria-hidden="true" className="h-5 w-5 text-blue" /> Opening hours
+            </h2>
             {pub.openingHours ? (
               <table className="w-full text-sm">
                 <caption className="sr-only">Opening hours for {pub.name}</caption>
                 <tbody>
                   {DAYS.map((d) => (
-                    <tr key={d} className="border-b border-brand/10 last:border-0">
-                      <th scope="row" className="py-1.5 text-left font-medium capitalize">{d}</th>
-                      <td className="py-1.5 text-right">{displayHours(pub.openingHours?.[d])}</td>
+                    <tr key={d} className="border-b border-navy/5 last:border-0">
+                      <th scope="row" className="py-2 text-left font-medium capitalize text-navy">{d}</th>
+                      <td className="py-2 text-right tabular-nums text-ink">{displayHours(pub.openingHours?.[d])}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -192,19 +230,32 @@ export default async function PubPage({ params }: Props) {
             ) : (
               <p className="text-sm">Opening hours aren&apos;t listed. Contact the pub before visiting.</p>
             )}
-            <p className="mt-3 text-xs text-ink/85">Hours from the pub&apos;s Google listing and can change.</p>
+            <p className="mt-3 text-xs text-muted">From the pub&apos;s Google listing. Hours can change.</p>
           </section>
 
-          <p className="rounded-lg bg-brand/5 p-4 text-sm text-ink/85">
-            <strong>Details last checked {monthYear(pub.detailsCheckedAt)}.</strong> Spotted something out of date?{' '}
-            <Link href="/about" className="underline">How this guide works</Link>.
+          <p className="flex gap-3 rounded-3xl bg-wash p-5 text-sm text-ink">
+            <CalendarCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-blue" />
+            <span>
+              <strong>Details last checked {monthYear(pub.detailsCheckedAt)}.</strong> Spotted something out of date?{' '}
+              <Link href="/about" className="font-semibold text-blue underline">How this guide works</Link>.
+            </span>
           </p>
         </aside>
       </div>
 
       {near.length > 0 && (
-        <section aria-labelledby="nearby" className="mt-12">
-          <h2 id="nearby" className="mb-4 font-serif text-2xl font-bold text-night">Pubs near {pub.name}</h2>
+        <section aria-labelledby="nearby" className="mt-16">
+          <SectionHeading
+            id="nearby"
+            eyebrow="Within walking distance"
+            action={
+              <Link href={`/areas/${pub.area}`} className="text-sm font-semibold text-blue hover:underline">
+                All pubs in {area}
+              </Link>
+            }
+          >
+            Pubs near {pub.name}
+          </SectionHeading>
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {near.map(({ pub: n, distanceM }) => (
               <li key={n.slug}>
@@ -212,11 +263,6 @@ export default async function PubPage({ params }: Props) {
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-sm">
-            <Link href={`/areas/${pub.area}`} className="font-semibold text-brand-ink underline">
-              All pubs in {area}
-            </Link>
-          </p>
         </section>
       )}
     </>

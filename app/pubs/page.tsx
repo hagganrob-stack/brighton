@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { pubs, areaName } from '@/lib/data';
 import { meta } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
+import { List } from 'lucide-react';
 import { Breadcrumbs, JsonLd, PageHeader } from '@/components/ui';
 
 export const metadata = meta(
@@ -23,21 +24,21 @@ export default function AllPubs() {
     <>
       <JsonLd data={itemListSchema('All pubs in Brighton & Hove', '/pubs', sorted.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` })))} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'All pubs', path: '/pubs' }]} />
-      <PageHeader title="All pubs in Brighton & Hove" intro={<p>{pubs.length} pubs and bars, listed A–Z (ignoring &ldquo;The&rdquo;).</p>} />
-      <nav aria-label="Jump to letter" className="mb-6 flex flex-wrap gap-1">
+      <PageHeader kicker="A–Z" title="All pubs in Brighton & Hove" icon={List} stats={[{ value: pubs.length, label: 'pubs & bars' }, { value: letters.length, label: 'letters' }]} intro={<p>{pubs.length} pubs and bars, listed A–Z (ignoring &ldquo;The&rdquo;).</p>} />
+      <nav aria-label="Jump to letter" className="sticky top-[5.5rem] z-10 -mx-4 mb-8 flex flex-wrap gap-1 bg-mist/90 px-4 py-2 backdrop-blur sm:top-24 sm:mx-0 sm:rounded-2xl">
         {letters.map((l) => (
-          <a key={l} href={`#letter-${l}`} className="rounded border border-brand/30 px-2 py-0.5 font-serif font-bold text-brand-ink hover:bg-brand hover:text-light">{l}</a>
+          <a key={l} href={`#letter-${l}`} className="grid h-9 w-9 place-items-center rounded-xl bg-paper font-display font-bold text-blue shadow-card ring-1 ring-navy/5 transition hover:bg-blue hover:text-white">{l}</a>
         ))}
       </nav>
       <div className="columns-1 gap-8 sm:columns-2 lg:columns-3">
         {letters.map((l) => (
-          <section key={l} id={`letter-${l}`} aria-labelledby={`h-${l}`} className="mb-6 break-inside-avoid">
-            <h2 id={`h-${l}`} className="mb-1 font-serif text-2xl font-black text-accent">{l}</h2>
+          <section key={l} id={`letter-${l}`} aria-labelledby={`h-${l}`} className="mb-6 break-inside-avoid scroll-mt-40 rounded-2xl bg-paper p-5 shadow-card ring-1 ring-navy/5">
+            <h2 id={`h-${l}`} className="mb-2 text-3xl font-extrabold text-blue">{l}</h2>
             <ul className="space-y-1">
               {byLetter.get(l)!.sort((a, b) => a.name.replace(/^the\s+/i, '').localeCompare(b.name.replace(/^the\s+/i, ''))).map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/pubs/${p.slug}`} className="font-semibold text-brand-ink underline-offset-2 hover:underline">{p.name}</Link>{' '}
-                  <span className="text-sm text-ink/85">{areaName(p.area)}</span>
+                  <Link href={`/pubs/${p.slug}`} className="font-semibold text-navy underline-offset-2 hover:text-blue hover:underline">{p.name}</Link>{' '}
+                  <span className="text-sm text-muted">{areaName(p.area)}</span>
                 </li>
               ))}
             </ul>

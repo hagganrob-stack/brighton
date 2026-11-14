@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { type Roundup, type Area, ROUNDUPS, areas, pubsWith, MIN_COMBO, monthYear, lastChecked, pubs } from '@/lib/data';
 import { itemListSchema, type Crumb } from '@/lib/schema';
-import { Breadcrumbs, Hero, hasHero, JsonLd, LinkPills, PageHeader, PubGrid } from './ui';
+import { Breadcrumbs, FEATURE_ICON, Hero, hasHero, JsonLd, LinkPills, PageHeader, PubGrid, SectionHeading } from './ui';
+
+const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 // Shared layout for /best/[feature] and /best/[feature]/[area].
 export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }) {
@@ -23,75 +25,91 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
     const href = area && n >= MIN_COMBO ? `/best/${r.slug}/${area.slug}` : `/best/${r.slug}`;
     return { href, text: area && n >= MIN_COMBO ? `${r.label} in ${area.name}` : r.label };
   });
-  const quizDays = roundup.key === 'pubQuiz';
+  const kicker = area ? `${roundup.label} · Brighton & Hove` : 'Best of Brighton & Hove';
+  const stats = [
+    { value: list.length, label: 'pubs confirmed' },
+    { value: new Set(list.map((p) => p.area)).size, label: list.length && new Set(list.map((p) => p.area)).size === 1 ? 'area' : 'areas' },
+  ];
+  const intro = (
+    <>
+      <p>
+        {roundup.blurb.charAt(0).toUpperCase() + roundup.blurb.slice(1)} in {where}, ranked by Google rating (weighted by number of
+        reviews). We only include a pub when its own website says so, so there may be others we couldn&apos;t confirm. Checked{' '}
+        {monthYear(lastChecked)}.
+      </p>
+      {area && (
+        <p className="text-base">
+          See all <Link href={`/best/${roundup.slug}`}>{roundup.label.toLowerCase()} across Brighton & Hove</Link> or{' '}
+          <Link href={`/areas/${area.slug}`}>every pub in {area.name}</Link>.
+        </p>
+      )}
+    </>
+  );
 
   return (
     <>
       <JsonLd data={itemListSchema(title, path, list.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` })))} />
       <Breadcrumbs crumbs={crumbs} />
-      {(() => {
-        const kicker = area ? 'Brighton & Hove' : `${list.length} pubs`;
-        const intro = (
-          <>
-            <p>
-              {list.length} {roundup.blurb} in {where}, ranked by Google rating (weighted by number of reviews). We only include a pub when
-              its own website says so, so there may be others we couldn&apos;t confirm. Checked {monthYear(lastChecked)}.
-            </p>
-            {area && (
-              <p className="text-base">
-                See all <Link href={`/best/${roundup.slug}`} className="underline">{roundup.label.toLowerCase()} across Brighton & Hove</Link> or{' '}
-                <Link href={`/areas/${area.slug}`} className="underline">every pub in {area.name}</Link>.
-              </p>
-            )}
-          </>
-        );
-        // Features with a photo in data/heroes.json get a photo header (shared by their area pages).
-        return hasHero(roundup.slug) ? (
-          <Hero image={roundup.slug} kicker={kicker} title={title} atTop={false}>
-            {intro}
-          </Hero>
-        ) : (
-          <PageHeader kicker={kicker} title={title} intro={<div className="space-y-2">{intro}</div>} />
-        );
-      })()}
 
-      {quizDays && (
-        <section aria-labelledby="quiz-days" className="mb-8 max-w-3xl">
-          <h2 id="quiz-days" className="mb-3 font-serif text-xl font-bold text-night">Quiz nights by day</h2>
-          <dl className="grid gap-x-6 gap-y-2 rounded-lg border border-brand/15 bg-paper p-4 text-sm sm:grid-cols-2">
-            {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((d) => {
+      {/* Features with a photo in data/heroes.json get a photo header (shared by their area pages). */}
+      {hasHero(roundup.slug) ? (
+        <Hero image={roundup.slug} kicker={kicker} title={title} stats={stats} atTop={false}>
+          {intro}
+        </Hero>
+      ) : (
+        <PageHeader kicker={kicker} title={title} icon={FEATURE_ICON[roundup.key]} stats={stats} intro={intro} />
+      )}
+
+      {roundup.key === 'pubQuiz' && (
+        <section aria-labelledby="quiz-days" className="mb-14">
+          <SectionHeading id="quiz-days" eyebrow="Where the website names the night">
+            Quiz nights by day
+          </SectionHeading>
+          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {WEEK.map((d) => {
               const on = list.filter((p) => p.features.pubQuiz.days?.includes(d));
               if (!on.length) return null;
               return (
-                <div key={d}>
-                  <dt className="font-semibold">{d}</dt>
-                  <dd>{on.map((p, i) => (<span key={p.slug}>{i > 0 && ', '}<Link href={`/pubs/${p.slug}`} className="text-brand-ink underline">{p.name}</Link></span>))}</dd>
+                <div key={d} className="rounded-2xl bg-paper p-4 shadow-card ring-1 ring-navy/5">
+                  <dt className="flex items-center justify-between font-display text-lg font-bold text-navy">
+                    {d}
+                    <span className="rounded-full bg-wash px-2 py-0.5 text-xs font-bold text-blue">{on.length}</span>
+                  </dt>
+                  <dd className="mt-2 space-y-1 text-sm">
+                    {on.map((p) => (
+                      <Link key={p.slug} href={`/pubs/${p.slug}`} className="block font-medium text-blue hover:underline">
+                        {p.name}
+                      </Link>
+                    ))}
+                  </dd>
                 </div>
               );
             })}
           </dl>
-          <p className="mt-2 text-xs text-ink/85">Only where the pub&apos;s website names the day. Others below don&apos;t say which night.</p>
         </section>
       )}
 
-      <section aria-labelledby="ranked" className="mb-10">
-        <h2 id="ranked" className="mb-4 font-serif text-2xl font-bold text-night">
+      <section aria-labelledby="ranked" className="mb-14">
+        <SectionHeading id="ranked" eyebrow="Ranked by Google rating">
           {area ? `${list.length} pubs in ${area.name}` : `All ${list.length} pubs, ranked`}
-        </h2>
+        </SectionHeading>
         <PubGrid pubs={list} ranked />
       </section>
 
       {areaLinks.length > 0 && (
-        <section aria-labelledby="by-area" className="mb-8">
-          <h2 id="by-area" className="mb-3 font-serif text-xl font-bold text-night">{roundup.label} by area</h2>
+        <section aria-labelledby="by-area" className="mb-10">
+          <SectionHeading id="by-area" eyebrow="Narrow it down">
+            {roundup.label} by area
+          </SectionHeading>
           <LinkPills label={`${roundup.label} by area`} links={areaLinks} />
         </section>
       )}
 
       <section aria-labelledby="more">
-        <h2 id="more" className="mb-3 font-serif text-xl font-bold text-night">More guides</h2>
+        <SectionHeading id="more" eyebrow={`Out of ${pubs.length} pubs in this guide`}>
+          More guides
+        </SectionHeading>
         <LinkPills label="Other feature guides" links={otherRoundups} />
-        <p className="mt-4 text-sm text-ink/85">Out of {pubs.length} pubs in this guide.</p>
       </section>
     </>
   );

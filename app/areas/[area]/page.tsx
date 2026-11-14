@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
+import { MapPin } from 'lucide-react';
 import { areas, getArea, pubsInArea, ROUNDUPS, pubsWith, MIN_COMBO, monthYear, lastChecked } from '@/lib/data';
 import { meta, areaTitle, areaDescription } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
-import { AreaMap, Breadcrumbs, JsonLd, LinkPills, PageHeader, PubGrid } from '@/components/ui';
+import { AreaMap, Breadcrumbs, JsonLd, LinkPills, PageHeader, PubGrid, SectionHeading } from '@/components/ui';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -36,35 +37,48 @@ export default async function AreaPage({ params }: Props) {
       <PageHeader
         kicker="Brighton & Hove"
         title={`Pubs in ${a.name}`}
+        icon={MapPin}
+        stats={[
+          { value: list.length, label: list.length === 1 ? 'pub' : 'pubs & bars' },
+          { value: confirmed, label: 'with confirmed facilities' },
+          { value: featureLinks.length, label: featureLinks.length === 1 ? 'feature guide' : 'feature guides' },
+        ]}
         intro={
           <p>
-            This guide lists {list.length} {list.length === 1 ? 'pub' : 'pubs and bars'} in {a.name}. {confirmed} of them have at least
-            one facility confirmed on their own website. They&apos;re ranked by Google rating, weighted by number of reviews. Details last
-            checked {monthYear(lastChecked)}.
+            Every pub and bar in {a.name} in this guide, ranked by Google rating weighted by number of reviews. Details last checked{' '}
+            {monthYear(lastChecked)}.
           </p>
         }
       />
 
       {featureLinks.length > 0 && (
-        <section aria-labelledby="area-features" className="mb-8">
-          <h2 id="area-features" className="mb-3 font-serif text-xl font-bold text-night">Popular in {a.name}</h2>
+        <section aria-labelledby="area-features" className="mb-12">
+          <SectionHeading id="area-features" eyebrow="Feature guides">
+            Popular in {a.name}
+          </SectionHeading>
           <LinkPills label={`Feature guides for ${a.name}`} links={featureLinks} />
         </section>
       )}
 
-      <section aria-labelledby="area-pubs" className="mb-10">
-        <h2 id="area-pubs" className="mb-4 font-serif text-2xl font-bold text-night">All {list.length} pubs in {a.name}</h2>
+      <section aria-labelledby="area-pubs" className="mb-14">
+        <SectionHeading id="area-pubs" eyebrow="Ranked by Google rating">
+          All {list.length} pubs in {a.name}
+        </SectionHeading>
         <PubGrid pubs={list} ranked />
       </section>
 
-      <section aria-labelledby="area-map" className="mb-10 max-w-3xl">
-        <h2 id="area-map" className="mb-3 font-serif text-2xl font-bold text-night">Map of {a.name}</h2>
-        <AreaMap points={list} title={`Map of ${a.name.startsWith("The ") ? a.name : `the ${a.name} area`}, Brighton & Hove`} />
+      <section aria-labelledby="area-map" className="mb-14">
+        <SectionHeading id="area-map" eyebrow="Find your way">
+          Map of {a.name}
+        </SectionHeading>
+        <AreaMap points={list} title={`Map of ${a.name.startsWith('The ') ? a.name : `the ${a.name} area`}, Brighton & Hove`} />
       </section>
 
       <section aria-labelledby="other-areas">
-        <h2 id="other-areas" className="mb-3 font-serif text-xl font-bold text-night">Other areas</h2>
-        <LinkPills label="Other areas" links={others.map((o) => ({ href: `/areas/${o.slug}`, text: o.name }))} />
+        <SectionHeading id="other-areas" eyebrow="Keep exploring">
+          Other areas
+        </SectionHeading>
+        <LinkPills label="Other areas" links={others.map((o) => ({ href: `/areas/${o.slug}`, text: o.name, count: pubsInArea(o.slug).length }))} />
       </section>
     </>
   );

@@ -30,11 +30,14 @@ npm run data:describe                  # nearby pubs + 150–250 word fact-only 
 `npm run build` writes static HTML to `out/`. Routes: `/`, `/pubs`, `/pubs/[slug]`, `/areas`, `/areas/[area]`,
 `/best/[feature]`, `/best/[feature]/[area]` (only where 3+ pubs qualify), `/about`, `/sitemap.xml`, `/robots.txt`.
 
-## Colours
+## Design
 
-The palette lives in `app/globals.css` (`@theme`): `brand` (hot pink), `brand-dark`, `night` (navy), `light`, `paper`,
-`accent` (teal), `ink`, `negative`. Change those values to re-skin the site. A few hard-coded copies: the header logo in
-`app/layout.tsx`, `themeColor` in the same file, and `app/icon.svg` / `public/favicon.svg`. Keep text at 4.5:1 contrast.
+Blue and white, modern. Tokens live in `app/globals.css` (`@theme`): `blue` (royal blue, primary), `blue-bright`,
+`blue-deep`, `navy`, `sky` (decoration only), `sky-ink`, `mist` (page background), `wash` (chips), `paper` (cards),
+`ink`, `muted`, `negative`. Utilities: `bg-brand-gradient`, `stripes` (blue/white shirt stripes), `stripes-faint`.
+Headings use Bricolage Grotesque (self-hosted, `app/fonts/bricolage.woff2`); icons are `lucide-react` (static SVG).
+Keep text at 4.5:1 contrast; never put text on `sky`. The header logo is a blue recolour of
+`design/logo-original.webp` (`design/logo-blue.webp`); favicon is `app/icon.svg`.
 
 ## Photo headers
 

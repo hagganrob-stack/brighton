@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowRight, Map } from 'lucide-react';
 import { areas, pubsInArea, pubs } from '@/lib/data';
 import { meta } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
@@ -16,15 +17,33 @@ export default function AreasIndex() {
     <>
       <JsonLd data={itemListSchema('Brighton & Hove pub areas', '/areas', list.map(({ a }) => ({ name: `Pubs in ${a.name}`, path: `/areas/${a.slug}` })))} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'Areas', path: '/areas' }]} />
-      <PageHeader title="Pubs by area" intro={<p>{areas.length} neighbourhoods across Brighton & Hove, with the number of pubs in each.</p>} />
+      <PageHeader
+        kicker="Brighton & Hove"
+        title="Pubs by area"
+        icon={Map}
+        stats={[
+          { value: areas.length, label: 'neighbourhoods' },
+          { value: pubs.length, label: 'pubs & bars' },
+        ]}
+        intro={<p>From the Lanes to Rottingdean, pick a neighbourhood to see every pub in it, ranked.</p>}
+      />
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {list.map(({ a, n }) => (
-          <li key={a.slug} className="rounded-lg border border-brand/15 bg-paper p-5">
-            <h2 className="font-serif text-2xl font-bold text-night">
-              <Link href={`/areas/${a.slug}`} className="hover:underline">{a.name}</Link>
-            </h2>
-            <p className="text-sm text-ink/85">{n.length} pubs</p>
-            <p className="mt-2 text-sm">Including {n.slice(0, 3).map((p) => p.name).join(', ')}.</p>
+          <li key={a.slug}>
+            <Link
+              href={`/areas/${a.slug}`}
+              className="group relative flex h-full flex-col overflow-hidden rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5 transition hover:-translate-y-1 hover:shadow-lift hover:ring-blue/30"
+            >
+              <span className="absolute inset-x-0 top-0 h-1 bg-brand-gradient" aria-hidden="true" />
+              <span className="flex items-start justify-between gap-3">
+                <h2 className="text-2xl font-extrabold text-navy group-hover:text-blue">{a.name}</h2>
+                <span className="rounded-full bg-wash px-2.5 py-1 text-sm font-bold text-blue">{n.length}</span>
+              </span>
+              <span className="mt-3 text-sm text-muted">Including {n.slice(0, 3).map((p) => p.name).join(', ')}.</span>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-blue">
+                See all {n.length} pubs <ArrowRight aria-hidden="true" className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </Link>
           </li>
         ))}
       </ul>
