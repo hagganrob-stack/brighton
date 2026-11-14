@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { type Roundup, type Area, ROUNDUPS, areas, pubsWith, MIN_COMBO, monthYear, lastChecked, pubs } from '@/lib/data';
 import { itemListSchema, type Crumb } from '@/lib/schema';
-import { Breadcrumbs, JsonLd, LinkPills, PageHeader, PubGrid } from './ui';
+import { Breadcrumbs, Hero, hasHero, JsonLd, LinkPills, PageHeader, PubGrid } from './ui';
 
 // Shared layout for /best/[feature] and /best/[feature]/[area].
 export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }) {
@@ -29,24 +29,31 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
     <>
       <JsonLd data={itemListSchema(title, path, list.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` })))} />
       <Breadcrumbs crumbs={crumbs} />
-      <PageHeader
-        kicker={area ? 'Brighton & Hove' : `${list.length} pubs`}
-        title={title}
-        intro={
+      {(() => {
+        const kicker = area ? 'Brighton & Hove' : `${list.length} pubs`;
+        const intro = (
           <>
             <p>
               {list.length} {roundup.blurb} in {where}, ranked by Google rating (weighted by number of reviews). We only include a pub when
               its own website says so, so there may be others we couldn&apos;t confirm. Checked {monthYear(lastChecked)}.
             </p>
             {area && (
-              <p className="mt-2 text-base">
+              <p className="text-base">
                 See all <Link href={`/best/${roundup.slug}`} className="underline">{roundup.label.toLowerCase()} across Brighton & Hove</Link> or{' '}
                 <Link href={`/areas/${area.slug}`} className="underline">every pub in {area.name}</Link>.
               </p>
             )}
           </>
-        }
-      />
+        );
+        // Features with a photo in data/heroes.json get a photo header (shared by their area pages).
+        return hasHero(roundup.slug) ? (
+          <Hero image={roundup.slug} kicker={kicker} title={title} atTop={false}>
+            {intro}
+          </Hero>
+        ) : (
+          <PageHeader kicker={kicker} title={title} intro={<div className="space-y-2">{intro}</div>} />
+        );
+      })()}
 
       {quizDays && (
         <section aria-labelledby="quiz-days" className="mb-8 max-w-3xl">

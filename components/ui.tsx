@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { type Pub, type FeatureKey, FEATURE_LABELS, areaName, addressLines, yesFeatures, formatDistance } from '@/lib/data';
 import { breadcrumbSchema, type Crumb } from '@/lib/schema';
+import heroesJson from '@/data/heroes.json';
 
 export function JsonLd({ data }: { data: object | object[] }) {
   return (
@@ -178,36 +179,66 @@ export function AreaMap({ points, title }: { points: { lat: number; lng: number 
   );
 }
 
-// Home-page hero: art-directed photo (tall crop on phones, wide banner from 640px) with a navy
-// gradient so overlaid text keeps its contrast. Served as AVIF with a WebP fallback.
-export function Hero({ kicker, title, children, actions }: { kicker: string; title: string; children: React.ReactNode; actions?: React.ReactNode }) {
-  const wide = (ext: string) => `/hero/wide-1280.${ext} 1280w, /hero/wide-1920.${ext} 1920w`;
-  const tall = (ext: string) => `/hero/tall-600.${ext} 600w, /hero/tall-900.${ext} 900w`;
+// Photo header: art-directed image (tall crop on phones, wide banner from 640px) with a navy gradient so the
+// overlaid text keeps its contrast. Images and crops are configured in data/heroes.json and built by
+// scripts/hero-images.py as AVIF with a WebP fallback.
+type HeroImage = { alt: string; credit: { text: string; url: string } | null };
+const HEROES = heroesJson as unknown as Record<string, HeroImage>;
+export const hasHero = (name: string) => !name.startsWith('_') && name in HEROES;
+
+export function Hero({
+  image,
+  kicker,
+  title,
+  children,
+  actions,
+  atTop = true,
+}: {
+  image: string;
+  kicker: string;
+  title: string;
+  children: React.ReactNode;
+  actions?: React.ReactNode;
+  /** True when the hero sits directly under the site header (bleeds into the page's top padding on phones). */
+  atTop?: boolean;
+}) {
+  const img = HEROES[image];
+  const set = (shape: 'wide' | 'tall', ext: string) =>
+    shape === 'wide'
+      ? `/hero/${image}-wide-1280.${ext} 1280w, /hero/${image}-wide-1920.${ext} 1920w`
+      : `/hero/${image}-tall-600.${ext} 600w, /hero/${image}-tall-900.${ext} 900w`;
   const wideSizes = '(min-width: 1184px) 1152px, 100vw';
   return (
-    <header className="relative -mx-4 -mt-8 mb-10 overflow-hidden bg-night sm:mx-0 sm:mt-0 sm:rounded-2xl">
+    <header className={`relative -mx-4 mb-10 overflow-hidden bg-night sm:mx-0 sm:rounded-2xl ${atTop ? '-mt-8 sm:mt-0' : ''}`}>
       <picture>
-        <source media="(min-width: 640px)" type="image/avif" srcSet={wide('avif')} sizes={wideSizes} />
-        <source media="(min-width: 640px)" type="image/webp" srcSet={wide('webp')} sizes={wideSizes} />
-        <source type="image/avif" srcSet={tall('avif')} sizes="100vw" />
+        <source media="(min-width: 640px)" type="image/avif" srcSet={set('wide', 'avif')} sizes={wideSizes} />
+        <source media="(min-width: 640px)" type="image/webp" srcSet={set('wide', 'webp')} sizes={wideSizes} />
+        <source type="image/avif" srcSet={set('tall', 'avif')} sizes="100vw" />
         <img
-          src="/hero/tall-600.webp"
-          srcSet={tall('webp')}
+          src={`/hero/${image}-tall-600.webp`}
+          srcSet={set('tall', 'webp')}
           sizes="100vw"
           width={600}
-          height={793}
-          alt="Brighton beach and the seafront terraces in late-afternoon sun"
+          height={800}
+          alt={img.alt}
           fetchPriority="high"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
       </picture>
       <div className="absolute inset-0 bg-gradient-to-t from-night/95 via-night/75 via-55% to-night/0 sm:bg-gradient-to-r sm:via-50% sm:from-night/90 sm:via-night/55 sm:to-night/0" aria-hidden="true" />
-      <div className="relative flex min-h-[34rem] flex-col justify-end px-6 pb-8 pt-24 sm:min-h-[28rem] sm:max-w-xl sm:justify-center sm:px-10 sm:py-14">
+      <div className="relative flex min-h-[34rem] flex-col justify-end px-6 pb-10 pt-24 sm:min-h-[28rem] sm:max-w-xl sm:justify-center sm:px-10 sm:py-14">
         <p className="mb-3 w-fit rounded-full bg-brand px-3 py-1 text-xs font-bold uppercase tracking-widest text-light">{kicker}</p>
         <h1 className="font-serif text-4xl font-black leading-[1.05] text-light drop-shadow-sm sm:text-5xl">{title}</h1>
-        <div className="mt-4 text-base text-light [text-shadow:0_1px_2px_rgb(0_0_0/0.5)] sm:text-lg">{children}</div>
+        <div className="mt-4 space-y-2 text-base text-light [text-shadow:0_1px_2px_rgb(0_0_0/0.5)] sm:text-lg [&_a]:underline">{children}</div>
         {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
       </div>
+      {img.credit && (
+        <p className="absolute bottom-2 right-2 rounded bg-night/85 px-2 py-0.5 text-[11px] text-light">
+          <a href={img.credit.url} rel="noopener" className="underline-offset-2 hover:underline">
+            {img.credit.text}
+          </a>
+        </p>
+      )}
     </header>
   );
 }

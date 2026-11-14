@@ -1,0 +1,18 @@
+{
+  "_comment": "Photo headers. Source photos live in design/heroes/<name>.jpg. Crops are [left, top, right, bottom] in source pixels: 'wide' (~5:2) is used from 640px wide, 'tall' (~3:4) on phones. Run `python3 scripts/hero-images.py` after editing.",
+  "seafront": {
+    "wide": [0, 300, 2000, 1100],
+    "tall": [1150, 0, 2000, 1123],
+    "alt": "Brighton beach and the seafront terraces in late-afternoon sun",
+    "credit": null
+  },
+  "sunday-roasts": {
+    "wide": [0, 420, 1920, 1188],
+    "tall": [345, 0, 1574, 1639],
+    "alt": "A roast beef dinner with Yorkshire puddings, roast potatoes, carrots, peas and gravy",
+    "credit": {
+      "text": "Photo: HotBabyHot, public domain, via Wikimedia Commons",
+      "url": "https://commons.wikimedia.org/wiki/File:Roastbeef_with_yorkshire_puddings.jpg"
+    }
+  }
+}

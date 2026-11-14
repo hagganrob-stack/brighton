@@ -35,3 +35,10 @@ npm run data:describe                  # nearby pubs + 150–250 word fact-only 
 The palette lives in `app/globals.css` (`@theme`): `brand` (hot pink), `brand-dark`, `night` (navy), `light`, `paper`,
 `accent` (teal), `ink`, `negative`. Change those values to re-skin the site. A few hard-coded copies: the header logo in
 `app/layout.tsx`, `themeColor` in the same file, and `app/icon.svg` / `public/favicon.svg`. Keep text at 4.5:1 contrast.
+
+## Photo headers
+
+Pages can show a photo header (`Hero` component). Add the source photo as `design/heroes/<name>.jpg`, give it crops,
+alt text and any required credit in `data/heroes.json`, then run `python3 scripts/hero-images.py <name>`.
+The home page uses `seafront`; a `/best/<feature>` page (and its area pages) uses the photo named after the feature
+slug automatically, e.g. `sunday-roasts`. Only use photos you own or that are public domain / openly licensed.

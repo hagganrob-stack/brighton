@@ -17,6 +17,7 @@ export default function Home() {
       <JsonLd data={websiteSchema()} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }]} />
       <Hero
+        image="seafront"
         kicker="Independent & non-commercial"
         title="Pubs in Brighton & Hove"
         actions={
