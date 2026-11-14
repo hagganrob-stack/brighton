@@ -256,7 +256,7 @@ export function PageHeader({
 
 // Photo header: text on white beside the photo in its natural colours (no overlays or tints).
 // Images and crops are configured in data/heroes.json and built by scripts/hero-images.py (AVIF + WebP).
-type HeroImage = { alt: string; credit: { text: string; url: string } | null };
+type HeroImage = { alt: string; credit: { text: string; url: string } | null; position?: string };
 const HEROES = heroesJson as unknown as Record<string, HeroImage>;
 export const hasHero = (name: string) => !name.startsWith('_') && name in HEROES;
 
@@ -277,6 +277,7 @@ export function HeroPhoto({ image, className = '', priority = true }: { image: s
           fetchPriority={priority ? 'high' : 'auto'}
           loading={priority ? 'eager' : 'lazy'}
           className="aspect-[4/3] w-full rounded-3xl object-cover lg:aspect-[4/5]"
+          style={img.position ? { objectPosition: img.position } : undefined}
         />
       </picture>
       {img.credit && (

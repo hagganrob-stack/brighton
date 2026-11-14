@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { type Roundup, type Area, ROUNDUPS, areas, pubsWith, MIN_COMBO, monthYear, lastChecked, pubs } from '@/lib/data';
 import { itemListSchema, type Crumb } from '@/lib/schema';
+import { Byline } from './Byline';
+import { webPageSchema } from '@/lib/author';
 import { Breadcrumbs, FEATURE_ICON, Hero, hasHero, JsonLd, LinkPills, PageHeader, PubGrid, SectionHeading } from './ui';
 
 const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -48,7 +50,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
 
   return (
     <>
-      <JsonLd data={itemListSchema(title, path, list.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` })))} />
+      <JsonLd data={[itemListSchema(title, path, list.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` }))), webPageSchema({ path, name: title, dateModified: lastChecked, type: 'CollectionPage' })]} />
       <Breadcrumbs crumbs={crumbs} />
 
       {/* Features with a photo in data/heroes.json get a photo header (shared by their area pages). */}
@@ -59,6 +61,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
       ) : (
         <PageHeader kicker={kicker} title={title} icon={FEATURE_ICON[roundup.key]} stats={stats} intro={intro} />
       )}
+      <Byline checked={lastChecked} />
 
       {roundup.key === 'pubQuiz' && (
         <section aria-labelledby="quiz-days" className="mb-14">

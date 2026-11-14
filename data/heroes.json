@@ -1,5 +1,5 @@
 {
-  "_comment": "Photo headers. Source photos live in design/heroes/<name>.jpg. Crops are [left, top, right, bottom] in source pixels: 'wide' (~5:2) is used from 640px wide, 'tall' (~3:4) on phones. Run `python3 scripts/hero-images.py` after editing.",
+  "_comment": "Photo headers. Source photos live in design/heroes/<name>.jpg. Crops are [left, top, right, bottom] in source pixels: 'wide' (~5:2) is used from 640px wide, 'tall' (~3:4) on phones. Run `python3 scripts/hero-images.py` after editing. Optional 'position' sets the focal point (CSS object-position) when a photo is cropped further on small screens.",
   "seafront": {
     "wide": [
       0,
@@ -98,5 +98,22 @@
     ],
     "alt": "A band playing live in a pub, the singer at the microphone under coloured lights",
     "credit": null
+  },
+  "dean": {
+    "wide": [
+      0,
+      200,
+      1312,
+      725
+    ],
+    "tall": [
+      250,
+      0,
+      1149,
+      1199
+    ],
+    "alt": "Dean James, founder of Brighton Beer Guide, raising a pint over a Sunday roast in a Brighton pub",
+    "credit": null,
+    "position": "50% 12%"
   }
 }

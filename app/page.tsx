@@ -5,6 +5,8 @@ import { meta, SITE_NAME } from '@/lib/seo';
 import { websiteSchema } from '@/lib/schema';
 import { Breadcrumbs, ButtonLink, Eyebrow, FEATURE_ICON, FeatureChip, HeroPhoto, JsonLd, PubCard, Rating, SectionHeading, StatRow, hasHero } from '@/components/ui';
 import { CityMap } from '@/components/CityMap';
+import { EditorCard } from '@/components/Byline';
+import { entityGraph } from '@/lib/author';
 
 export const metadata = meta(
   '/',
@@ -217,7 +219,7 @@ function Podium() {
 export default function Home() {
   return (
     <>
-      <JsonLd data={websiteSchema()} />
+      <JsonLd data={[websiteSchema(), entityGraph()]} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }]} />
       <HomeHero />
 
@@ -234,6 +236,7 @@ export default function Home() {
 
       <MapSection />
       <Podium />
+      <EditorCard />
     </>
   );
 }

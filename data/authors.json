@@ -1,0 +1,19 @@
+{
+  "_comment": "Author profiles for bylines and schema. Add social/profile URLs to sameAs (e.g. Instagram, X, LinkedIn) to strengthen E-E-A-T.",
+  "dean-james": {
+    "name": "Dean James",
+    "role": "Founder & editor",
+    "shortBio": "Lifelong lover of proper beer, good food and the beautiful game. Dean started Brighton Beer Guide to help people find their next favourite pub.",
+    "image": "/authors/dean-james-192.webp",
+    "imageSmall": "/authors/dean-james-96.webp",
+    "url": "/about#dean-james",
+    "sameAs": [],
+    "knowsAbout": [
+      "Brighton & Hove pubs",
+      "Real ale and craft beer",
+      "Sunday roasts",
+      "Pub quizzes",
+      "Brighton & Hove Albion"
+    ]
+  }
+}

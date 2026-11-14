@@ -20,6 +20,9 @@ import { meta, pubTitle, pubDescription } from '@/lib/seo';
 import { pubSchema } from '@/lib/schema';
 import { Breadcrumbs, FEATURE_ICON, JsonLd, OsmMap, PageHeader, PubCard, SectionHeading } from '@/components/ui';
 import { CityMap } from '@/components/CityMap';
+import { Byline } from '@/components/Byline';
+import { webPageSchema } from '@/lib/author';
+import { abs } from '@/lib/seo';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -120,7 +123,7 @@ export default async function PubPage({ params }: Props) {
 
   return (
     <>
-      <JsonLd data={pubSchema(pub)} />
+      <JsonLd data={[pubSchema(pub), webPageSchema({ path: `/pubs/${pub.slug}`, name: pub.name, dateModified: pub.detailsCheckedAt, about: `${abs(`/pubs/${pub.slug}`)}#pub` })]} />
       <Breadcrumbs
         crumbs={[
           { name: 'Home', path: '/' },
@@ -145,6 +148,7 @@ export default async function PubPage({ params }: Props) {
           </p>
         }
       />
+      <Byline checked={pub.detailsCheckedAt} />
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
         <div className="min-w-0 space-y-12">

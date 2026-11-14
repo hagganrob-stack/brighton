@@ -5,6 +5,8 @@ import { meta, areaTitle, areaDescription } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
 import { AreaMap, Breadcrumbs, JsonLd, LinkPills, PageHeader, PubGrid, SectionHeading } from '@/components/ui';
 import { CityMap } from '@/components/CityMap';
+import { Byline } from '@/components/Byline';
+import { webPageSchema } from '@/lib/author';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -33,7 +35,7 @@ export default async function AreaPage({ params }: Props) {
 
   return (
     <>
-      <JsonLd data={itemListSchema(`Pubs in ${a.name}`, path, list.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` })))} />
+      <JsonLd data={[itemListSchema(`Pubs in ${a.name}`, path, list.map((p) => ({ name: p.name, path: `/pubs/${p.slug}` }))), webPageSchema({ path, name: `Pubs in ${a.name}`, dateModified: lastChecked, type: 'CollectionPage' })]} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'Areas', path: '/areas' }, { name: a.name, path }]} />
       <PageHeader
         kicker="Brighton & Hove"
@@ -52,6 +54,7 @@ export default async function AreaPage({ params }: Props) {
           </p>
         }
       />
+      <Byline checked={lastChecked} />
 
       {featureLinks.length > 0 && (
         <section aria-labelledby="area-features" className="mb-12">
