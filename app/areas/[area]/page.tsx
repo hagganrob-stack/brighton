@@ -4,6 +4,7 @@ import { areas, getArea, pubsInArea, ROUNDUPS, pubsWith, MIN_COMBO, monthYear, l
 import { meta, areaTitle, areaDescription } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
 import { AreaMap, Breadcrumbs, JsonLd, LinkPills, PageHeader, PubGrid, SectionHeading } from '@/components/ui';
+import { CityMap } from '@/components/CityMap';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -38,6 +39,7 @@ export default async function AreaPage({ params }: Props) {
         kicker="Brighton & Hove"
         title={`Pubs in ${a.name}`}
         icon={MapPin}
+        art={<CityMap id="area-map" eager highlightArea={a.slug} className="h-[115%] max-w-none shrink-0" />}
         stats={[
           { value: list.length, label: list.length === 1 ? 'pub' : 'pubs & bars' },
           { value: confirmed, label: 'with confirmed facilities' },

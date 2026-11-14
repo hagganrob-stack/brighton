@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { ArrowRight, Map } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { areas, pubsInArea, pubs } from '@/lib/data';
 import { meta } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
-import { Breadcrumbs, JsonLd, PageHeader } from '@/components/ui';
+import { Breadcrumbs, Hero, JsonLd } from '@/components/ui';
 
 export const metadata = meta(
   '/areas',
@@ -17,17 +17,19 @@ export default function AreasIndex() {
     <>
       <JsonLd data={itemListSchema('Brighton & Hove pub areas', '/areas', list.map(({ a }) => ({ name: `Pubs in ${a.name}`, path: `/areas/${a.slug}` })))} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'Areas', path: '/areas' }]} />
-      <PageHeader
+      <Hero
+        image="areas"
+        atTop={false}
         kicker="Brighton & Hove"
         title="Pubs by area"
-        icon={Map}
         stats={[
           { value: areas.length, label: 'neighbourhoods' },
           { value: pubs.length, label: 'pubs & bars' },
         ]}
-        intro={<p>From the Lanes to Rottingdean, pick a neighbourhood to see every pub in it, ranked.</p>}
-      />
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      >
+        <p>From the Lanes to Rottingdean, pick a neighbourhood to see every pub in it, ranked.</p>
+      </Hero>
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {list.map(({ a, n }) => (
           <li key={a.slug}>
             <Link

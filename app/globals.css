@@ -68,3 +68,114 @@ button:focus-visible {
 .prose-pub p + p {
   margin-top: 1rem;
 }
+
+/* ---- Wow layer: full-bleed sections, motion and type effects ------------------------------ */
+
+/* Break out of the centred page column to the full viewport width. */
+@utility full-bleed {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+}
+
+/* Gradient-filled display text (used on dark backgrounds only). */
+@utility text-gradient-light {
+  background-image: linear-gradient(100deg, #ffffff 0%, #dbeafe 45%, #7dd3fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+/* Outlined numerals for big decorative numbers. */
+@utility text-outline-blue {
+  color: transparent;
+  -webkit-text-stroke: 2px rgb(0 87 184 / 0.28);
+}
+
+@keyframes aurora {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, -4%, 0) scale(1.15);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+/* Transform-only, so above-the-fold text is painted immediately (no LCP delay). */
+@keyframes lift {
+  from {
+    transform: translateY(22px);
+  }
+  to {
+    transform: none;
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Glows are static: animating them alongside page clipping forced continuous repaints (Lighthouse -20). */
+.aurora,
+.aurora-slow {
+  contain: strict;
+}
+.marquee-track {
+  animation: marquee 70s linear infinite;
+}
+.pulse-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse-ring 2.2s ease-out 3;
+}
+/* Load-in for above-the-fold hero text. */
+.rise {
+  animation: lift 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-2 {
+  animation: lift 0.9s 0.12s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-3 {
+  animation: lift 0.9s 0.24s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+/* Scroll-driven reveal where supported; content is fully visible everywhere else. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 22%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora,
+  .aurora-slow,
+  .marquee-track,
+  .pulse-ring,
+  .rise,
+  .rise-2,
+  .rise-3,
+  .reveal {
+    animation: none !important;
+  }
+}

@@ -65,7 +65,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
           <SectionHeading id="quiz-days" eyebrow="Where the website names the night">
             Quiz nights by day
           </SectionHeading>
-          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <dl className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {WEEK.map((d) => {
               const on = list.filter((p) => p.features.pubQuiz.days?.includes(d));
               if (!on.length) return null;
@@ -77,7 +77,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
                   </dt>
                   <dd className="mt-2 space-y-1 text-sm">
                     {on.map((p) => (
-                      <Link key={p.slug} href={`/pubs/${p.slug}`} className="block font-medium text-blue hover:underline">
+                      <Link key={p.slug} href={`/pubs/${p.slug}`} prefetch={false} className="block font-medium text-blue hover:underline">
                         {p.name}
                       </Link>
                     ))}

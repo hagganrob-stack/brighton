@@ -19,6 +19,7 @@ import { DAYS, displayHours } from '@/lib/hours';
 import { meta, pubTitle, pubDescription } from '@/lib/seo';
 import { pubSchema } from '@/lib/schema';
 import { Breadcrumbs, FEATURE_ICON, JsonLd, OsmMap, PageHeader, PubCard, SectionHeading } from '@/components/ui';
+import { CityMap } from '@/components/CityMap';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -134,6 +135,7 @@ export default async function PubPage({ params }: Props) {
         title={pub.name}
         icon={Beer}
         stats={stats}
+        art={<CityMap id="pub-map" eager highlightPub={pub} className="h-[115%] max-w-none shrink-0" />}
         intro={
           <p className="flex items-start gap-1.5">
             <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0" />
@@ -159,7 +161,7 @@ export default async function PubPage({ params }: Props) {
             <SectionHeading id="facilities" eyebrow="From the pub's own website">
               Facilities
             </SectionHeading>
-            <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
               {FEATURE_ORDER.map((k) => (
                 <FeatureTile key={k} k={k} pub={pub} />
               ))}

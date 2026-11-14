@@ -98,13 +98,13 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
         )}
         <div className="min-w-0 flex-1">
           <H className="text-lg font-bold leading-snug text-navy">
-            <Link href={`/pubs/${pub.slug}`} className="after:absolute after:inset-0 group-hover:text-blue focus-visible:outline-none">
+            <Link href={`/pubs/${pub.slug}`} prefetch={false} className="after:absolute after:inset-0 group-hover:text-blue focus-visible:outline-none">
               {pub.name}
             </Link>
           </H>
-          <p className="mt-0.5 flex items-center gap-1 text-sm text-muted">
-            <MapPin aria-hidden="true" className="h-3.5 w-3.5 shrink-0" />
-            <span className="truncate">
+          <p className="mt-0.5 flex items-start gap-1 text-sm text-muted">
+            <MapPin aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <span>
               {street} · {areaName(pub.area)}
               {distanceM != null && <> · {formatDistance(distanceM)}</>}
             </span>
@@ -198,7 +198,7 @@ function StatChips({ stats }: { stats: Stat[] }) {
   return (
     <ul className="mt-6 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap" aria-label="At a glance">
       {stats.map((s) => (
-        <li key={s.label} className="rounded-2xl bg-white/10 px-3 py-2 ring-1 ring-white/25 backdrop-blur-sm sm:px-4">
+        <li key={s.label} className="rounded-2xl bg-white/10 px-3 py-2 ring-1 ring-white/25 sm:px-4">
           <span className="block font-display text-xl font-extrabold leading-none text-white sm:text-2xl">{s.value}</span>
           <span className="mt-1 block text-[11px] font-medium leading-tight text-white/90 sm:text-xs">{s.label}</span>
         </li>
@@ -209,7 +209,7 @@ function StatChips({ stats }: { stats: Stat[] }) {
 
 function Kicker({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-white ring-1 ring-white/30 backdrop-blur-sm">
+    <p className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-white ring-1 ring-white/30">
       <span className="h-1.5 w-1.5 rounded-full bg-sky" aria-hidden="true" />
       {children}
     </p>
@@ -217,15 +217,34 @@ function Kicker({ children }: { children: React.ReactNode }) {
 }
 
 /** Gradient banner used on pages without a photo. */
-export function PageHeader({ title, intro, kicker, icon: Icon, stats }: { title: string; intro?: React.ReactNode; kicker?: string; icon?: LucideIcon; stats?: Stat[] }) {
+export function PageHeader({
+  title,
+  intro,
+  kicker,
+  icon: Icon,
+  stats,
+  art,
+}: {
+  title: string;
+  intro?: React.ReactNode;
+  kicker?: string;
+  icon?: LucideIcon;
+  stats?: Stat[];
+  /** Decorative artwork (e.g. a CityMap) shown on the right; replaces the faded icon. */
+  art?: React.ReactNode;
+}) {
   return (
     <header className="relative -mx-4 mb-10 overflow-hidden bg-brand-gradient px-6 py-10 text-white sm:mx-0 sm:rounded-3xl sm:px-10 sm:py-12">
       <div className="stripes-faint pointer-events-none absolute inset-y-0 right-0 w-1/2 [mask-image:linear-gradient(to_left,black,transparent)]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-sky/30 blur-3xl" aria-hidden="true" />
-      {Icon && <Icon aria-hidden="true" className="pointer-events-none absolute -bottom-6 right-4 h-40 w-40 text-white/10 sm:right-10 sm:h-56 sm:w-56" strokeWidth={1.25} />}
+      {art && (
+        <div className="pointer-events-none absolute inset-y-0 right-0 flex w-full items-center justify-end opacity-35 sm:w-[55%] sm:opacity-90" aria-hidden="true">
+          {art}
+        </div>
+      )}
+      {Icon && !art && <Icon aria-hidden="true" className="pointer-events-none absolute -bottom-6 right-4 h-40 w-40 text-white/10 sm:right-10 sm:h-56 sm:w-56" strokeWidth={1.25} />}
       <div className="relative max-w-3xl">
         {kicker && <Kicker>{kicker}</Kicker>}
-        <h1 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl">{title}</h1>
+        <h1 className="text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl">{title}</h1>
         {intro && <div className="mt-4 space-y-2 text-base text-white/95 sm:text-lg [&_a]:font-semibold [&_a]:underline">{intro}</div>}
         {stats && <StatChips stats={stats} />}
       </div>
@@ -289,7 +308,7 @@ export function Hero({
       <div className="stripes-faint pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_top,black_10%,transparent_70%)] sm:[mask-image:linear-gradient(to_right,black_5%,transparent_60%)]" aria-hidden="true" />
       <div className="relative flex min-h-[36rem] flex-col justify-end px-6 pb-10 pt-28 sm:min-h-[30rem] sm:max-w-2xl sm:justify-center sm:px-12 sm:py-16">
         <Kicker>{kicker}</Kicker>
-        <h1 className="text-[2.6rem] font-extrabold leading-[1.02] text-white sm:text-6xl">{title}</h1>
+        <h1 className="text-[2.6rem] font-extrabold leading-[1.05] text-white sm:text-6xl">{title}</h1>
         <div className="mt-4 max-w-xl space-y-2 text-base text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.45)] sm:text-lg [&_a]:font-semibold [&_a]:underline">{children}</div>
         {stats && <StatChips stats={stats} />}
         {actions && <div className="mt-7 flex flex-wrap gap-3">{actions}</div>}

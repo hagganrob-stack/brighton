@@ -37,7 +37,7 @@ export default function AllPubs() {
             <ul className="space-y-1">
               {byLetter.get(l)!.sort((a, b) => a.name.replace(/^the\s+/i, '').localeCompare(b.name.replace(/^the\s+/i, ''))).map((p) => (
                 <li key={p.slug}>
-                  <Link href={`/pubs/${p.slug}`} className="font-semibold text-navy underline-offset-2 hover:text-blue hover:underline">{p.name}</Link>{' '}
+                  <Link href={`/pubs/${p.slug}`} prefetch={false} className="font-semibold text-navy underline-offset-2 hover:text-blue hover:underline">{p.name}</Link>{' '}
                   <span className="text-sm text-muted">{areaName(p.area)}</span>
                 </li>
               ))}

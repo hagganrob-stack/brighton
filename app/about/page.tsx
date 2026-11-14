@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { pubs, areas, monthYear, lastChecked, FEATURE_LABELS, FEATURE_ORDER } from '@/lib/data';
 import { meta, SITE_NAME } from '@/lib/seo';
-import { Info } from 'lucide-react';
-import { Breadcrumbs, PageHeader } from '@/components/ui';
+import { Breadcrumbs, Hero } from '@/components/ui';
 
 export const metadata = meta(
   '/about',
@@ -15,7 +14,7 @@ export default function About() {
   return (
     <>
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]} />
-      <PageHeader kicker="How it works" title="About this guide" icon={Info} intro={<p>An independent, non-commercial guide to {pubs.length} pubs and bars in Brighton & Hove. No pub has paid to be included, and there are no ads or affiliate links.</p>} />
+      <Hero image="seafront" atTop={false} kicker="How it works" title="About this guide"><p>An independent, non-commercial guide to {pubs.length} pubs and bars in Brighton & Hove. No pub has paid to be included, and there are no ads or affiliate links.</p></Hero>
       <div className="prose-pub grid max-w-5xl gap-5 text-[1.05rem] md:grid-cols-2 [&_a]:font-semibold [&_a]:text-blue">
         <section className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5 sm:p-8" aria-labelledby="sources">
           <h2 id="sources" className="mb-3 text-2xl font-extrabold text-navy">Where the information comes from</h2>

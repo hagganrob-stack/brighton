@@ -1,18 +1,102 @@
 {
   "_comment": "Photo headers. Source photos live in design/heroes/<name>.jpg. Crops are [left, top, right, bottom] in source pixels: 'wide' (~5:2) is used from 640px wide, 'tall' (~3:4) on phones. Run `python3 scripts/hero-images.py` after editing.",
   "seafront": {
-    "wide": [0, 300, 2000, 1100],
-    "tall": [1150, 0, 2000, 1123],
+    "wide": [
+      0,
+      900,
+      6000,
+      3300
+    ],
+    "tall": [
+      3450,
+      0,
+      6000,
+      3368
+    ],
     "alt": "Brighton beach and the seafront terraces in late-afternoon sun",
     "credit": null
   },
   "sunday-roasts": {
-    "wide": [0, 420, 1920, 1188],
-    "tall": [345, 0, 1574, 1639],
+    "wide": [
+      0,
+      420,
+      1920,
+      1188
+    ],
+    "tall": [
+      345,
+      0,
+      1574,
+      1639
+    ],
     "alt": "A roast beef dinner with Yorkshire puddings, roast potatoes, carrots, peas and gravy",
     "credit": {
       "text": "Photo: HotBabyHot, public domain, via Wikimedia Commons",
       "url": "https://commons.wikimedia.org/wiki/File:Roastbeef_with_yorkshire_puddings.jpg"
     }
+  },
+  "home": {
+    "wide": [
+      0,
+      700,
+      4409,
+      2464
+    ],
+    "tall": [
+      1230,
+      0,
+      3618,
+      3184
+    ],
+    "alt": "Brighton Palace Pier and the pebble beach on a sunny day, with gulls overhead",
+    "credit": null
+  },
+  "areas": {
+    "wide": [
+      0,
+      700,
+      5794,
+      3018
+    ],
+    "tall": [
+      2600,
+      0,
+      5497,
+      3863
+    ],
+    "alt": "Colourful beach huts along Hove seafront at sunset",
+    "credit": null
+  },
+  "beer-gardens": {
+    "wide": [
+      0,
+      600,
+      6339,
+      3136
+    ],
+    "tall": [
+      1700,
+      0,
+      4865,
+      4220
+    ],
+    "alt": "Friends clinking glasses of beer over plates of food at an outdoor table",
+    "credit": null
+  },
+  "live-music": {
+    "wide": [
+      0,
+      400,
+      5620,
+      2648
+    ],
+    "tall": [
+      600,
+      0,
+      3410,
+      3747
+    ],
+    "alt": "A band playing live in a pub, the singer at the microphone under coloured lights",
+    "credit": null
   }
 }
