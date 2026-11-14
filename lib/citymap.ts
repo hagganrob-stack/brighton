@@ -31,19 +31,18 @@ export function citySvg(variant: MapVariant) {
   const font = "font-family='ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif' font-weight='700'";
   const parts: string[] = [];
   parts.push(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${MAP_W} ${H}' width='${MAP_W}' height='${H}'>`);
-  parts.push(`<defs><radialGradient id='h'><stop offset='0' stop-color='#fff' stop-opacity='.16'/><stop offset='1' stop-color='#fff' stop-opacity='0'/></radialGradient></defs>`);
-  if (home) for (const p of list) parts.push(`<circle cx='${x(p.lng)}' cy='${y(p.lat)}' r='30' fill='url(#h)'/>`);
-  for (const p of list) parts.push(`<circle cx='${x(p.lng)}' cy='${y(p.lat)}' r='${home ? 6 : 4}' fill='#fff' opacity='${home ? 0.8 : 0.4}'/>`);
+  parts.push(`<defs><radialGradient id='h'><stop offset='0' stop-color='#0057b8' stop-opacity='.10'/><stop offset='1' stop-color='#0057b8' stop-opacity='0'/></radialGradient></defs>`);
+  for (const p of list) parts.push(`<circle cx='${x(p.lng)}' cy='${y(p.lat)}' r='${home ? 6 : 4.5}' fill='#0057b8' opacity='${home ? 0.6 : 0.28}'/>`);
   if (home) {
     for (const a of areas) {
       const ps = pubsInArea(a.slug).filter((p) => list.includes(p));
       if (!ps.length) continue;
       const cx = ps.reduce((s, p) => s + x(p.lng), 0) / ps.length + (LABEL_OFFSET[a.slug]?.[0] ?? 0);
       const cy = ps.reduce((s, p) => s + y(p.lat), 0) / ps.length - 16 + (LABEL_OFFSET[a.slug]?.[1] ?? 0);
-      parts.push(`<text x='${cx.toFixed(1)}' y='${cy.toFixed(1)}' text-anchor='middle' fill='#fff' font-size='26' ${font} stroke='#0a1a3a' stroke-width='6' stroke-linejoin='round' paint-order='stroke'>${a.name.replace(/&/g, '&amp;')}</text>`);
+      parts.push(`<text x='${cx.toFixed(1)}' y='${cy.toFixed(1)}' text-anchor='middle' fill='#0b1631' font-size='24' ${font} stroke='#f8fafc' stroke-width='7' stroke-linejoin='round' paint-order='stroke'>${a.name.replace(/&/g, '&amp;')}</text>`);
     }
   }
-  if (variant !== 'full') parts.push(`<text x='${MAP_W - 12}' y='${H - 14}' text-anchor='end' fill='#bae6fd' font-size='24' ${font}>Rottingdean →</text>`);
+  if (variant !== 'full') parts.push(`<text x='${MAP_W - 12}' y='${H - 14}' text-anchor='end' fill='#64748b' font-size='22' ${font}>Rottingdean →</text>`);
   parts.push('</svg>');
   return parts.join('');
 }

@@ -45,11 +45,11 @@ function FeatureTile({ k, pub }: { k: FeatureKey; pub: Pub }) {
   const no = f.value === 'no';
   return (
     <li
-      className={`relative flex items-start gap-3 rounded-2xl p-4 ring-1 transition ${
-        yes ? 'bg-paper shadow-card ring-blue/25' : 'bg-paper/60 ring-navy/10'
+      className={`relative flex items-start gap-3 rounded-2xl border p-4 transition ${
+        yes ? 'border-blue/30 bg-blue-soft/40' : 'border-line bg-paper'
       }`}
     >
-      <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${yes ? 'bg-brand-gradient text-white' : 'bg-wash text-muted'}`}>
+      <span className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${yes ? 'bg-blue text-white' : 'bg-canvas text-muted'}`}>
         <Icon aria-hidden="true" className="h-5 w-5" />
       </span>
       <div className="min-w-0 flex-1">
@@ -92,7 +92,7 @@ function DetailRow({ icon: Icon, label, children }: { icon: typeof Phone; label:
   return (
     <div className="relative min-h-9 pl-12">
       <dt className="text-xs font-bold uppercase tracking-wider text-muted">
-        <span className="absolute left-0 top-0 grid h-9 w-9 place-items-center rounded-xl bg-wash text-blue" aria-hidden="true">
+        <span className="absolute left-0 top-0 grid h-9 w-9 place-items-center rounded-xl bg-blue-soft text-blue" aria-hidden="true">
           <Icon className="h-4 w-4" />
         </span>
         {label}
@@ -135,7 +135,7 @@ export default async function PubPage({ params }: Props) {
         title={pub.name}
         icon={Beer}
         stats={stats}
-        art={<CityMap id="pub-map" eager highlightPub={pub} className="h-[115%] max-w-none shrink-0" />}
+        art={<CityMap id="pub-map" eager highlightPub={pub} className="w-full" />}
         intro={
           <p className="flex items-start gap-1.5">
             <MapPin aria-hidden="true" className="mt-1 h-4 w-4 shrink-0" />
@@ -148,8 +148,8 @@ export default async function PubPage({ params }: Props) {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
         <div className="min-w-0 space-y-12">
-          <section aria-labelledby="about-pub" className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5 sm:p-8">
-            <h2 id="about-pub" className="mb-4 text-2xl font-extrabold text-navy">About {pub.name}</h2>
+          <section aria-labelledby="about-pub" className="rounded-3xl bg-paper p-6 border border-line sm:p-8">
+            <h2 id="about-pub" className="mb-4 text-2xl font-bold text-navy">About {pub.name}</h2>
             <div className="prose-pub text-[1.05rem] text-ink">
               {pub.description.split('\n\n').map((para, i) => (
                 <p key={i}>{para}</p>
@@ -178,8 +178,8 @@ export default async function PubPage({ params }: Props) {
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
-          <section aria-labelledby="details" className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5">
-            <h2 id="details" className="mb-4 text-xl font-extrabold text-navy">Details</h2>
+          <section aria-labelledby="details" className="rounded-3xl bg-paper p-6 border border-line">
+            <h2 id="details" className="mb-4 text-xl font-bold text-navy">Details</h2>
             <dl className="space-y-4">
               <DetailRow icon={MapPin} label="Address">
                 {street}
@@ -207,14 +207,14 @@ export default async function PubPage({ params }: Props) {
             <a
               href={pub.googleMapsUrl}
               rel="noopener"
-              className="mt-6 flex items-center justify-center gap-2 rounded-full bg-brand-gradient px-5 py-3 font-semibold text-white shadow-lg shadow-blue/25 transition hover:-translate-y-0.5"
+              className="mt-6 flex items-center justify-center gap-2 rounded-full bg-blue px-5 py-3 font-semibold text-white transition hover:bg-blue-deep"
             >
               <Navigation aria-hidden="true" className="h-4 w-4" /> Get directions
             </a>
           </section>
 
-          <section aria-labelledby="hours" className="rounded-3xl bg-paper p-6 shadow-card ring-1 ring-navy/5">
-            <h2 id="hours" className="mb-4 flex items-center gap-2 text-xl font-extrabold text-navy">
+          <section aria-labelledby="hours" className="rounded-3xl bg-paper p-6 border border-line">
+            <h2 id="hours" className="mb-4 flex items-center gap-2 text-xl font-bold text-navy">
               <Clock aria-hidden="true" className="h-5 w-5 text-blue" /> Opening hours
             </h2>
             {pub.openingHours ? (
@@ -235,7 +235,7 @@ export default async function PubPage({ params }: Props) {
             <p className="mt-3 text-xs text-muted">From the pub&apos;s Google listing. Hours can change.</p>
           </section>
 
-          <p className="flex gap-3 rounded-3xl bg-wash p-5 text-sm text-ink">
+          <p className="flex gap-3 rounded-3xl bg-blue-soft p-5 text-sm text-ink">
             <CalendarCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-blue" />
             <span>
               <strong>Details last checked {monthYear(pub.detailsCheckedAt)}.</strong> Spotted something out of date?{' '}

@@ -39,7 +39,7 @@ export default async function AreaPage({ params }: Props) {
         kicker="Brighton & Hove"
         title={`Pubs in ${a.name}`}
         icon={MapPin}
-        art={<CityMap id="area-map" eager highlightArea={a.slug} className="h-[115%] max-w-none shrink-0" />}
+        art={<CityMap id="area-map" eager highlightArea={a.slug} className="w-full" />}
         stats={[
           { value: list.length, label: list.length === 1 ? 'pub' : 'pubs & bars' },
           { value: confirmed, label: 'with confirmed facilities' },

@@ -4,13 +4,14 @@ export const metadata = { title: 'Page not found', robots: { index: false } };
 
 export default function NotFound() {
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-brand-gradient px-6 py-20 text-center text-white">
-      <div className="stripes-faint pointer-events-none absolute inset-0" aria-hidden="true" />
-      <p className="relative font-display text-7xl font-extrabold text-white/90">404</p>
-      <h1 className="relative mt-2 text-4xl font-extrabold">Last orders: page not found</h1>
-      <p className="relative mt-4 text-white/90">That page doesn&apos;t exist, or the pub may have left the guide.</p>
-      <p className="relative mt-8">
-        <Link href="/" className="rounded-full bg-white px-6 py-3 font-semibold text-blue shadow-lg">Back to the guide</Link>
+    <div className="mx-auto max-w-xl py-24 text-center">
+      <p className="font-display text-7xl font-bold text-slate-200">404</p>
+      <h1 className="mt-4 text-4xl font-extrabold leading-[1.05]">Last orders: page not found</h1>
+      <p className="mt-4 text-muted">That page doesn&apos;t exist, or the pub may have left the guide.</p>
+      <p className="mt-8">
+        <Link href="/" className="rounded-full bg-blue px-6 py-3 font-semibold text-white hover:bg-blue-deep">
+          Back to the guide
+        </Link>
       </p>
     </div>
   );

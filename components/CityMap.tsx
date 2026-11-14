@@ -32,15 +32,15 @@ export function CityMap({
         <svg viewBox={`0 0 ${MAP_W} ${H}`} className="absolute inset-0 h-full w-full" focusable="false">
           <defs>
             <radialGradient id={`${id}-glow`}>
-              <stop offset="0%" stopColor="#7dd3fc" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#38bdf8" stopOpacity="0" />
+              <stop offset="0%" stopColor="#0057b8" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#0057b8" stopOpacity="0" />
             </radialGradient>
           </defs>
           {lit.map((p) => (
             <g key={p.slug}>
               <circle cx={x(p.lng)} cy={y(p.lat)} r={highlightPub ? 46 : 34} fill={`url(#${id}-glow)`} />
-              {highlightPub && <circle className="pulse-ring" cx={x(p.lng)} cy={y(p.lat)} r={14} fill="none" stroke="#7dd3fc" strokeWidth={3} />}
-              <circle cx={x(p.lng)} cy={y(p.lat)} r={highlightPub ? 9 : 7.5} fill="#ffffff" stroke="#7dd3fc" strokeWidth={highlightPub ? 4 : 3} />
+              {highlightPub && <circle className="pulse-ring" cx={x(p.lng)} cy={y(p.lat)} r={14} fill="none" stroke="#0057b8" strokeWidth={3} />}
+              <circle cx={x(p.lng)} cy={y(p.lat)} r={highlightPub ? 10 : 7} fill="#0057b8" stroke="#ffffff" strokeWidth={3} />
             </g>
           ))}
         </svg>

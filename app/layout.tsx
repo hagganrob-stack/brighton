@@ -34,7 +34,7 @@ function Logo({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
       alt=""
       fetchPriority={size === 'sm' ? 'high' : 'low'}
       loading={size === 'sm' ? 'eager' : 'lazy'}
-      className={size === 'sm' ? 'h-14 w-14 shrink-0 sm:h-16 sm:w-16' : 'h-20 w-20 shrink-0'}
+      className={size === 'sm' ? 'h-14 w-14 shrink-0 sm:h-16 sm:w-16' : 'h-16 w-16 shrink-0'}
     />
   );
 }
@@ -53,7 +53,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:rounded focus:bg-paper focus:px-3 focus:py-2">
           Skip to content
         </a>
-        <header className="sticky top-0 z-40 border-b border-navy/10 bg-white/85 backdrop-blur-md">
+        <header className="sticky top-0 z-40 border-b border-line bg-white/95">
           <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-1 px-4 py-2">
             <Link href="/" className="flex items-center gap-3 font-display text-lg font-extrabold tracking-tight text-navy sm:text-xl">
               <Logo />
@@ -66,7 +66,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ul className="flex gap-1 text-sm font-semibold">
                 {NAV.map((n) => (
                   <li key={n.href}>
-                    <Link href={n.href} className="block rounded-full px-3 py-1.5 text-navy transition hover:bg-wash hover:text-blue">
+                    <Link href={n.href} className="block rounded-full px-3 py-1.5 text-navy transition hover:bg-canvas hover:text-blue">
                       {n.label}
                     </Link>
                   </li>
@@ -74,47 +74,44 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </ul>
             </nav>
           </div>
-          <div className="h-1 bg-brand-gradient" aria-hidden="true" />
         </header>
 
         <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">
           {children}
         </main>
 
-        <footer className="relative mt-16 overflow-hidden bg-brand-gradient text-white">
-          <div className="stripes relative h-2.5" aria-hidden="true" />
-          <div className="stripes-faint pointer-events-none absolute inset-0" aria-hidden="true" />
-          <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-12 text-sm sm:grid-cols-[1.3fr_1fr_1fr]">
+        <footer className="mt-24 border-t border-line bg-canvas text-ink">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 text-sm sm:grid-cols-[1.3fr_1fr_1fr]">
             <div>
               <div className="flex items-center gap-3">
                 <Logo size="lg" />
-                <p className="font-display text-xl font-extrabold">{SITE_NAME}</p>
+                <p className="font-display text-xl font-extrabold text-navy">{SITE_NAME}</p>
               </div>
-              <p className="mt-4 max-w-sm text-white/90">
+              <p className="mt-4 max-w-sm text-muted">
                 An independent, non-commercial guide to {pubs.length} pubs in Brighton & Hove. Facilities are only listed when a pub&apos;s
                 own website states them.
               </p>
             </div>
             <div>
-              <p className="font-display text-base font-bold">Areas</p>
+              <p className="font-display text-base font-bold text-navy">Areas</p>
               <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
                 {areas.map((a) => (
                   <li key={a.slug}>
-                    <Link href={`/areas/${a.slug}`} className="text-white/90 hover:text-white hover:underline">{a.name}</Link>
+                    <Link href={`/areas/${a.slug}`} className="text-muted hover:text-blue">{a.name}</Link>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="font-display text-base font-bold">Best of</p>
+              <p className="font-display text-base font-bold text-navy">Best of</p>
               <ul className="mt-3 space-y-1.5">
                 {ROUNDUPS.map((r) => (
                   <li key={r.slug}>
-                    <Link href={`/best/${r.slug}`} className="text-white/90 hover:text-white hover:underline">{r.label}</Link>
+                    <Link href={`/best/${r.slug}`} className="text-muted hover:text-blue">{r.label}</Link>
                   </li>
                 ))}
                 <li>
-                  <Link href="/about" className="text-white/90 hover:text-white hover:underline">About this guide</Link>
+                  <Link href="/about" className="text-muted hover:text-blue">About this guide</Link>
                 </li>
               </ul>
             </div>

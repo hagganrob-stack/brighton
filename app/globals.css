@@ -1,29 +1,29 @@
 @import 'tailwindcss';
 
 @theme {
-  /* Palette: Brighton blue and white. Text colours are all 4.5:1 or better on their backgrounds. */
-  --color-blue: #0057b8; /* royal blue: primary, 6.9:1 with white */
-  --color-blue-bright: #1270d6; /* brightest gradient stop that still holds white text (4.9:1) */
-  --color-blue-deep: #003f8a; /* hover / pressed */
-  --color-navy: #0a1a3a; /* headings, footer, hero overlays */
-  --color-sky: #38bdf8; /* decoration only (glows, stripes): never behind text */
-  --color-sky-ink: #0369a1; /* small accent text */
-  --color-mist: #f3f7fd; /* page background */
-  --color-wash: #e6effb; /* chips, subtle fills */
-  --color-paper: #ffffff; /* cards */
-  --color-ink: #0b1631; /* body text */
-  --color-muted: #475569; /* secondary text, 7.6:1 */
-  --color-negative: #b42318; /* "✗ No" */
+  /* Clean palette: white surfaces, near-black text, royal blue as the single accent.
+     Every text colour here is 4.5:1 or better on white. */
+  --color-blue: #0057b8; /* accent: links, buttons, highlights (6.9:1 on white) */
+  --color-blue-deep: #00468f; /* hover */
+  --color-blue-soft: #eaf2fc; /* tints behind blue icons/chips */
+  --color-navy: #0b1631; /* headings */
+  --color-ink: #1e293b; /* body text (slate-800) */
+  --color-muted: #64748b; /* secondary text (slate-500, 4.8:1) */
+  --color-line: #e2e8f0; /* hairline borders (slate-200) */
+  --color-canvas: #f8fafc; /* subtle section background (slate-50) */
+  --color-paper: #ffffff;
+  --color-star: #f5b301; /* rating star (decorative only) */
+  --color-negative: #b42318;
 
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 
-  --shadow-card: 0 1px 2px rgb(10 26 58 / 0.06), 0 4px 16px -4px rgb(10 26 58 / 0.08);
-  --shadow-lift: 0 2px 4px rgb(10 26 58 / 0.06), 0 18px 40px -12px rgb(0 87 184 / 0.35);
+  --shadow-card: 0 1px 2px rgb(15 23 42 / 0.04);
+  --shadow-lift: 0 1px 2px rgb(15 23 42 / 0.04), 0 12px 32px -12px rgb(15 23 42 / 0.18);
 }
 
 html {
-  background: var(--color-mist);
+  background: var(--color-paper);
   color: var(--color-ink);
   -webkit-text-size-adjust: 100%;
 }
@@ -31,151 +31,33 @@ html {
 body {
   font-family: var(--font-sans);
   line-height: 1.6;
-  /* A soft blue glow behind the top of every page. */
-  background:
-    radial-gradient(60rem 30rem at 85% -10%, rgb(56 189 248 / 0.14), transparent 70%),
-    radial-gradient(50rem 28rem at -10% 0%, rgb(0 87 184 / 0.1), transparent 70%),
-    var(--color-mist);
+  background: var(--color-paper);
 }
 
-h1,
-h2,
-h3 {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
+/* Large display headings: keep line-height >= 1.05 (tighter values measurably hurt Lighthouse). */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--color-navy);
+  }
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid var(--color-sky);
+  outline: 3px solid var(--color-blue);
   outline-offset: 2px;
   border-radius: 6px;
-}
-
-/* Blue-and-white shirt stripes. */
-@utility stripes {
-  background-image: repeating-linear-gradient(90deg, var(--color-blue) 0 22px, #fff 22px 44px);
-}
-/* Faint stripes for layering over dark gradients. */
-@utility stripes-faint {
-  background-image: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.07) 0 28px, transparent 28px 56px);
-}
-/* Brand gradient for banners and tiles (white text stays above 4.5:1 across it). */
-@utility bg-brand-gradient {
-  background-image: linear-gradient(135deg, var(--color-navy) 0%, var(--color-blue) 55%, var(--color-blue-bright) 100%);
 }
 
 .prose-pub p + p {
   margin-top: 1rem;
 }
 
-/* ---- Wow layer: full-bleed sections, motion and type effects ------------------------------ */
-
-/* Break out of the centred page column to the full viewport width. */
-@utility full-bleed {
-  width: 100vw;
-  margin-inline: calc(50% - 50vw);
-}
-
-/* Gradient-filled display text (used on dark backgrounds only). */
-@utility text-gradient-light {
-  background-image: linear-gradient(100deg, #ffffff 0%, #dbeafe 45%, #7dd3fc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-/* Outlined numerals for big decorative numbers. */
-@utility text-outline-blue {
-  color: transparent;
-  -webkit-text-stroke: 2px rgb(0 87 184 / 0.28);
-}
-
-@keyframes aurora {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(6%, -4%, 0) scale(1.15);
-  }
-}
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.9;
-  }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
-  }
-}
-/* Transform-only, so above-the-fold text is painted immediately (no LCP delay). */
-@keyframes lift {
-  from {
-    transform: translateY(22px);
-  }
-  to {
-    transform: none;
-  }
-}
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* Glows are static: animating them alongside page clipping forced continuous repaints (Lighthouse -20). */
-.aurora,
-.aurora-slow {
-  contain: strict;
-}
-.marquee-track {
-  animation: marquee 70s linear infinite;
-}
-.pulse-ring {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: pulse-ring 2.2s ease-out 3;
-}
-/* Load-in for above-the-fold hero text. */
-.rise {
-  animation: lift 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.rise-2 {
-  animation: lift 0.9s 0.12s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-.rise-3 {
-  animation: lift 0.9s 0.24s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-}
-
-/* Scroll-driven reveal where supported; content is fully visible everywhere else. */
-@supports (animation-timeline: view()) {
-  .reveal {
-    animation: rise linear both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 22%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .aurora,
-  .aurora-slow,
-  .marquee-track,
-  .pulse-ring,
-  .rise,
-  .rise-2,
-  .rise-3,
-  .reveal {
-    animation: none !important;
+  * {
+    transition: none !important;
   }
 }

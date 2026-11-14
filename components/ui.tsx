@@ -20,17 +20,17 @@ export function Breadcrumbs({ crumbs }: { crumbs: Crumb[] }) {
     <>
       <JsonLd data={breadcrumbSchema(crumbs)} />
       {crumbs.length > 1 && (
-        <nav aria-label="Breadcrumb" className="mb-5 text-sm text-muted">
+        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-muted">
           <ol className="flex flex-wrap items-center gap-x-1.5">
             {crumbs.map((c, i) => (
               <li key={c.path} className="flex items-center gap-x-1.5">
-                {i > 0 && <span aria-hidden="true" className="text-navy/30">/</span>}
+                {i > 0 && <span aria-hidden="true" className="text-line">/</span>}
                 {i === crumbs.length - 1 ? (
                   <span aria-current="page" className="font-medium text-navy">
                     {c.name}
                   </span>
                 ) : (
-                  <Link href={c.path} className="hover:text-blue hover:underline">
+                  <Link href={c.path} className="hover:text-blue">
                     {c.name}
                   </Link>
                 )}
@@ -59,20 +59,24 @@ export const FEATURE_ICON: Record<FeatureKey, LucideIcon> = {
 export function FeatureChip({ k }: { k: FeatureKey }) {
   const Icon = FEATURE_ICON[k];
   return (
-    <li className="inline-flex items-center gap-1 rounded-full bg-wash px-2.5 py-1 text-xs font-semibold text-blue">
-      <Icon aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2.25} />
+    <li className="inline-flex items-center gap-1 rounded-full bg-canvas px-2.5 py-1 text-xs font-medium text-ink ring-1 ring-line">
+      <Icon aria-hidden="true" className="h-3.5 w-3.5 text-blue" strokeWidth={2.25} />
       {FEATURE_LABELS[k]}
     </li>
   );
 }
 
 // ---- Headings ----------------------------------------------------------------------------
+export function Eyebrow({ children }: { children: React.ReactNode }) {
+  return <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-blue">{children}</p>;
+}
+
 export function SectionHeading({ id, eyebrow, children, action }: { id: string; eyebrow?: string; children: React.ReactNode; action?: React.ReactNode }) {
   return (
-    <div className="mb-5 flex flex-wrap items-end justify-between gap-2">
+    <div className="mb-6 flex flex-wrap items-end justify-between gap-2">
       <div>
-        {eyebrow && <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-sky-ink">{eyebrow}</p>}
-        <h2 id={id} className="text-2xl font-extrabold text-navy sm:text-3xl">
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        <h2 id={id} className="text-2xl font-bold sm:text-3xl">
           {children}
         </h2>
       </div>
@@ -82,27 +86,37 @@ export function SectionHeading({ id, eyebrow, children, action }: { id: string; 
 }
 
 // ---- Cards ---------------------------------------------------------------------------------
+export function Rating({ pub, size = 'sm' }: { pub: Pub; size?: 'sm' | 'md' }) {
+  if (pub.rating == null) return null;
+  return (
+    <p className={`flex shrink-0 items-center gap-1 font-semibold text-navy ${size === 'md' ? 'text-base' : 'text-sm'}`} title={`${pub.reviewCount} Google reviews`}>
+      <Star aria-hidden="true" className={`${size === 'md' ? 'h-4 w-4' : 'h-3.5 w-3.5'} fill-star text-star`} />
+      <span className="sr-only">Google rating </span>
+      {pub.rating.toFixed(1)}
+    </p>
+  );
+}
+
 export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; distanceM?: number; rank?: number; headingLevel?: 2 | 3 }) {
   const H = `h${headingLevel}` as 'h2' | 'h3';
   const feats = yesFeatures(pub).filter((k) => k !== 'food' || !yesFeatures(pub).includes('sundayRoast'));
   const { street } = addressLines(pub);
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-paper p-5 shadow-card ring-1 ring-navy/5 transition duration-200 hover:-translate-y-1 hover:shadow-lift hover:ring-blue/30">
-      <div className="absolute inset-x-0 top-0 h-1 bg-brand-gradient opacity-0 transition group-hover:opacity-100" aria-hidden="true" />
+    <article className="group relative flex h-full flex-col rounded-2xl border border-line bg-paper p-5 transition duration-200 hover:border-slate-300 hover:shadow-lift">
       <div className="flex items-start gap-3">
         {rank != null && (
-          <span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-brand-gradient font-display text-sm font-extrabold text-white shadow-sm">
+          <span className="font-display text-sm font-bold tabular-nums text-muted">
             <span className="sr-only">Rank </span>
-            {rank}
+            {String(rank).padStart(2, '0')}
           </span>
         )}
         <div className="min-w-0 flex-1">
-          <H className="text-lg font-bold leading-snug text-navy">
+          <H className="text-lg font-bold leading-snug">
             <Link href={`/pubs/${pub.slug}`} prefetch={false} className="after:absolute after:inset-0 group-hover:text-blue focus-visible:outline-none">
               {pub.name}
             </Link>
           </H>
-          <p className="mt-0.5 flex items-start gap-1 text-sm text-muted">
+          <p className="mt-1 flex items-start gap-1 text-sm text-muted">
             <MapPin aria-hidden="true" className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <span>
               {street} · {areaName(pub.area)}
@@ -110,20 +124,14 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
             </span>
           </p>
         </div>
-        {pub.rating != null && (
-          <p className="flex shrink-0 items-center gap-1 rounded-full bg-navy px-2 py-1 text-xs font-bold text-white" title={`${pub.reviewCount} Google reviews`}>
-            <Star aria-hidden="true" className="h-3 w-3 fill-[#FFD23F] text-[#FFD23F]" />
-            <span className="sr-only">Google rating </span>
-            {pub.rating.toFixed(1)}
-          </p>
-        )}
+        <Rating pub={pub} />
       </div>
       {feats.length > 0 && (
         <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Confirmed facilities">
           {feats.slice(0, 4).map((k) => (
             <FeatureChip key={k} k={k} />
           ))}
-          {feats.length > 4 && <li className="self-center text-xs font-medium text-muted">+{feats.length - 4} more</li>}
+          {feats.length > 4 && <li className="self-center text-xs text-muted">+{feats.length - 4} more</li>}
         </ul>
       )}
     </article>
@@ -149,10 +157,10 @@ export function LinkPills({ links, label }: { links: { href: string; text: strin
         <li key={l.href}>
           <Link
             href={l.href}
-            className="inline-flex items-center gap-2 rounded-full bg-paper px-4 py-2 text-sm font-semibold text-navy shadow-card ring-1 ring-navy/10 transition hover:-translate-y-0.5 hover:bg-blue hover:text-white hover:ring-blue"
+            className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-4 py-2 text-sm font-medium text-navy transition hover:border-blue hover:text-blue"
           >
             {l.text}
-            {l.count != null && <span className="rounded-full bg-wash px-2 py-0.5 text-xs font-bold text-blue">{l.count}</span>}
+            {l.count != null && <span className="text-xs text-muted">{l.count}</span>}
           </Link>
         </li>
       ))}
@@ -164,7 +172,7 @@ export function LinkPills({ links, label }: { links: { href: string; text: strin
 function MapFrame({ src, title }: { src: string; title: string }) {
   return (
     <figure>
-      <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-wash shadow-card ring-1 ring-navy/10 sm:aspect-[16/9]">
+      <div className="aspect-[4/3] overflow-hidden rounded-2xl border border-line bg-canvas sm:aspect-[16/9]">
         <iframe src={src} title={title} loading="lazy" className="h-full w-full" referrerPolicy="no-referrer" />
       </div>
       <figcaption className="mt-2 text-xs text-muted">
@@ -194,70 +202,93 @@ export function AreaMap({ points, title }: { points: { lat: number; lng: number 
 // ---- Page headers --------------------------------------------------------------------------
 export type Stat = { value: string | number; label: string };
 
-function StatChips({ stats }: { stats: Stat[] }) {
+/** Inline figures with hairline dividers. */
+export function StatRow({ stats }: { stats: Stat[] }) {
   return (
-    <ul className="mt-6 grid grid-cols-3 gap-2 sm:flex sm:flex-wrap" aria-label="At a glance">
-      {stats.map((s) => (
-        <li key={s.label} className="rounded-2xl bg-white/10 px-3 py-2 ring-1 ring-white/25 sm:px-4">
-          <span className="block font-display text-xl font-extrabold leading-none text-white sm:text-2xl">{s.value}</span>
-          <span className="mt-1 block text-[11px] font-medium leading-tight text-white/90 sm:text-xs">{s.label}</span>
-        </li>
+    <dl className="mt-8 grid grid-cols-3 gap-4 sm:flex sm:flex-wrap sm:gap-x-8 sm:gap-y-4">
+      {stats.map((s, i) => (
+        <div key={s.label} className={`flex flex-col-reverse ${i > 0 ? 'border-l border-line pl-4 sm:pl-8' : ''}`}>
+          <dt className="mt-1 text-sm text-muted">{s.label}</dt>
+          <dd className="font-display text-2xl font-bold leading-none text-navy sm:text-3xl">{s.value}</dd>
+        </div>
       ))}
-    </ul>
+    </dl>
   );
 }
 
-function Kicker({ children }: { children: React.ReactNode }) {
+function HeaderText({ kicker, title, children, stats, actions }: { kicker?: string; title: string; children?: React.ReactNode; stats?: Stat[]; actions?: React.ReactNode }) {
   return (
-    <p className="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-white ring-1 ring-white/30">
-      <span className="h-1.5 w-1.5 rounded-full bg-sky" aria-hidden="true" />
-      {children}
-    </p>
+    <div className="max-w-2xl">
+      {kicker && <Eyebrow>{kicker}</Eyebrow>}
+      <h1 className="text-4xl font-extrabold leading-[1.05] sm:text-5xl lg:text-[3.5rem]">{title}</h1>
+      {children && <div className="mt-5 space-y-2 text-lg text-muted [&_a]:font-medium [&_a]:text-blue [&_a:hover]:underline">{children}</div>}
+      {actions && <div className="mt-8 flex flex-wrap gap-3">{actions}</div>}
+      {stats && <StatRow stats={stats} />}
+    </div>
   );
 }
 
-/** Gradient banner used on pages without a photo. */
+/** Plain page header on white, with optional artwork (e.g. a CityMap) on the right. */
 export function PageHeader({
   title,
   intro,
   kicker,
-  icon: Icon,
   stats,
   art,
 }: {
   title: string;
   intro?: React.ReactNode;
   kicker?: string;
+  /** Kept for API compatibility; plain headers no longer show a decorative icon. */
   icon?: LucideIcon;
   stats?: Stat[];
-  /** Decorative artwork (e.g. a CityMap) shown on the right; replaces the faded icon. */
   art?: React.ReactNode;
 }) {
   return (
-    <header className="relative -mx-4 mb-10 overflow-hidden bg-brand-gradient px-6 py-10 text-white sm:mx-0 sm:rounded-3xl sm:px-10 sm:py-12">
-      <div className="stripes-faint pointer-events-none absolute inset-y-0 right-0 w-1/2 [mask-image:linear-gradient(to_left,black,transparent)]" aria-hidden="true" />
-      {art && (
-        <div className="pointer-events-none absolute inset-y-0 right-0 flex w-full items-center justify-end opacity-35 sm:w-[55%] sm:opacity-90" aria-hidden="true">
-          {art}
-        </div>
-      )}
-      {Icon && !art && <Icon aria-hidden="true" className="pointer-events-none absolute -bottom-6 right-4 h-40 w-40 text-white/10 sm:right-10 sm:h-56 sm:w-56" strokeWidth={1.25} />}
-      <div className="relative max-w-3xl">
-        {kicker && <Kicker>{kicker}</Kicker>}
-        <h1 className="text-4xl font-extrabold leading-[1.05] tracking-[-0.03em] sm:text-6xl">{title}</h1>
-        {intro && <div className="mt-4 space-y-2 text-base text-white/95 sm:text-lg [&_a]:font-semibold [&_a]:underline">{intro}</div>}
-        {stats && <StatChips stats={stats} />}
-      </div>
+    <header className={`mb-14 ${art ? 'grid items-center gap-10 lg:grid-cols-[1.25fr_1fr]' : ''}`}>
+      <HeaderText kicker={kicker} title={title} stats={stats}>
+        {intro}
+      </HeaderText>
+      {art && <div className="rounded-3xl border border-line bg-canvas p-4 sm:p-6">{art}</div>}
     </header>
   );
 }
 
-// Photo header: art-directed image (tall crop on phones, wide banner from 640px) under a navy-to-blue
-// gradient so the overlaid text keeps its contrast. Images and crops are configured in data/heroes.json and
-// built by scripts/hero-images.py as AVIF with a WebP fallback.
+// Photo header: text on white beside the photo in its natural colours (no overlays or tints).
+// Images and crops are configured in data/heroes.json and built by scripts/hero-images.py (AVIF + WebP).
 type HeroImage = { alt: string; credit: { text: string; url: string } | null };
 const HEROES = heroesJson as unknown as Record<string, HeroImage>;
 export const hasHero = (name: string) => !name.startsWith('_') && name in HEROES;
+
+export function HeroPhoto({ image, className = '', priority = true }: { image: string; className?: string; priority?: boolean }) {
+  const img = HEROES[image];
+  // The 'tall' (3:4) crop is used at every size: the photo column is portrait-ish on desktop and full-width on phones.
+  return (
+    <figure className={className}>
+      <picture>
+        <source type="image/avif" srcSet={`/hero/${image}-tall-600.avif 600w, /hero/${image}-tall-900.avif 900w`} sizes="(min-width: 1024px) 480px, 100vw" />
+        <img
+          src={`/hero/${image}-tall-600.webp`}
+          srcSet={`/hero/${image}-tall-600.webp 600w, /hero/${image}-tall-900.webp 900w`}
+          sizes="(min-width: 1024px) 480px, 100vw"
+          width={600}
+          height={800}
+          alt={img.alt}
+          fetchPriority={priority ? 'high' : 'auto'}
+          loading={priority ? 'eager' : 'lazy'}
+          className="aspect-[4/3] w-full rounded-3xl object-cover lg:aspect-[4/5]"
+        />
+      </picture>
+      {img.credit && (
+        <figcaption className="mt-2 text-right text-xs text-muted">
+          <a href={img.credit.url} rel="noopener" className="hover:text-blue hover:underline">
+            {img.credit.text}
+          </a>
+        </figcaption>
+      )}
+    </figure>
+  );
+}
 
 export function Hero({
   image,
@@ -266,7 +297,6 @@ export function Hero({
   children,
   actions,
   stats,
-  atTop = true,
 }: {
   image: string;
   kicker: string;
@@ -274,52 +304,15 @@ export function Hero({
   children: React.ReactNode;
   actions?: React.ReactNode;
   stats?: Stat[];
-  /** True when the hero sits directly under the site header (bleeds into the page's top padding on phones). */
+  /** Kept for API compatibility. */
   atTop?: boolean;
 }) {
-  const img = HEROES[image];
-  const set = (shape: 'wide' | 'tall', ext: string) =>
-    shape === 'wide'
-      ? `/hero/${image}-wide-1280.${ext} 1280w, /hero/${image}-wide-1920.${ext} 1920w`
-      : `/hero/${image}-tall-600.${ext} 600w, /hero/${image}-tall-900.${ext} 900w`;
-  const wideSizes = '(min-width: 1184px) 1152px, 100vw';
   return (
-    <header className={`relative -mx-4 mb-12 overflow-hidden bg-navy sm:mx-0 sm:rounded-3xl sm:shadow-lift ${atTop ? '-mt-8 sm:mt-0' : ''}`}>
-      <picture>
-        <source media="(min-width: 640px)" type="image/avif" srcSet={set('wide', 'avif')} sizes={wideSizes} />
-        <source media="(min-width: 640px)" type="image/webp" srcSet={set('wide', 'webp')} sizes={wideSizes} />
-        <source type="image/avif" srcSet={set('tall', 'avif')} sizes="100vw" />
-        <img
-          src={`/hero/${image}-tall-600.webp`}
-          srcSet={set('tall', 'webp')}
-          sizes="100vw"
-          width={600}
-          height={800}
-          alt={img.alt}
-          fetchPriority="high"
-          className="absolute inset-0 h-full w-full object-cover object-center"
-        />
-      </picture>
-      {/* Navy at the text edge fading through royal blue to clear, plus faint shirt stripes. */}
-      <div
-        className="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 via-55% to-blue/10 sm:bg-gradient-to-r sm:from-navy/95 sm:via-blue/70 sm:via-50% sm:to-blue/0"
-        aria-hidden="true"
-      />
-      <div className="stripes-faint pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_top,black_10%,transparent_70%)] sm:[mask-image:linear-gradient(to_right,black_5%,transparent_60%)]" aria-hidden="true" />
-      <div className="relative flex min-h-[36rem] flex-col justify-end px-6 pb-10 pt-28 sm:min-h-[30rem] sm:max-w-2xl sm:justify-center sm:px-12 sm:py-16">
-        <Kicker>{kicker}</Kicker>
-        <h1 className="text-[2.6rem] font-extrabold leading-[1.05] text-white sm:text-6xl">{title}</h1>
-        <div className="mt-4 max-w-xl space-y-2 text-base text-white [text-shadow:0_1px_2px_rgb(0_0_0/0.45)] sm:text-lg [&_a]:font-semibold [&_a]:underline">{children}</div>
-        {stats && <StatChips stats={stats} />}
-        {actions && <div className="mt-7 flex flex-wrap gap-3">{actions}</div>}
-      </div>
-      {img.credit && (
-        <p className="absolute bottom-2 right-2 rounded-full bg-navy/85 px-2.5 py-0.5 text-[11px] text-white">
-          <a href={img.credit.url} rel="noopener" className="underline-offset-2 hover:underline">
-            {img.credit.text}
-          </a>
-        </p>
-      )}
+    <header className="mb-16 grid items-center gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-14">
+      <HeaderText kicker={kicker} title={title} stats={stats} actions={actions}>
+        {children}
+      </HeaderText>
+      <HeroPhoto image={image} />
     </header>
   );
 }
@@ -327,15 +320,12 @@ export function Hero({
 // ---- Buttons --------------------------------------------------------------------------------
 export function ButtonLink({ href, children, variant = 'primary' }: { href: string; children: React.ReactNode; variant?: 'primary' | 'ghost' }) {
   return variant === 'primary' ? (
-    <Link
-      href={href}
-      className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-blue shadow-lg shadow-navy/20 transition hover:-translate-y-0.5 hover:bg-wash"
-    >
+    <Link href={href} className="inline-flex items-center gap-2 rounded-full bg-blue px-5 py-3 font-semibold text-white transition hover:bg-blue-deep">
       {children}
       <ArrowRight aria-hidden="true" className="h-4 w-4" />
     </Link>
   ) : (
-    <Link href={href} className="inline-flex items-center gap-2 rounded-full px-5 py-3 font-semibold text-white ring-2 ring-white/70 transition hover:bg-white/10">
+    <Link href={href} className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 font-semibold text-navy transition hover:border-navy">
       {children}
     </Link>
   );
