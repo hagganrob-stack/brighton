@@ -148,7 +148,7 @@ export default async function PubPage({ params }: Props) {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
         <div className="min-w-0 space-y-12">
-          <section aria-labelledby="about-pub" className="rounded-3xl bg-paper p-6 border border-line sm:p-8">
+          <section aria-labelledby="about-pub" className="rounded-3xl card p-6 sm:p-8">
             <h2 id="about-pub" className="mb-4 text-2xl font-bold text-navy">About {pub.name}</h2>
             <div className="prose-pub text-[1.05rem] text-ink">
               {pub.description.split('\n\n').map((para, i) => (
@@ -178,7 +178,7 @@ export default async function PubPage({ params }: Props) {
         </div>
 
         <aside className="space-y-5 lg:sticky lg:top-28 lg:self-start">
-          <section aria-labelledby="details" className="rounded-3xl bg-paper p-6 border border-line">
+          <section aria-labelledby="details" className="rounded-3xl card p-6">
             <h2 id="details" className="mb-4 text-xl font-bold text-navy">Details</h2>
             <dl className="space-y-4">
               <DetailRow icon={MapPin} label="Address">
@@ -213,7 +213,7 @@ export default async function PubPage({ params }: Props) {
             </a>
           </section>
 
-          <section aria-labelledby="hours" className="rounded-3xl bg-paper p-6 border border-line">
+          <section aria-labelledby="hours" className="rounded-3xl card p-6">
             <h2 id="hours" className="mb-4 flex items-center gap-2 text-xl font-bold text-navy">
               <Clock aria-hidden="true" className="h-5 w-5 text-blue" /> Opening hours
             </h2>

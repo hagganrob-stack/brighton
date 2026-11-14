@@ -16,7 +16,7 @@ export default function About() {
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }]} />
       <Hero image="seafront" atTop={false} kicker="How it works" title="About this guide"><p>An independent, non-commercial guide to {pubs.length} pubs and bars in Brighton & Hove. No pub has paid to be included, and there are no ads or affiliate links.</p></Hero>
       <div className="prose-pub grid max-w-5xl gap-5 text-[1.05rem] md:grid-cols-2 [&_a]:font-semibold [&_a]:text-blue">
-        <section className="rounded-3xl bg-paper p-6 border border-line sm:p-8" aria-labelledby="sources">
+        <section className="rounded-3xl card p-6 sm:p-8" aria-labelledby="sources">
           <h2 id="sources" className="mb-3 text-2xl font-bold text-navy">Where the information comes from</h2>
           <p>
             Names, addresses, phone numbers, opening hours and ratings come from each venue&apos;s public Google Maps listing. We searched{' '}
@@ -29,21 +29,21 @@ export default function About() {
           </p>
           <p>We track: {FEATURE_ORDER.map((k) => FEATURE_LABELS[k].toLowerCase()).join(', ')}.</p>
         </section>
-        <section className="rounded-3xl bg-paper p-6 border border-line sm:p-8" aria-labelledby="descriptions">
+        <section className="rounded-3xl card p-6 sm:p-8" aria-labelledby="descriptions">
           <h2 id="descriptions" className="mb-3 text-2xl font-bold text-navy">How descriptions are written</h2>
           <p>
             Each pub description is built only from the facts above: location, rating, opening hours, confirmed facilities and the nearest
             pubs in the guide. We don&apos;t copy text from pub websites or reviews, and we don&apos;t add details we haven&apos;t checked.
           </p>
         </section>
-        <section className="rounded-3xl bg-paper p-6 border border-line sm:p-8" aria-labelledby="ranking">
+        <section className="rounded-3xl card p-6 sm:p-8" aria-labelledby="ranking">
           <h2 id="ranking" className="mb-3 text-2xl font-bold text-navy">How pubs are ranked</h2>
           <p>
             Lists are ordered by Google rating, weighted by number of reviews. That stops a 5.0 from a handful of reviews outranking a 4.6
             from hundreds. Area and feature combination pages only exist where at least three pubs qualify.
           </p>
         </section>
-        <section className="rounded-3xl bg-paper p-6 border border-line sm:p-8" aria-labelledby="freshness">
+        <section className="rounded-3xl card p-6 sm:p-8" aria-labelledby="freshness">
           <h2 id="freshness" className="mb-3 text-2xl font-bold text-navy">Keeping it up to date</h2>
           <p>
             Details were last checked in {monthYear(lastChecked)}, and each pub page shows when its own details were checked. Pubs change

@@ -102,7 +102,7 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
   const feats = yesFeatures(pub).filter((k) => k !== 'food' || !yesFeatures(pub).includes('sundayRoast'));
   const { street } = addressLines(pub);
   return (
-    <article className="group relative flex h-full flex-col rounded-2xl border border-line bg-paper p-5 transition duration-200 hover:border-slate-300 hover:shadow-lift">
+    <article className="group relative flex h-full flex-col card card-hover rounded-2xl p-5">
       <div className="flex items-start gap-3">
         {rank != null && (
           <span className="font-display text-sm font-bold tabular-nums text-muted">
@@ -249,7 +249,7 @@ export function PageHeader({
       <HeaderText kicker={kicker} title={title} stats={stats}>
         {intro}
       </HeaderText>
-      {art && <div className="rounded-3xl border border-line bg-canvas p-4 sm:p-6">{art}</div>}
+      {art && <div className="panel-grad rounded-3xl border border-line p-4 sm:p-6">{art}</div>}
     </header>
   );
 }

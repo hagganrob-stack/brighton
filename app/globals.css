@@ -61,3 +61,55 @@ button:focus-visible {
     transition: none !important;
   }
 }
+
+/* Card surface: white fading to a pale blue, a soft blue light from the top-right corner and a thin
+   decorative ring for shape. Static gradients only (no blur/filters), so it is cheap to render. */
+@utility card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid var(--color-line);
+  background-color: #ffffff;
+  background-image:
+    radial-gradient(110% 85% at 100% 0%, rgb(0 87 184 / 0.1) 0%, rgb(0 87 184 / 0.04) 38%, transparent 62%),
+    linear-gradient(180deg, #ffffff 35%, #f1f6fd 100%);
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 10px 28px -18px rgb(0 87 184 / 0.35);
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    top: -72px;
+    right: -72px;
+    width: 190px;
+    height: 190px;
+    border-radius: 9999px;
+    border: 1px solid rgb(0 87 184 / 0.12);
+    box-shadow: 0 0 0 26px rgb(0 87 184 / 0.035);
+    pointer-events: none;
+  }
+}
+@utility card-hover {
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s,
+    transform 0.2s;
+  &:hover {
+    border-color: rgb(0 87 184 / 0.35);
+    box-shadow:
+      0 1px 2px rgb(15 23 42 / 0.04),
+      0 18px 40px -18px rgb(0 87 184 / 0.45);
+    transform: translateY(-2px);
+  }
+}
+/* Gradient count badge (white text stays above 4.5:1 across it). */
+@utility badge-grad {
+  background-image: linear-gradient(135deg, var(--color-blue) 0%, #1270d6 100%);
+  color: #ffffff;
+}
+/* Soft blue panel for feature sections. */
+@utility panel-grad {
+  background-image: linear-gradient(135deg, #f8fafc 0%, #eef4fd 60%, #e3edfb 100%);
+}

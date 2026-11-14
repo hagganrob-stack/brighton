@@ -32,7 +32,7 @@ export default function AllPubs() {
       </nav>
       <div className="columns-1 gap-8 sm:columns-2 lg:columns-3">
         {letters.map((l) => (
-          <section key={l} id={`letter-${l}`} aria-labelledby={`h-${l}`} className="mb-6 break-inside-avoid scroll-mt-40 rounded-2xl bg-paper p-5 border border-line">
+          <section key={l} id={`letter-${l}`} aria-labelledby={`h-${l}`} className="mb-6 break-inside-avoid scroll-mt-40 rounded-2xl card p-5">
             <h2 id={`h-${l}`} className="mb-2 text-3xl font-bold text-blue">{l}</h2>
             <ul className="space-y-1">
               {byLetter.get(l)!.sort((a, b) => a.name.replace(/^the\s+/i, '').localeCompare(b.name.replace(/^the\s+/i, ''))).map((p) => (

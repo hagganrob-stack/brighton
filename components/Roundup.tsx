@@ -70,10 +70,10 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
               const on = list.filter((p) => p.features.pubQuiz.days?.includes(d));
               if (!on.length) return null;
               return (
-                <div key={d} className="rounded-2xl bg-paper p-4 border border-line">
+                <div key={d} className="rounded-2xl card p-4">
                   <dt className="flex items-center justify-between font-display text-lg font-bold text-navy">
                     {d}
-                    <span className="rounded-full bg-blue-soft px-2 py-0.5 text-xs font-bold text-blue">{on.length}</span>
+                    <span className="badge-grad rounded-full px-2 py-0.5 text-xs font-bold">{on.length}</span>
                   </dt>
                   <dd className="mt-2 space-y-1 text-sm">
                     {on.map((p) => (

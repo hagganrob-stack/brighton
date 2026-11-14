@@ -80,7 +80,7 @@ function BentoTile({ r }: { r: Roundup }) {
       <Link
         href={`/best/${r.slug}`}
         className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-6 transition duration-300 ${
-          photo ? 'text-white' : 'border border-line bg-paper hover:border-slate-300 hover:shadow-lift'
+          photo ? 'text-white' : 'card card-hover'
         }`}
       >
         {photo ? (
@@ -124,7 +124,7 @@ function BentoTile({ r }: { r: Roundup }) {
 // ---- Map section ------------------------------------------------------------------------------
 function MapSection() {
   return (
-    <section aria-labelledby="map-heading" className="mb-24 grid items-center gap-10 rounded-3xl border border-line bg-canvas p-6 sm:p-10 lg:grid-cols-[1fr_1.3fr]">
+    <section aria-labelledby="map-heading" className="mb-24 grid items-center gap-10 rounded-3xl border border-line panel-grad p-6 sm:p-10 lg:grid-cols-[1fr_1.3fr]">
       <div>
         <Eyebrow>The map</Eyebrow>
         <h2 id="map-heading" className="text-3xl font-bold leading-[1.05] sm:text-4xl">
@@ -174,7 +174,7 @@ function Podium() {
           const feats = yesFeatures(p).filter((k) => k !== 'food' || !yesFeatures(p).includes('sundayRoast')).slice(0, 3);
           return (
             <li key={p.slug}>
-              <article className="group relative flex h-full flex-col rounded-3xl border border-line bg-paper p-7 transition duration-300 hover:border-slate-300 hover:shadow-lift">
+              <article className="group relative flex h-full flex-col card card-hover rounded-3xl p-7">
                 <span className="font-display text-5xl font-bold leading-none text-slate-200" aria-hidden="true">
                   {i + 1}
                 </span>
