@@ -7,6 +7,8 @@ import { Breadcrumbs, ButtonLink, Eyebrow, FEATURE_ICON, FeatureChip, HeroPhoto,
 import { CityMap } from '@/components/CityMap';
 import { EditorCard } from '@/components/Byline';
 import { entityGraph } from '@/lib/author';
+import { HUB, SPOKES, christmasSeason } from '@/lib/christmas';
+import { GUIDES } from '@/lib/guides';
 
 export const metadata = meta(
   '/',
@@ -38,7 +40,7 @@ function HomeHero() {
           stats={[
             { value: pubs.length, label: 'pubs & bars' },
             { value: areas.length, label: 'neighbourhoods' },
-            { value: ROUNDUPS.length, label: 'guides' },
+            { value: GUIDES.length, label: 'guides' },
           ]}
         />
       </div>
@@ -216,12 +218,73 @@ function Podium() {
   );
 }
 
+// ---- Christmas (seasonal) -------------------------------------------------------------------------
+// Rendered only when the site is built in November or December. The inline script removes it from the page
+// at midnight on 1 January, so it disappears on time even before the next deploy (which drops it from the HTML).
+const SPOKE_IMAGE: Record<string, string> = {
+  'christmas-lunch-brighton': 'christmas-lunch',
+  'christmas-party-brighton': 'christmas-party',
+  'brighton-christmas-market': 'christmas',
+  'new-years-eve-pubs-brighton': 'new-years-eve',
+};
+
+function ChristmasBlock() {
+  const { inSeason, endsAt } = christmasSeason();
+  if (!inSeason) return null;
+  return (
+    <>
+      <section id="christmas-home" aria-labelledby="christmas-heading" className="mb-24">
+        <SectionHeading
+          id="christmas-heading"
+          eyebrow="Seasonal guide"
+          action={
+            <Link href={HUB.path} className="inline-flex items-center gap-1 font-semibold text-blue hover:underline">
+              The Christmas guide <ArrowRight aria-hidden="true" className="h-4 w-4" />
+            </Link>
+          }
+        >
+          Christmas in Brighton
+        </SectionHeading>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {SPOKES.map((s) => {
+            const img = SPOKE_IMAGE[s.slug];
+            return (
+              <li key={s.slug}>
+                <Link href={s.path} className="card card-hover group flex h-full flex-col overflow-hidden rounded-2xl">
+                  <picture>
+                    <source type="image/avif" srcSet={`/hero/${img}-tall-600.avif`} />
+                    <img
+                      src={`/hero/${img}-tall-600.webp`}
+                      width={600}
+                      height={800}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="aspect-[4/3] w-full object-cover"
+                    />
+                  </picture>
+                  <span className="flex flex-1 flex-col p-5">
+                    <span className="font-display text-lg font-bold leading-snug text-navy group-hover:text-blue">{s.h1.replace(/:.*/, '')}</span>
+                    <span className="mt-1.5 text-sm text-muted">{s.card}</span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+      <script dangerouslySetInnerHTML={{ __html: `if(Date.now()>=${endsAt})document.getElementById('christmas-home').remove()` }} />
+    </>
+  );
+}
+
 export default function Home() {
   return (
     <>
       <JsonLd data={[websiteSchema(), entityGraph()]} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }]} />
       <HomeHero />
+      <ChristmasBlock />
 
       <section aria-labelledby="by-feature" className="mb-24">
         <SectionHeading id="by-feature" eyebrow="Best of Brighton & Hove">

@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import { guideMenu, GUIDES } from '@/lib/guides';
 import { lastChecked, pubs } from '@/lib/data';
 import { meta } from '@/lib/seo';
+import { CHRISTMAS_PAGES } from '@/lib/christmas';
 import { itemListSchema } from '@/lib/schema';
 import { webPageSchema } from '@/lib/author';
 import { Breadcrumbs, JsonLd, PageHeader, SectionHeading } from '@/components/ui';
@@ -58,6 +59,24 @@ export default function GuidesPage() {
           </section>
         );
       })}
+      <section aria-labelledby="christmas" className="mb-14">
+        <SectionHeading id="christmas" eyebrow="Seasonal">
+          Christmas
+        </SectionHeading>
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CHRISTMAS_PAGES.map((p) => (
+            <li key={p.path}>
+              <Link href={p.path} className="card card-hover flex h-full flex-col rounded-2xl p-5">
+                <span className="flex items-start justify-between gap-3">
+                  <span className="font-display text-lg font-bold leading-snug text-navy">{p.h1.replace(/:.*/, '')}</span>
+                  <ArrowRight aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-blue" />
+                </span>
+                <span className="mt-2 text-sm text-muted">{p.card || p.description}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </>
   );
 }

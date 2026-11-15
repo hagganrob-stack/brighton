@@ -5,7 +5,7 @@ import { monthYear } from '@/lib/data';
 
 // Byline shown on content pages. Wording is deliberately accurate: Dean compiles and maintains the
 // guide; facility details come from each pub's own website and are dated, not "reviewed in person".
-export function Byline({ checked }: { checked: string }) {
+export function Byline({ checked, label }: { checked: string; /** Replaces "Details checked <Month Year>". */ label?: string }) {
   return (
     <div className="mb-12 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4 text-sm">
       <div className="flex items-center gap-3">
@@ -20,7 +20,7 @@ export function Byline({ checked }: { checked: string }) {
       </div>
       <p className="flex items-center gap-1.5 text-muted">
         <CalendarCheck aria-hidden="true" className="h-4 w-4 text-blue" />
-        Details checked {monthYear(checked)}
+        {label ?? `Details checked ${monthYear(checked)}`}
       </p>
       <Link href="/about#how-we-check" className="font-medium text-blue hover:underline">
         How we check pubs

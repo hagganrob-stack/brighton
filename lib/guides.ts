@@ -43,6 +43,8 @@ export type Guide = {
   howWeChose: string;
   faqs: Faq[];
   related: string[];
+  /** Extra related links to pages that aren't guides (e.g. the Christmas hub). */
+  links?: { href: string; label: string }[];
   /** Optional safety note shown above the list (e.g. drink responsibly). */
   note?: string;
   /** Features not repeated in entries because the whole page is about them. */
@@ -268,6 +270,7 @@ function build(): Guide[] {
           a: `Yes. ${listJoin(onFront.map((p) => p.name))} have seafront addresses, on roads such as King's Road, Madeira Drive and Marine Parade. Many more are a street or two back from the beach. See the beach bars and seafront pubs guide for the full list with distances.`,
         },
       ],
+      links: [{ href: '/christmas', label: 'Christmas in Brighton' }],
       related: ['pubs-in-the-lanes-brighton', 'kemp-town-pubs', 'pubs-and-bars-in-hove', 'brighton-beach-bars', 'pubs-near-brighton-station', 'brighton-pubs-with-food', 'pubs-with-live-music-in-brighton', 'pub-quiz-brighton', 'dog-friendly-pubs-brighton', 'pubs-showing-football-brighton', 'sunday-roast-brighton', 'craft-beer-brighton'],
     },
     // A02 ------------------------------------------------------------------------------------------

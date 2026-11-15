@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { pubs, areas, ROUNDUPS, combos, lastChecked, ROUNDUP_GUIDE, AREA_GUIDE } from '@/lib/data';
 import { GUIDES, guidePath } from '@/lib/guides';
 import { abs } from '@/lib/seo';
+import { CHRISTMAS_PAGES, lastReviewed } from '@/lib/christmas';
 
 export const dynamic = 'force-static';
 
@@ -11,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     entry('/', 1),
     entry('/guides', 0.8),
+    ...CHRISTMAS_PAGES.map((p) => entry(p.path, 0.8, new Date(lastReviewed(p.listed)))),
     entry('/areas', 0.7),
     entry('/about', 0.3),
     ...GUIDES.map((g) => entry(guidePath(g.slug), g.slug === 'pubs-in-brighton' ? 1 : 0.9)),

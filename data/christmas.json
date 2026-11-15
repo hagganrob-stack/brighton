@@ -1,0 +1,25 @@
+{
+  "_readme": "Hand-checked Christmas details, keyed by pub slug (the slug in /pubs/<slug>). Every field is optional. Anything here overrides what scripts/christmas-scan.mjs found on the pub's website, and only facts in this file (menu and booking links, capacities, Christmas Day opening) are ever stated on the site. Set verified_date (YYYY-MM-DD) to the day you checked; pages then say 'Confirmed by the pub on <date>'. Set a flag to false to keep a pub off a page. Copy the _example block, rename it to the slug, and delete the fields you don't need. The 'market' block powers /christmas/brighton-christmas-market: add the official page as source_url, and lat/lng (decimal degrees) to switch on the 'pubs near the market' list. Market name, dates and location text are shown only when source_url is set.",
+  "_example": {
+    "christmas_lunch": true,
+    "christmas_day_lunch": true,
+    "christmas_day_open": true,
+    "menu_url": "https://example.com/christmas-menu",
+    "booking_url": "https://example.com/book",
+    "party_bookings": true,
+    "party_capacity": 60,
+    "nye_event": true,
+    "nye_url": "https://example.com/new-years-eve",
+    "source_url": "https://example.com/christmas",
+    "verified_date": "2026-11-20"
+  },
+  "market": {
+    "name": null,
+    "source_url": null,
+    "lat": null,
+    "lng": null,
+    "dates": null,
+    "location": null,
+    "verified_date": null
+  }
+}

@@ -65,7 +65,13 @@ function CompactRow({ pub, guide }: { pub: Pub; guide: Guide }) {
 
 export function GuidePage({ guide }: { guide: Guide }) {
   const path = guidePath(guide.slug);
-  const related = guide.related.map((s) => getGuide(s)).filter((g): g is Guide => !!g);
+  const related = [
+    ...(guide.links ?? []),
+    ...guide.related
+      .map((s) => getGuide(s))
+      .filter((g): g is Guide => !!g)
+      .map((g) => ({ href: guidePath(g.slug), label: g.h1.replace(/:.*/, '') })),
+  ];
   const header = (
     <>
       {guide.intro.map((p, i) => (
@@ -178,9 +184,9 @@ export function GuidePage({ guide }: { guide: Guide }) {
           </h2>
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {related.map((g) => (
-              <li key={g.slug}>
-                <Link href={guidePath(g.slug)} className="card card-hover flex h-full items-center justify-between gap-3 rounded-2xl p-4">
-                  <span className="font-semibold text-navy">{g.h1.replace(/:.*/, '')}</span>
+              <li key={g.href}>
+                <Link href={g.href} className="card card-hover flex h-full items-center justify-between gap-3 rounded-2xl p-4">
+                  <span className="font-semibold text-navy">{g.label}</span>
                   <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0 text-blue" />
                 </Link>
               </li>

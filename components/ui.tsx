@@ -101,7 +101,20 @@ export function Rating({ pub, size = 'sm' }: { pub: Pub; size?: 'sm' | 'md' }) {
   );
 }
 
-export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; distanceM?: number; rank?: number; headingLevel?: 2 | 3 }) {
+export function PubCard({
+  pub,
+  distanceM,
+  rank,
+  headingLevel = 3,
+  children,
+}: {
+  pub: Pub;
+  distanceM?: number;
+  rank?: number;
+  headingLevel?: 2 | 3;
+  /** Extra content below the facilities. Links inside need `relative z-10` to sit above the card's link overlay. */
+  children?: React.ReactNode;
+}) {
   const H = `h${headingLevel}` as 'h2' | 'h3';
   const feats = yesFeatures(pub).filter((k) => k !== 'food' || !yesFeatures(pub).includes('sundayRoast'));
   const { street } = addressLines(pub);
@@ -138,6 +151,7 @@ export function PubCard({ pub, distanceM, rank, headingLevel = 3 }: { pub: Pub; 
           {feats.length > 4 && <li className="self-center text-xs text-muted">+{feats.length - 4} more</li>}
         </ul>
       )}
+      {children}
     </article>
   );
 }

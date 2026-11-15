@@ -89,9 +89,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                               </ul>
                             </div>
                           ))}
-                          <Link href="/guides" className="font-semibold text-blue hover:underline sm:col-span-3">
-                            See all guides →
-                          </Link>
+                          <p className="flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-4 sm:col-span-3">
+                            <Link href="/guides" className="font-semibold text-blue hover:underline">
+                              See all guides →
+                            </Link>
+                            <Link href="/christmas" className="font-semibold text-blue hover:underline">
+                              Christmas in Brighton →
+                            </Link>
+                          </p>
                         </div>
                       </div>
                     </li>
@@ -137,6 +142,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <p className="font-display text-base font-bold text-navy">Guides</p>
               <ul className="mt-3 space-y-1.5">
+                <li>
+                  <Link href="/christmas" className="text-muted hover:text-blue">
+                    Christmas in Brighton
+                  </Link>
+                </li>
                 {GUIDES.map((g) => (
                   <li key={g.slug}>
                     <Link href={guidePath(g.slug)} className="text-muted hover:text-blue">{g.h1.replace(/:.*/, '')}</Link>

@@ -177,5 +177,71 @@
     ],
     "alt": "Friends clinking pint glasses together over a pub table, seen from above",
     "credit": null
+  },
+  "christmas": {
+    "wide": [
+      0,
+      560,
+      1335,
+      1094
+    ],
+    "tall": [
+      0,
+      120,
+      1335,
+      1900
+    ],
+    "alt": "Mirror balls hanging among strings of fairy lights at night",
+    "credit": null
+  },
+  "christmas-lunch": {
+    "wide": [
+      0,
+      430,
+      1334,
+      964
+    ],
+    "tall": [
+      0,
+      120,
+      1334,
+      1899
+    ],
+    "alt": "Friends raising glasses of red wine over a Christmas dinner table, with a lit tree behind",
+    "credit": null,
+    "position": "50% 30%"
+  },
+  "christmas-party": {
+    "wide": [
+      0,
+      330,
+      2000,
+      1130
+    ],
+    "tall": [
+      440,
+      0,
+      1565,
+      1500
+    ],
+    "alt": "A group sharing drinks and a grazing board on a confetti-strewn table at a party",
+    "credit": null
+  },
+  "new-years-eve": {
+    "wide": [
+      0,
+      330,
+      1500,
+      930
+    ],
+    "tall": [
+      0,
+      0,
+      1500,
+      2000
+    ],
+    "alt": "Hands raising cocktails and fizz under balloons and falling confetti",
+    "credit": null,
+    "position": "50% 30%"
   }
 }
