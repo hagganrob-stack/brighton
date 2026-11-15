@@ -60,6 +60,8 @@ async function main() {
     for (const [key, rule] of Object.entries(RULES)) {
       if ((DROP[slug] || []).includes(key)) continue;
       for (const page of site.pages || []) {
+        // Booking terms and privacy pages describe contracts, not what the pub offers.
+        if (/terms|conditions|privacy|cookie/i.test(page.url)) continue;
         const re = new RegExp(rule.match.source, 'gi');
         let m;
         while ((m = re.exec(page.text || ''))) {
