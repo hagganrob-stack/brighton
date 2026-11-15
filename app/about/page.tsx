@@ -67,9 +67,9 @@ export default function About() {
           </p>
           <p>But with so many to choose from, finding the right pub isn&apos;t always easy.</p>
           <p>
-            Which ones serve a genuinely great pint? Where can you find the best <Link href="/best/sunday-roasts">Sunday roast</Link>? Who&apos;s{' '}
-            <Link href="/best/live-sport">showing the football</Link>? Which pubs have <Link href="/best/live-music">live music</Link> on a
-            Friday, or a <Link href="/best/pub-quizzes">quiz</Link> worth getting the team together for?
+            Which ones serve a genuinely great pint? Where can you find the best <Link href="/sunday-roast-brighton">Sunday roast</Link>? Who&apos;s{' '}
+            <Link href="/pubs-showing-football-brighton">showing the football</Link>? Which pubs have <Link href="/pubs-with-live-music-in-brighton">live music</Link> on a
+            Friday, or a <Link href="/pub-quiz-brighton">quiz</Link> worth getting the team together for?
           </p>
           <p>Dean found himself answering these questions for friends, family and anyone else looking for a recommendation.</p>
           <p>Eventually, he had a thought.</p>
@@ -108,7 +108,7 @@ export default function About() {
           <Callout>To help people find their next favourite pub and support the fantastic independent venues that make Brighton special.</Callout>
           <p>
             So have a browse, discover somewhere new and raise a glass to Brighton&apos;s brilliant pubs. Start with{' '}
-            <Link href="/pubs">all {pubs.length} pubs</Link> or <Link href="/areas">browse by neighbourhood</Link>.
+            <Link href="/pubs-in-brighton">all {pubs.length} pubs</Link> or <Link href="/areas">browse by neighbourhood</Link>.
           </p>
           <p>
             And if you happen to spot a big bearded bloke in a Brighton shirt, tucking into a Sunday roast with a pint on the go, there&apos;s a

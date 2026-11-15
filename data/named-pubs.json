@@ -1,0 +1,33 @@
+{
+  "_comment": "Pubs searched for by name (in addition to the area sweeps), e.g. keyword targets missing from the sweep. 'match' is a case-insensitive regex the result name must satisfy.",
+  "pubs": [
+    {
+      "q": "Brighton Belle pub Brighton",
+      "match": "brighton belle"
+    },
+    {
+      "q": "BrewDog Brighton",
+      "match": "brewdog"
+    },
+    {
+      "q": "Setting Sun pub Brighton",
+      "match": "setting sun"
+    },
+    {
+      "q": "Wagon and Horses pub Brighton",
+      "match": "wagg?on (and|&) horses"
+    },
+    {
+      "q": "Bristol Bar Brighton",
+      "match": "bristol bar"
+    },
+    {
+      "q": "Craft Beer Co Brighton",
+      "match": "craft beer co"
+    },
+    {
+      "q": "Black Horse pub Brighton",
+      "match": "black horse"
+    }
+  ]
+}

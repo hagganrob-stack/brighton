@@ -13,8 +13,7 @@ import {
   ROUNDUPS,
   hasCombo,
   type FeatureKey,
-  type Pub,
-} from '@/lib/data';
+  type Pub, roundupPath, areaPath } from '@/lib/data';
 import { DAYS, displayHours } from '@/lib/hours';
 import { meta, pubTitle, pubDescription } from '@/lib/seo';
 import { pubSchema } from '@/lib/schema';
@@ -23,6 +22,7 @@ import { CityMap } from '@/components/CityMap';
 import { Byline } from '@/components/Byline';
 import { webPageSchema } from '@/lib/author';
 import { abs } from '@/lib/seo';
+import { gettingThere, pubFaqs } from '@/lib/pubfaq';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
@@ -58,7 +58,7 @@ function FeatureTile({ k, pub }: { k: FeatureKey; pub: Pub }) {
       <div className="min-w-0 flex-1">
         <p className={`font-semibold ${yes ? 'text-navy' : 'text-muted'}`}>
           {yes && roundup ? (
-            <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : `/best/${roundup.slug}`} className="hover:text-blue hover:underline">
+            <Link href={hasCombo(roundup.slug, pub.area) ? `/best/${roundup.slug}/${pub.area}` : roundupPath(roundup.slug)} className="hover:text-blue hover:underline">
               {label}
             </Link>
           ) : (
@@ -111,6 +111,8 @@ export default async function PubPage({ params }: Props) {
   const area = areaName(pub.area);
   const { street, town, postcode } = addressLines(pub);
   const near = nearbyPubs(pub, 5);
+  const there = gettingThere(pub);
+  const faqs = pubFaqs(pub);
   const yes = FEATURE_ORDER.filter((k) => pub.features[k].value === 'yes');
   const website = pub.website ? pub.website.split('?')[0] : null;
   const websiteHost = website ? new URL(website).hostname.replace(/^www\./, '') : null;
@@ -123,12 +125,12 @@ export default async function PubPage({ params }: Props) {
 
   return (
     <>
-      <JsonLd data={[pubSchema(pub), webPageSchema({ path: `/pubs/${pub.slug}`, name: pub.name, dateModified: pub.detailsCheckedAt, about: `${abs(`/pubs/${pub.slug}`)}#pub` })]} />
+      <JsonLd data={[{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }, pubSchema(pub), webPageSchema({ path: `/pubs/${pub.slug}`, name: pub.name, dateModified: pub.detailsCheckedAt, about: `${abs(`/pubs/${pub.slug}`)}#pub` })]} />
       <Breadcrumbs
         crumbs={[
           { name: 'Home', path: '/' },
           { name: 'Areas', path: '/areas' },
-          { name: area, path: `/areas/${pub.area}` },
+          { name: area, path: areaPath(pub.area) },
           { name: pub.name, path: `/pubs/${pub.slug}` },
         ]}
       />
@@ -178,6 +180,36 @@ export default async function PubPage({ params }: Props) {
               Map
             </SectionHeading>
             <OsmMap lat={pub.lat} lng={pub.lng} title={`Map showing the location of ${pub.name} on ${street}, ${area}`} />
+          </section>
+
+          <section aria-labelledby="getting-there">
+            <SectionHeading id="getting-there" eyebrow={area}>
+              Getting there
+            </SectionHeading>
+            <div className="space-y-2 text-[1.05rem] text-ink">
+              {there.lines.map((l) => (
+                <p key={l}>{l}</p>
+              ))}
+              <p>
+                <Link href={areaPath(pub.area)} className="font-medium text-blue hover:underline">
+                  More pubs in {area}
+                </Link>
+              </p>
+            </div>
+          </section>
+
+          <section aria-labelledby="pub-faq">
+            <SectionHeading id="pub-faq" eyebrow="FAQ">
+              {pub.name}: questions
+            </SectionHeading>
+            <div className="space-y-3">
+              {faqs.map((f) => (
+                <div key={f.q} className="card rounded-2xl p-5">
+                  <h3 className="text-lg font-bold">{f.q}</h3>
+                  <p className="mt-2 text-ink">{f.a}</p>
+                </div>
+              ))}
+            </div>
           </section>
         </div>
 
@@ -255,7 +287,7 @@ export default async function PubPage({ params }: Props) {
             id="nearby"
             eyebrow="Within walking distance"
             action={
-              <Link href={`/areas/${pub.area}`} className="text-sm font-semibold text-blue hover:underline">
+              <Link href={areaPath(pub.area)} className="text-sm font-semibold text-blue hover:underline">
                 All pubs in {area}
               </Link>
             }

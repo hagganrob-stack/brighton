@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { type Roundup, type Area, ROUNDUPS, areas, pubsWith, MIN_COMBO, monthYear, lastChecked, pubs } from '@/lib/data';
+import { type Roundup, type Area, ROUNDUPS, areas, pubsWith, MIN_COMBO, monthYear, lastChecked, pubs, roundupPath, areaPath } from '@/lib/data';
 import { itemListSchema, type Crumb } from '@/lib/schema';
 import { Byline } from './Byline';
 import { webPageSchema } from '@/lib/author';
@@ -11,11 +11,11 @@ const WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }) {
   const list = pubsWith(roundup.key, area?.slug);
   const where = area ? area.name : 'Brighton & Hove';
-  const path = area ? `/best/${roundup.slug}/${area.slug}` : `/best/${roundup.slug}`;
+  const path = area ? `/best/${roundup.slug}/${area.slug}` : roundupPath(roundup.slug);
   const title = `${roundup.heading} in ${where}`;
   const crumbs: Crumb[] = [
     { name: 'Home', path: '/' },
-    { name: roundup.label, path: `/best/${roundup.slug}` },
+    { name: roundup.label, path: roundupPath(roundup.slug) },
     ...(area ? [{ name: area.name, path }] : []),
   ];
   const areaLinks = areas
@@ -24,7 +24,7 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
     .map(({ a, n }) => ({ href: `/best/${roundup.slug}/${a.slug}`, text: a.name, count: n }));
   const otherRoundups = ROUNDUPS.filter((r) => r.slug !== roundup.slug).map((r) => {
     const n = pubsWith(r.key, area?.slug).length;
-    const href = area && n >= MIN_COMBO ? `/best/${r.slug}/${area.slug}` : `/best/${r.slug}`;
+    const href = area && n >= MIN_COMBO ? `/best/${r.slug}/${area.slug}` : roundupPath(r.slug);
     return { href, text: area && n >= MIN_COMBO ? `${r.label} in ${area.name}` : r.label };
   });
   const kicker = area ? `${roundup.label} · Brighton & Hove` : 'Best of Brighton & Hove';
@@ -41,8 +41,8 @@ export function RoundupPage({ roundup, area }: { roundup: Roundup; area?: Area }
       </p>
       {area && (
         <p className="text-base">
-          See all <Link href={`/best/${roundup.slug}`}>{roundup.label.toLowerCase()} across Brighton & Hove</Link> or{' '}
-          <Link href={`/areas/${area.slug}`}>every pub in {area.name}</Link>.
+          See all <Link href={roundupPath(roundup.slug)}>{roundup.label.toLowerCase()} across Brighton & Hove</Link> or{' '}
+          <Link href={areaPath(area.slug)}>every pub in {area.name}</Link>.
         </p>
       )}
     </>

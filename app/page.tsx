@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight, MapPin } from 'lucide-react';
-import { pubs, areas, ROUNDUPS, pubsInArea, pubsWith, rank, monthYear, lastChecked, areaName, addressLines, yesFeatures, type Roundup } from '@/lib/data';
+import { pubs, areas, ROUNDUPS, pubsInArea, pubsWith, rank, monthYear, lastChecked, areaName, addressLines, yesFeatures, type Roundup, roundupPath, areaPath } from '@/lib/data';
 import { meta, SITE_NAME } from '@/lib/seo';
 import { websiteSchema } from '@/lib/schema';
 import { Breadcrumbs, ButtonLink, Eyebrow, FEATURE_ICON, FeatureChip, HeroPhoto, JsonLd, PubCard, Rating, SectionHeading, StatRow, hasHero } from '@/components/ui';
@@ -29,7 +29,7 @@ function HomeHero() {
           says so.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/best/sunday-roasts">Find a Sunday roast</ButtonLink>
+          <ButtonLink href="/sunday-roast-brighton">Find a Sunday roast</ButtonLink>
           <ButtonLink href="/areas" variant="ghost">
             Browse by area
           </ButtonLink>
@@ -80,7 +80,7 @@ function BentoTile({ r }: { r: Roundup }) {
   return (
     <li className={SPAN[r.slug]}>
       <Link
-        href={`/best/${r.slug}`}
+        href={roundupPath(r.slug)}
         className={`group relative flex h-full flex-col justify-between overflow-hidden rounded-3xl p-6 transition duration-300 ${
           photo ? 'text-white' : 'card card-hover'
         }`}
@@ -137,7 +137,7 @@ function MapSection() {
           {areas.map((a) => (
             <li key={a.slug}>
               <Link
-                href={`/areas/${a.slug}`}
+                href={areaPath(a.slug)}
                 className="inline-flex items-center gap-2 rounded-full border border-line bg-paper px-3.5 py-1.5 text-sm font-medium text-navy transition hover:border-blue hover:text-blue"
               >
                 {a.name}
@@ -163,7 +163,7 @@ function Podium() {
         id="top-rated"
         eyebrow="Ranked by Google rating, weighted by reviews"
         action={
-          <Link href="/pubs" className="inline-flex items-center gap-1 text-sm font-semibold text-blue hover:underline">
+          <Link href="/pubs-in-brighton" className="inline-flex items-center gap-1 text-sm font-semibold text-blue hover:underline">
             See all {pubs.length} pubs <ArrowRight aria-hidden="true" className="h-4 w-4" />
           </Link>
         }

@@ -11,6 +11,7 @@ import {
   monthYear,
   lastChecked,
 } from './data';
+import pubKeywords from '@/data/pub-keywords.json';
 
 export const SITE_NAME = 'The Brighton Beer Guide';
 const BRAND_SUFFIX = ' | Brighton Beer Guide';
@@ -53,6 +54,8 @@ export function meta(path: string, title: string, description: string, extra: Me
 // ---- Templates -------------------------------------------------------------------
 export function pubTitle(p: Pub) {
   if (p.customTitle) return p.customTitle;
+  const kw = (pubKeywords as Record<string, { title?: string }>)[p.slug];
+  if (kw?.title) return kw.title;
   const a = areaName(p.area);
   const options = [`${p.name}, ${a}: Hours, Food & Facilities`, `${p.name}, ${a}: Hours & Facilities`, `${p.name}, ${a}: Opening Hours`, `${p.name}, ${a}`, `${p.name}, Brighton`, p.name];
   return options.find((o) => o.length <= TITLE_MAX) ?? p.name;

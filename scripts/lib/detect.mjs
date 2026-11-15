@@ -7,7 +7,7 @@ const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'
 const NEGATION_BEFORE = /\b(no|not|never|don'?t|doesn'?t|isn'?t|aren'?t|won'?t|unfortunately|sorry|without|cannot|can'?t)\b[^.]{0,30}$/i;
 
 // Sentences that are directory/navigation chrome on group sites, not facts about this pub.
-const CHROME = /\b(find (a|your) (pub|local)|pubs? near (you|me)|search (for )?pubs|pubs with|all (our )?pubs|book a table at any|cookie|newsletter|if you(')?re interested in|if you are interested in|interested in (running|hosting)|\d+ (\w+ )?pubs (have|are|across)|across (all )?our (pubs|venues)|sign up|privacy policy|terms (and|&) conditions|gift cards?)\b/i;
+const CHROME = /\b(find (a|your) (pub|local)|pubs? near (you|me)|search (for )?pubs|pubs with|all (our )?pubs|book a table at any|cookie|newsletter|if you(')?re interested in|if you are interested in|interested in (running|hosting)|\d+ (\w+ )?pubs (have|are|across)|across (all )?our (pubs|venues)|sign up|privacy policy|terms (and|&) conditions|gift cards?|(all )?within walking|our stay|we (really )?enjoyed)\b/i;
 
 export const FEATURES = {
   beerGarden: {
@@ -54,6 +54,26 @@ export const FEATURES = {
     label: 'Step-free access',
     yes: /\b(step[- ]free|level access|wheelchair[- ](accessible|access|friendly)(?! (toilets?|loos?|bathrooms?|restrooms?|wc|seating|tables?|booths?))|accessible (for|to) wheelchair|disabled access|ramp(ed)? access|accessible entrance|fully accessible(?! (toilets?|loos?|bathrooms?|restrooms?|wc|seating|tables?|booths?)))\b/i,
     no: /\b(not (wheelchair |fully )?accessible|no (wheelchair|disabled|step[- ]free|level) access|not step[- ]free)\b/i,
+  },
+  veganOptions: {
+    label: 'Vegan options',
+    yes: /\b(vegan (options?|menu|dishes|roasts?|food|alternatives?|burgers?|choices?|friendly)|(vegetarian|veggie) (and|&|or) vegan|vegan (and|&|or) (vegetarian|veggie)|plant[- ]based (options?|menu|dishes))\b/i,
+    no: /\b(no vegan (options?|food))\b/i,
+  },
+  craftBeer: {
+    label: 'Craft beer',
+    yes: /\b(craft beers?|craft ales?|craft lagers?|craft (beer )?taps?|taproom|tap room|(rotating|guest) (keg|craft) )\b/i,
+    no: /\b(no craft beer)\b/i,
+  },
+  happyHour: {
+    label: 'Happy hour',
+    yes: /\b(happy hours?)\b/i,
+    no: /\b(no happy hour)\b/i,
+  },
+  brewery: {
+    label: 'Brews on site',
+    yes: /\b(our (own )?(on[- ]site )?(micro)?brewery|brewed (here |on[- ]site|in[- ]house)|brew (our own|on[- ]site|in[- ]house)|on[- ]site (micro)?brewery|in[- ]house (micro)?brewery|brewery tap)\b/i,
+    no: /\b(we (do not|don'?t) brew)\b/i,
   },
 };
 

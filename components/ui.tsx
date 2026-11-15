@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
-import { Accessibility, ArrowRight, Beef, Beer, Brain, Dog, MapPin, Music, Star, Trees, Trophy, Utensils } from 'lucide-react';
+import { Accessibility, ArrowRight, Beef, Beer, Brain, Clock, Dog, FlaskConical, Hop, Leaf, MapPin, Music, Star, Trees, Trophy, Utensils } from 'lucide-react';
 import { type Pub, type FeatureKey, FEATURE_LABELS, areaName, addressLines, yesFeatures, formatDistance } from '@/lib/data';
 import { breadcrumbSchema, type Crumb } from '@/lib/schema';
 import heroesJson from '@/data/heroes.json';
@@ -54,6 +54,10 @@ export const FEATURE_ICON: Record<FeatureKey, LucideIcon> = {
   liveSport: Trophy,
   realAle: Beer,
   stepFree: Accessibility,
+  veganOptions: Leaf,
+  craftBeer: Hop,
+  happyHour: Clock,
+  brewery: FlaskConical,
 };
 
 export function FeatureChip({ k }: { k: FeatureKey }) {

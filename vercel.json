@@ -1,0 +1,49 @@
+{
+  "redirects": [
+    {
+      "source": "/pubs",
+      "destination": "/pubs-in-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/best/sunday-roasts",
+      "destination": "/sunday-roast-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/best/pub-quizzes",
+      "destination": "/pub-quiz-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/best/dog-friendly",
+      "destination": "/dog-friendly-pubs-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/best/live-music",
+      "destination": "/pubs-with-live-music-in-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/best/live-sport",
+      "destination": "/pubs-showing-football-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/areas/kemptown",
+      "destination": "/kemp-town-pubs",
+      "permanent": true
+    },
+    {
+      "source": "/areas/the-lanes",
+      "destination": "/pubs-in-the-lanes-brighton",
+      "permanent": true
+    },
+    {
+      "source": "/areas/hove",
+      "destination": "/pubs-and-bars-in-hove",
+      "permanent": true
+    }
+  ]
+}

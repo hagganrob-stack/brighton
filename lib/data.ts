@@ -13,7 +13,11 @@ export type FeatureKey =
   | 'food'
   | 'liveSport'
   | 'realAle'
-  | 'stepFree';
+  | 'stepFree'
+  | 'veganOptions'
+  | 'craftBeer'
+  | 'happyHour'
+  | 'brewery';
 
 export interface Feature {
   value: FeatureValue;
@@ -88,6 +92,10 @@ export const FEATURE_LABELS: Record<FeatureKey, string> = {
   liveSport: 'Live sport',
   realAle: 'Real ale',
   stepFree: 'Step-free access',
+  veganOptions: 'Vegan options',
+  craftBeer: 'Craft beer',
+  happyHour: 'Happy hour',
+  brewery: 'Brews on site',
 };
 export const FEATURE_ORDER = Object.keys(FEATURE_LABELS) as FeatureKey[];
 
@@ -163,3 +171,46 @@ export function monthYear(iso: string) {
 }
 
 export const lastChecked = pubs.map((p) => p.detailsCheckedAt).sort().at(-1)!;
+
+// ---- Keyword-targeted URLs ------------------------------------------------------------------
+// Some feature roundups and area pages moved to keyword URLs (see lib/guides.ts). Old URLs 301 via vercel.json.
+export const ALL_PUBS_PATH = '/pubs-in-brighton';
+export const ROUNDUP_GUIDE: Record<string, string> = {
+  'sunday-roasts': '/sunday-roast-brighton',
+  'pub-quizzes': '/pub-quiz-brighton',
+  'dog-friendly': '/dog-friendly-pubs-brighton',
+  'live-music': '/pubs-with-live-music-in-brighton',
+  'live-sport': '/pubs-showing-football-brighton',
+};
+export const AREA_GUIDE: Record<string, string> = {
+  kemptown: '/kemp-town-pubs',
+  'the-lanes': '/pubs-in-the-lanes-brighton',
+  hove: '/pubs-and-bars-in-hove',
+};
+export const roundupPath = (slug: string) => ROUNDUP_GUIDE[slug] ?? `/best/${slug}`;
+export const areaPath = (slug: string) => AREA_GUIDE[slug] ?? `/areas/${slug}`;
+
+const STREET_ABBR: Record<string, string> = { St: 'Street', Rd: 'Road', Ave: 'Avenue', Pl: 'Place', Sq: 'Square', Terr: 'Terrace', Ter: 'Terrace', Ln: 'Lane', Dr: 'Drive', Gdns: 'Gardens', Pde: 'Parade', Cres: 'Crescent', Gr: 'Grove' };
+/** "10 Ship St" -> "Ship Street" (for prose). */
+export function streetName(p: Pub) {
+  const s = addressLines(p).street.replace(/^\d+[a-z]?(\s*[-–]\s*\d+[a-z]?)?\s+/i, '').trim();
+  return s.replace(/\b([A-Z][a-z]{1,3})\.?$/, (m, w) => STREET_ABBR[w] || m);
+}
+
+// Railway stations within Brighton & Hove, for "getting there".
+export const STATIONS = [
+  { name: 'Brighton', lat: 50.829, lng: -0.141 },
+  { name: 'Hove', lat: 50.8352, lng: -0.1709 },
+  { name: 'London Road (Brighton)', lat: 50.8367, lng: -0.1365 },
+  { name: 'Preston Park', lat: 50.8459, lng: -0.1551 },
+  { name: 'Moulsecoomb', lat: 50.8467, lng: -0.1189 },
+  { name: 'Aldrington', lat: 50.8364, lng: -0.1837 },
+];
+function metresBetween(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
+  const toRad = (d: number) => (d * Math.PI) / 180;
+  const h = Math.sin(toRad(b.lat - a.lat) / 2) ** 2 + Math.cos(toRad(a.lat)) * Math.cos(toRad(b.lat)) * Math.sin(toRad(b.lng - a.lng) / 2) ** 2;
+  return Math.round(2 * 6371000 * Math.asin(Math.sqrt(h)));
+}
+export function nearestStation(p: Pub) {
+  return STATIONS.map((s) => ({ ...s, m: metresBetween(p, s) })).sort((a, b) => a.m - b.m)[0];
+}

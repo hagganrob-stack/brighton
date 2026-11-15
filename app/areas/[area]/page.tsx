@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { MapPin } from 'lucide-react';
-import { areas, getArea, pubsInArea, ROUNDUPS, pubsWith, MIN_COMBO, monthYear, lastChecked } from '@/lib/data';
+import { AREA_GUIDE, areas, getArea, pubsInArea, ROUNDUPS, pubsWith, MIN_COMBO, monthYear, lastChecked, areaPath } from '@/lib/data';
 import { meta, areaTitle, areaDescription } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
 import { AreaMap, Breadcrumbs, JsonLd, LinkPills, PageHeader, PubGrid, SectionHeading } from '@/components/ui';
@@ -10,7 +10,7 @@ import { webPageSchema } from '@/lib/author';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return areas.map((a) => ({ area: a.slug }));
+  return areas.filter((a) => !AREA_GUIDE[a.slug]).map((a) => ({ area: a.slug }));
 }
 
 type Props = { params: Promise<{ area: string }> };
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   const a = getArea((await params).area);
   if (!a) return {};
   const list = pubsInArea(a.slug);
-  return meta(`/areas/${a.slug}`, areaTitle(a, list.length), areaDescription(a, list.length, list));
+  return meta(areaPath(a.slug), areaTitle(a, list.length), areaDescription(a, list.length, list));
 }
 
 export default async function AreaPage({ params }: Props) {
@@ -31,7 +31,7 @@ export default async function AreaPage({ params }: Props) {
     .map(({ r, n }) => ({ href: `/best/${r.slug}/${a.slug}`, text: `${r.label} in ${a.name}`, count: n }));
   const confirmed = list.filter((p) => Object.values(p.features).some((f) => f.value === 'yes')).length;
   const others = areas.filter((x) => x.slug !== a.slug);
-  const path = `/areas/${a.slug}`;
+  const path = areaPath(a.slug);
 
   return (
     <>
@@ -83,7 +83,7 @@ export default async function AreaPage({ params }: Props) {
         <SectionHeading id="other-areas" eyebrow="Keep exploring">
           Other areas
         </SectionHeading>
-        <LinkPills label="Other areas" links={others.map((o) => ({ href: `/areas/${o.slug}`, text: o.name, count: pubsInArea(o.slug).length }))} />
+        <LinkPills label="Other areas" links={others.map((o) => ({ href: areaPath(o.slug), text: o.name, count: pubsInArea(o.slug).length }))} />
       </section>
     </>
   );

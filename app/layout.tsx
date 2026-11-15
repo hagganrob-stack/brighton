@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import Link from 'next/link';
-import { areas, ROUNDUPS, pubs } from '@/lib/data';
+import { areas, ROUNDUPS, pubs, roundupPath, areaPath } from '@/lib/data';
 import { SITE_NAME, SITE_URL } from '@/lib/seo';
+import { GUIDES, guidePath } from '@/lib/guides';
 import './globals.css';
 
 const bricolage = localFont({
@@ -40,9 +41,9 @@ function Logo({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
 }
 
 const NAV = [
-  { href: '/pubs', label: 'All pubs' },
+  { href: '/pubs-in-brighton', label: 'All pubs' },
   { href: '/areas', label: 'Areas' },
-  { href: '/best/sunday-roasts', label: 'Best of' },
+  { href: '/sunday-roast-brighton', label: 'Best of' },
   { href: '/about', label: 'About' },
 ];
 
@@ -81,7 +82,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </main>
 
         <footer className="mt-24 border-t border-line bg-canvas text-ink">
-          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 text-sm sm:grid-cols-[1.3fr_1fr_1fr]">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 text-sm sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1fr_1fr]">
             <div>
               <div className="flex items-center gap-3">
                 <Logo size="lg" />
@@ -97,7 +98,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
                 {areas.map((a) => (
                   <li key={a.slug}>
-                    <Link href={`/areas/${a.slug}`} className="text-muted hover:text-blue">{a.name}</Link>
+                    <Link href={areaPath(a.slug)} className="text-muted hover:text-blue">{a.name}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="font-display text-base font-bold text-navy">Guides</p>
+              <ul className="mt-3 space-y-1.5">
+                {GUIDES.map((g) => (
+                  <li key={g.slug}>
+                    <Link href={guidePath(g.slug)} className="text-muted hover:text-blue">{g.h1.replace(/:.*/, '')}</Link>
                   </li>
                 ))}
               </ul>
@@ -107,7 +118,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <ul className="mt-3 space-y-1.5">
                 {ROUNDUPS.map((r) => (
                   <li key={r.slug}>
-                    <Link href={`/best/${r.slug}`} className="text-muted hover:text-blue">{r.label}</Link>
+                    <Link href={roundupPath(r.slug)} className="text-muted hover:text-blue">{r.label}</Link>
                   </li>
                 ))}
                 <li>

@@ -1,0 +1,95 @@
+{
+  "_comment": "Tier B keyword targets: pub slug -> primary keyword and title (60 chars max). The title overrides the template; customTitle in pubs.json still wins.",
+  "the-chimney-house": {
+    "keyword": "chimney house brighton",
+    "title": "The Chimney House, Brighton: Hours, Food & Map"
+  },
+  "victory": {
+    "keyword": "the victory brighton",
+    "title": "The Victory, Brighton: Hours, Map & Nearby Pubs"
+  },
+  "the-hole-in-the-wall": {
+    "keyword": "hole in the wall brighton",
+    "title": "The Hole in the Wall, Brighton: Hours & Map"
+  },
+  "bison-beer-bar-and-bottleshop": {
+    "keyword": "bison beer brighton",
+    "title": "Bison Beer, Brighton & Hove: Hours & Map"
+  },
+  "the-hop-poles": {
+    "keyword": "hop poles brighton",
+    "title": "The Hop Poles, Brighton: Hours, Map & Nearby Pubs"
+  },
+  "the-cricketers": {
+    "keyword": "cricketers brighton",
+    "title": "The Cricketers, Brighton: Hours, Food & Map"
+  },
+  "bath-arms": {
+    "keyword": "bath arms brighton",
+    "title": "The Bath Arms, Brighton: Hours, Real Ale & Map"
+  },
+  "the-battle-of-trafalgar": {
+    "keyword": "battle of trafalgar brighton",
+    "title": "The Battle of Trafalgar, Brighton: Hours & Map"
+  },
+  "hand-in-hand": {
+    "keyword": "hand in hand pub brighton",
+    "title": "Hand in Hand Pub, Brighton: Hours, Beer & Map"
+  },
+  "fountainhead": {
+    "keyword": "fountain head pub brighton",
+    "title": "Fountain Head Pub, Brighton: Hours & Map"
+  },
+  "royal-sovereign": {
+    "keyword": "royal sovereign brighton",
+    "title": "The Royal Sovereign, Brighton: Hours & Map"
+  },
+  "the-robin-hood": {
+    "keyword": "robin hood pub brighton",
+    "title": "The Robin Hood Pub, Brighton: Hours & Map"
+  },
+  "the-foundry": {
+    "keyword": "the foundry brighton",
+    "title": "The Foundry, Brighton: Hours, Map & Nearby Pubs"
+  },
+  "the-evening-star": {
+    "keyword": "evening star pub brighton",
+    "title": "The Evening Star Pub, Brighton: Hours & Map"
+  },
+  "crown-and-anchor": {
+    "keyword": "crown and anchor brighton",
+    "title": "Crown and Anchor, Brighton: Hours, Map & Nearby Pubs"
+  },
+  "dover-castle": {
+    "keyword": "dover castle brighton",
+    "title": "The Dover Castle, Brighton: Hours, Food & Map"
+  },
+  "the-setting-sun": {
+    "keyword": "setting sun brighton",
+    "title": "The Setting Sun, Brighton: Hours, Food & Map"
+  },
+  "ye-olde-king-and-queen-brighton": {
+    "keyword": "the king and queen brighton",
+    "title": "The King and Queen, Brighton: Hours & Map"
+  },
+  "the-waggon-and-horses": {
+    "keyword": "wagon and horses brighton",
+    "title": "Wagon and Horses (Waggon & Horses), Brighton"
+  },
+  "the-greys-freehouse": {
+    "keyword": "the greys brighton",
+    "title": "The Greys, Brighton: Hours, Live Music & Map"
+  },
+  "the-bristol-bar": {
+    "keyword": "bristol bar brighton",
+    "title": "The Bristol Bar, Brighton: Hours, Food & Map"
+  },
+  "the-independent-taproom-and-beer-shop": {
+    "keyword": "the independent brighton",
+    "title": "The Independent, Brighton: Taproom Hours & Map"
+  },
+  "the-black-horse": {
+    "keyword": "black horse brighton",
+    "title": "The Black Horse, Brighton: Hours, Sport & Map"
+  }
+}

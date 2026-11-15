@@ -76,8 +76,8 @@ function toPub(r) {
   return {
     placeId: r.place_id,
     name: r.title.trim(),
-    googleType: r.type || null,
-    googleTypes: r.types || [],
+    googleType: (Array.isArray(r.type) ? r.type[0] : r.type) || null,
+    googleTypes: r.types || (Array.isArray(r.type) ? r.type : []),
     address: r.address || null,
     postcode: extractPostcode(r.address),
     lat,
@@ -124,6 +124,34 @@ async function main() {
         if (results.length < 20) break; // no more pages
       }
     }
+  }
+
+  // Named pubs (keyword targets the area sweeps missed). One search each, cached like the rest.
+  const named = (await readJson('data/named-pubs.json'))?.pubs || [];
+  for (const n of named) {
+    const centre = { slug: `named-${slugify(n.q)}`, name: n.q, lat: 50.8255, lng: -0.1395 };
+    const data = await search(centre, n.q, 0);
+    const re = new RegExp(n.match, 'i');
+    // A single-place answer comes back as place_results; a list as local_results.
+    const candidates = [...(data.place_results ? [data.place_results] : []), ...(data.local_results || [])];
+    const r = candidates.find((c) => c.place_id && re.test(c.title || '') && isPubOrBar({ ...c, type: Array.isArray(c.type) ? c.type[0] : c.type }));
+    if (!r) {
+      console.log(`  named: no match for "${n.q}"`);
+      continue;
+    }
+    if (byId.has(r.place_id)) continue;
+    const pub = toPub(r);
+    pub.area = assignArea(pub);
+    if (!/^BN[123]\b/.test(pub.postcode || '') || !pub.area) {
+      console.log(`  named: "${r.title}" is outside the guide area (${pub.postcode})`);
+      continue;
+    }
+    if (/permanently closed/i.test(r.open_state || r.hours || '')) {
+      console.log(`  named: "${r.title}" is permanently closed`);
+      continue;
+    }
+    byId.set(r.place_id, pub);
+    console.log(`  named: added ${r.title} (${pub.area})`);
   }
 
   // Preserve enrichment/description/custom fields from a previous run.

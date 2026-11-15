@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
-import { ROUNDUPS, getRoundup, pubsWith } from '@/lib/data';
+import { ROUNDUP_GUIDE, ROUNDUPS, getRoundup, pubsWith } from '@/lib/data';
 import { meta, roundupTitle, roundupDescription } from '@/lib/seo';
 import { RoundupPage } from '@/components/Roundup';
 
 export const dynamicParams = false;
 export function generateStaticParams() {
-  return ROUNDUPS.map((r) => ({ feature: r.slug }));
+  return ROUNDUPS.filter((r) => !ROUNDUP_GUIDE[r.slug]).map((r) => ({ feature: r.slug }));
 }
 
 type Props = { params: Promise<{ feature: string }> };

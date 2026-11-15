@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { areas, pubsInArea, pubs } from '@/lib/data';
+import { areas, pubsInArea, pubs, areaPath } from '@/lib/data';
 import { meta } from '@/lib/seo';
 import { itemListSchema } from '@/lib/schema';
 import { Breadcrumbs, Hero, JsonLd } from '@/components/ui';
@@ -15,7 +15,7 @@ export default function AreasIndex() {
   const list = areas.map((a) => ({ a, n: pubsInArea(a.slug) })).sort((x, y) => y.n.length - x.n.length);
   return (
     <>
-      <JsonLd data={itemListSchema('Brighton & Hove pub areas', '/areas', list.map(({ a }) => ({ name: `Pubs in ${a.name}`, path: `/areas/${a.slug}` })))} />
+      <JsonLd data={itemListSchema('Brighton & Hove pub areas', '/areas', list.map(({ a }) => ({ name: `Pubs in ${a.name}`, path: areaPath(a.slug) })))} />
       <Breadcrumbs crumbs={[{ name: 'Home', path: '/' }, { name: 'Areas', path: '/areas' }]} />
       <Hero
         image="areas"
@@ -33,7 +33,7 @@ export default function AreasIndex() {
         {list.map(({ a, n }) => (
           <li key={a.slug}>
             <Link
-              href={`/areas/${a.slug}`}
+              href={areaPath(a.slug)}
               className="group relative flex h-full flex-col overflow-hidden card card-hover rounded-3xl p-6"
             >
               <span className="flex items-start justify-between gap-3">
