@@ -181,17 +181,17 @@
   "christmas": {
     "wide": [
       0,
-      560,
-      1335,
-      1094
+      300,
+      2000,
+      1100
     ],
     "tall": [
+      420,
       0,
-      120,
-      1335,
-      1900
+      1480,
+      1414
     ],
-    "alt": "Mirror balls hanging among strings of fairy lights at night",
+    "alt": "A decorated Christmas tree beside a shopping street strung with warm festive lights",
     "credit": null
   },
   "christmas-lunch": {
@@ -214,18 +214,19 @@
   "christmas-party": {
     "wide": [
       0,
-      330,
+      100,
       2000,
-      1130
+      900
     ],
     "tall": [
-      440,
+      470,
       0,
-      1565,
-      1500
+      1530,
+      1414
     ],
-    "alt": "A group sharing drinks and a grazing board on a confetti-strewn table at a party",
-    "credit": null
+    "alt": "Friends in Santa hats laughing and raising glasses of fizz as confetti falls",
+    "credit": null,
+    "position": "50% 30%"
   },
   "new-years-eve": {
     "wide": [
@@ -243,5 +244,21 @@
     "alt": "Hands raising cocktails and fizz under balloons and falling confetti",
     "credit": null,
     "position": "50% 30%"
+  },
+  "christmas-market": {
+    "wide": [
+      0,
+      150,
+      2000,
+      950
+    ],
+    "tall": [
+      320,
+      0,
+      1380,
+      1414
+    ],
+    "alt": "A red Christmas cocktail with a sugared rim in front of a lit Christmas tree",
+    "credit": null
   }
 }

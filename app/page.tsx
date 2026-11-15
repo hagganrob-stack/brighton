@@ -224,7 +224,7 @@ function Podium() {
 const SPOKE_IMAGE: Record<string, string> = {
   'christmas-lunch-brighton': 'christmas-lunch',
   'christmas-party-brighton': 'christmas-party',
-  'brighton-christmas-market': 'christmas',
+  'brighton-christmas-market': 'christmas-market',
   'new-years-eve-pubs-brighton': 'new-years-eve',
 };
 

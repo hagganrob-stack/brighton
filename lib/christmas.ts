@@ -384,6 +384,7 @@ function marketPage(): XPage {
     description:
       'Brighton Christmas market: where to find the official dates and location, plus the pubs and bars nearby for a warm drink. Independent and free.',
     kicker: 'Seasonal guide',
+    image: 'christmas-market',
     short: 'Christmas market',
     card: 'Where to find the official dates and location for Brighton’s Christmas market, and the pubs nearby for a warm drink before or after.',
     intro: [
