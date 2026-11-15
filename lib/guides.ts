@@ -15,6 +15,9 @@ import {
   streetName,
   type Pub,
   type FeatureKey,
+  ROUNDUPS,
+  ROUNDUP_GUIDE,
+  pubsWith,
 } from './data';
 import { DAYS, parseRanges } from './hours';
 
@@ -751,3 +754,25 @@ export const GUIDES: Guide[] = build();
 export const getGuide = (slug: string) => GUIDES.find((g) => g.slug === slug);
 export const guidePath = (slug: string) => `/${slug}`;
 export { score };
+
+// ---- Menu grouping (nav dropdown and /guides index) ------------------------------------------
+const MENU: { heading: string; items: string[] }[] = [
+  { heading: 'Places', items: ['pubs-in-brighton', 'pubs-in-the-lanes-brighton', 'kemp-town-pubs', 'pubs-and-bars-in-hove', 'pubs-near-brighton-station', 'brighton-beach-bars'] },
+  { heading: 'Food & drink', items: ['brighton-pubs-with-food', 'sunday-roast-brighton', 'craft-beer-brighton', 'best-cocktail-bars-in-brighton', 'vegan-pubs-brighton', 'happy-hour-brighton'] },
+  { heading: 'Things to do', items: ['pubs-with-live-music-in-brighton', 'pub-quiz-brighton', 'pubs-showing-football-brighton', 'dog-friendly-pubs-brighton', 'brighton-pub-crawl', 'night-out-in-brighton'] },
+];
+export type MenuItem = { href: string; label: string; blurb: string; count: number };
+/** Guides grouped for navigation. Remaining /best roundups (e.g. beer gardens) join "Things to do"; any ungrouped guide goes last. */
+export function guideMenu() {
+  const extra: MenuItem[] = ROUNDUPS.filter((r) => !ROUNDUP_GUIDE[r.slug]).map((r) => {
+    const n = pubsWith(r.key).length;
+    return { href: `/best/${r.slug}`, label: `${r.label} in Brighton`, blurb: `${n} ${r.blurb}, ranked by Google rating.`, count: n };
+  });
+  const used = new Set(MENU.flatMap((g) => g.items));
+  const item = (g: Guide): MenuItem => ({ href: guidePath(g.slug), label: g.h1.replace(/:.*/, ''), blurb: g.description, count: g.list.length });
+  const groups = MENU.map((m) => ({ heading: m.heading, items: m.items.map((s) => getGuide(s)).filter((g): g is Guide => !!g).map(item) }));
+  groups[2].items.push(...extra);
+  const rest = GUIDES.filter((g) => !used.has(g.slug)).map(item);
+  if (rest.length) groups.push({ heading: 'More guides', items: rest });
+  return groups.filter((g) => g.items.length);
+}

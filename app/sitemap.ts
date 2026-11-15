@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entry = (path: string, priority: number, lastModified = at) => ({ url: abs(path), lastModified, priority });
   return [
     entry('/', 1),
+    entry('/guides', 0.8),
     entry('/areas', 0.7),
     entry('/about', 0.3),
     ...GUIDES.map((g) => entry(guidePath(g.slug), g.slug === 'pubs-in-brighton' ? 1 : 0.9)),
